@@ -1,3 +1,5 @@
+package recursion;
+
 /**
  * Class that solves the classic Towers of Hanoi problem.
  * <p>
@@ -20,7 +22,8 @@ class TowersOfHanoi {
 //    towers.solve(5, 'A', 'C', 'B');
   }
 
-  /** Recursive function which solves the Towers of Hanoi problem
+  /**
+   * Recursive function which solves the Towers of Hanoi problem
    *
    * @param disks       number of disks
    * @param source      source tower
