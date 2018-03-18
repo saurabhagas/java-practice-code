@@ -1,6 +1,6 @@
-package collections;
+package code.collections;
 
-import algorithms.SortingAlgorithm;
+import code.algorithms.SortingAlgorithm;
 
 /**
  * LinkedList interface to define the contract for concrete Linked List implementations
@@ -40,6 +40,11 @@ public interface LinkedList<T> {
    * Sorts the list using one {@link SortingAlgorithm}
    */
   void sort(SortingAlgorithm algorithm);
+
+  /**
+   * Reverses the list
+   */
+  void reverse();
 
   /**
    * Returns the size of the list

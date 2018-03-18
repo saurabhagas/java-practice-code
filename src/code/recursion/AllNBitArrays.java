@@ -1,4 +1,4 @@
-package recursion;
+package code.recursion;
 
 /**
  * Program to generate all possible combinations of an n-bit array

@@ -1,4 +1,4 @@
-package algorithms;
+package code.algorithms;
 
 /**
  * List of Sorting Algorithms sorted in Alphabetical order.

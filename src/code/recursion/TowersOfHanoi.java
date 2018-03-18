@@ -1,4 +1,4 @@
-package recursion;
+package code.recursion;
 
 /**
  * Class that solves the classic Towers of Hanoi problem.
