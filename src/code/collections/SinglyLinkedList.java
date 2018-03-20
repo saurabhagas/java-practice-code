@@ -4,21 +4,45 @@ import code.algorithms.SortingAlgorithm;
 
 import org.junit.Test;
 
+import java.util.Iterator;
+
 /**
  * Single Linked List implementation
  */
 public class SinglyLinkedList<T> implements LinkedList<T> {
-  private Node<T> head;
+  private Node head;
 
   @Override
   public void insert(T data) {
-    Node<T> newNode = new Node<>(data);
+    Node newNode = new Node(data);
 
     if (head == null) {
       head = newNode;
     } else {
       newNode.next = head;
       head = newNode;
+    }
+  }
+
+  @Override
+  public void insertAtTail(T data) {
+    Node newNode = new Node(data);
+
+    Node current = head;
+    if (current == null) {
+      head = newNode;
+    } else {
+      while (current != null && current.next != null) {
+        current = current.next;
+      }
+      current.next = newNode;
+    }
+  }
+
+  @Override
+  public void insertAll(LinkedList<? extends T> collection) {
+    for (T item : collection) {
+      insertAtTail(item);
     }
   }
 
@@ -57,22 +81,7 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
 
   @Override
   public void print() {
-    Node current = head;
-    boolean first = false;
-    while (current != null) {
-      if (!first) {
-        System.out.print("[ ");
-        first = true;
-      }
-
-      System.out.print(current.data);
-      if (current.next == null) {
-        System.out.println(" ]");
-      } else {
-        System.out.print(" --> ");
-      }
-      current = current.next;
-    }
+    System.out.println(toString());
   }
 
   @Override
@@ -97,10 +106,10 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
       throw new IllegalStateException("List does not contain any elements");
     }
 
-    Node<T> current = head;
-    Node<T> next = head.next;
+    Node current = head;
+    Node next = head.next;
     while (next != null) {
-      Node<T> temp = next.next;
+      Node temp = next.next;
       next.next = current;
       current = next;
       next = temp;
@@ -112,7 +121,34 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
     head = current;
   }
 
-  public void reverseRecursively(Node<T> current, Node<T> previous) {
+  @Override
+  public Iterator<T> iterator() {
+    return new SinglyLinkedListIterator();
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    Node current = head;
+    boolean first = false;
+    while (current != null) {
+      if (!first) {
+       builder.append("[ ");
+        first = true;
+      }
+
+      builder.append(current.data);
+      if (current.next == null) {
+        builder.append(" ]");
+      } else {
+        builder.append(" --> ");
+      }
+      current = current.next;
+    }
+    return builder.toString();
+  }
+
+  public void reverseRecursively(Node current, Node previous) {
     /* If last node mark it head*/
     if (current.next == null) {
       head = current;
@@ -121,20 +157,35 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
       return;
     }
 
-    Node<T> temp = current.next;
+    Node temp = current.next;
     /* and update next ..*/
     current.next = previous;
 
     reverseRecursively(temp, current);
   }
 
-  private class Node<T> {
+  private class Node {
     T data;
-    Node<T> next;
+    Node next;
 
     Node(T data) {
       this.data = data;
       next = null;
+    }
+  }
+
+  private class SinglyLinkedListIterator implements Iterator<T> {
+    Node current = head;
+    @Override
+    public boolean hasNext() {
+      return current != null;
+    }
+
+    @Override
+    public T next() {
+      T item = current.data;
+      current = current.next;
+      return item;
     }
   }
 
@@ -180,5 +231,46 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
     linkedList.reverseRecursively(linkedList.head, null);
     linkedList.print();
     System.out.println("##########");
+  }
+
+  @Test
+  public void testFlattenMultiLevelList() {
+    LinkedList<LinkedList<String>> multilevelList = new SinglyLinkedList<>();
+
+    SinglyLinkedList<String> firstList = new SinglyLinkedList<>();
+    firstList.insert("Saurabh");
+    firstList.insert("is");
+    firstList.insert("an");
+    firstList.insert("Adarsh");
+    firstList.insert("Balak");
+    firstList.print();
+
+    SinglyLinkedList<String> secondList = new SinglyLinkedList<>();
+    secondList.insert("And");
+    secondList.insert("so");
+    secondList.insert("is");
+    secondList.insert("Amma");
+    secondList.print();
+
+    SinglyLinkedList<String> thirdList = new SinglyLinkedList<>();
+    thirdList.insert("But");
+    thirdList.insert("who");
+    thirdList.insert("has");
+    thirdList.insert("an");
+    thirdList.insert("X-Ray");
+    thirdList.insert("machine?");
+    thirdList.print();
+
+    //Add all the lists
+    multilevelList.insert(firstList);
+    multilevelList.insert(secondList);
+    multilevelList.insert(thirdList);
+    multilevelList.print();
+
+    SinglyLinkedList<String> flattenedList = new SinglyLinkedList<>();
+    flattenedList.insertAll(firstList);
+    flattenedList.insertAll(secondList);
+    flattenedList.insertAll(thirdList);
+    flattenedList.print();
   }
 }
