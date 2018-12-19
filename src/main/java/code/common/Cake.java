@@ -1,4 +1,4 @@
-package code.oop;
+package code.common;
 
 public class Cake {
   private Flavor flavor;
@@ -8,25 +8,9 @@ public class Cake {
 
   //DEFAULTS
   private static final Size DEFAULT_SIZE = Size.SMALL;
-  private static final Shape DEFAULT_SHAPE = Shape.ROOUND;
+  private static final Shape DEFAULT_SHAPE = Shape.ROUND;
   private static final Flavor DEFAULT_FLAVOR = Flavor.VANILLA;
   private static final String DEFAULT_CUSTOM_MESSAGE = "Best Wishes!";
-  
-  public Cake(Flavor flavor) {
-    this(flavor, DEFAULT_SIZE, DEFAULT_SHAPE, DEFAULT_CUSTOM_MESSAGE);
-  }
-
-  public Cake(Size size) {
-    this(DEFAULT_FLAVOR, size, DEFAULT_SHAPE, DEFAULT_CUSTOM_MESSAGE);
-  }
-
-  public Cake(Shape shape) {
-    this(DEFAULT_FLAVOR, DEFAULT_SIZE, shape, DEFAULT_CUSTOM_MESSAGE);
-  }
-
-  public Cake(String customMessage) {
-    this(DEFAULT_FLAVOR, DEFAULT_SIZE, DEFAULT_SHAPE, customMessage);
-  }
 
   public Cake(Flavor flavor, Size size, Shape shape, String customMessage) {
     this.flavor = flavor;
@@ -74,26 +58,4 @@ public class Cake {
       return new Cake(flavor, size, shape, customMessage);
     }
   }
-}
-
-enum Flavor {
-  VANILLA,
-  STRAWBERRY,
-  CHOCOLATE,
-  WHITE_FOREST,
-  BLUEBERRY
-}
-
-enum Size {
-  SMALL,
-  MEDIUM,
-  LARGE,
-  EXTRA_LARGE
-}
-
-enum Shape {
-  ROOUND,
-  RECTANGULAR,
-  OVAL,
-  CUSTOM,
 }

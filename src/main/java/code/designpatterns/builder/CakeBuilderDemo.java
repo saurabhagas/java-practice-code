@@ -1,6 +1,11 @@
-package code.oop;
+package code.designpatterns.builder;
 
-public class NestedClassDemo {
+import code.common.Cake;
+import code.common.Flavor;
+import code.common.Shape;
+import code.common.Size;
+
+public class CakeBuilderDemo {
   public static void main(String[] args) {
     Cake cake1 = Cake.CakeBuilder.newBuilder()
         .withFlavor(Flavor.BLUEBERRY)

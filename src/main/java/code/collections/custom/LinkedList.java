@@ -1,4 +1,4 @@
-package code.collections;
+package code.collections.custom;
 
 import code.algorithms.SortingAlgorithm;
 

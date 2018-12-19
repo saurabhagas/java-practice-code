@@ -6,7 +6,7 @@ public class Cloning {
     Sample first = new Sample();
     Sample second = first;
     first.name = "Saurabh";
-    System.out.println("Cloning using reference assignment");
+    System.out.println("\"Cloning\" using reference assignment");
     System.out.println(first);
     System.out.println(second);
 
@@ -16,7 +16,7 @@ public class Cloning {
     first.address.append(" address");
     System.out.println("\nCloning using Object::clone");
     System.out.println(first);
-    System.out.println(second);
+    System.out.println(second);//Object::clone deep copies
 
     //Copy constructor
     first = new Sample();

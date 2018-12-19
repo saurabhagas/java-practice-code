@@ -12,7 +12,7 @@ public class EnumsTest {
     System.out.println(s.toString()); // SUMMER
     System.out.println(s.ordinal()); // Default 0-based order of this constant in the constant list. Can't be customized
 
-    // Equality checks - can be perfomed because enum values are constants
+    // Equality checks - can be performed because enum values are constants
     System.out.println(s.equals(Season.FALL)); // false
     System.out.println(s == Season.SUMMER); // true
     
@@ -21,15 +21,13 @@ public class EnumsTest {
 //    Season season = Season.valueOf("summer"); //IllegalArgumentException - No such enum constant
     switch (season) {
       case SUMMER:
-        break;
       case SPRING:
-        break;
       case WINTER:
-        break;
       case FALL:
+        System.out.println("enum: " + season);
         break;
       default:
-        System.out.println("Unknown enum: " + s);
+        System.out.println("Unknown enum: " + season);
     }
     
     // Use in a for-each loop

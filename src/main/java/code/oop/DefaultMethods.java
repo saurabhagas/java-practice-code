@@ -24,10 +24,10 @@ public class DefaultMethods {
       PI2.super.show();
     }
 
-    public static void main(String args[]) throws Exception {
+    public static void main(String[] args) throws Exception {
       TestClass d = TestClass.class.newInstance(); //Reflective way of instantiation
       d.show();
-      PI1.staticShow(); //PI1::staticShow cannot be accessed via d.
+      PI1.staticShow(); //PI1::staticShow cannot be accessed via object reference
     }
   }
 }
