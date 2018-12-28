@@ -1,4 +1,4 @@
-package code.collections.custom;
+package code.collections.custom.impl;
 
 import code.algorithms.SortingAlgorithm;
 
@@ -9,7 +9,7 @@ import java.util.Iterator;
  *
  * @see java.util.LinkedList
  */
-public interface LinkedList<T> extends Iterable<T> {
+public interface CustomLinkedList<T> extends Iterable<T> {
   /**
    * Inserts the given element at the head
    *
@@ -27,9 +27,9 @@ public interface LinkedList<T> extends Iterable<T> {
   /**
    * Inserts the element from the provided LinkedList
    *
-   * @param collection the {@link LinkedList} containing the elements to be inserted
+   * @param collection the {@link CustomLinkedList} containing the elements to be inserted
    */
-  void insertAll(LinkedList<? extends T> collection);
+  void insertAll(CustomLinkedList<? extends T> collection);
 
   /**
    * Deleted the given element
