@@ -137,6 +137,7 @@ public class CustomHashMapTest {
   @Test
   public void collisionsTest() {
     final Map<String, String> customHashMap = new CustomHashMap<>();
+    //Following keys have same hashCodes
     customHashMap.put("AaAa", "hello1");
     customHashMap.put("BBBB", "hello2");
     customHashMap.put("AaBB", "hello3");

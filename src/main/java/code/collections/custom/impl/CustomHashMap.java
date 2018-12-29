@@ -97,7 +97,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
 
   @Override
   public boolean isEmpty() {
-    return buckets.stream().allMatch(LinkedList::isEmpty);
+    return numKeyValueMappings == 0;
   }
 
   @Override
