@@ -2,14 +2,12 @@ package code.collections.custom.impl;
 
 import code.algorithms.SortingAlgorithm;
 
-import org.junit.Test;
-
 import java.util.Iterator;
 
 /**
  * Single Linked List implementation of CustomLinkedList
  */
-public class SinglyLinkedList<T> implements CustomLinkedList<T> {
+public class SinglyLinkedList<T> implements CustomList<T> {
   private Node head;
 
   @Override
@@ -40,7 +38,7 @@ public class SinglyLinkedList<T> implements CustomLinkedList<T> {
   }
 
   @Override
-  public void insertAll(CustomLinkedList<? extends T> collection) {
+  public void insertAll(CustomList<? extends T> collection) {
     for (T item : collection) {
       insertAtTail(item);
     }
@@ -56,7 +54,7 @@ public class SinglyLinkedList<T> implements CustomLinkedList<T> {
       return true;
     } else {
       Node current = head;
-      while (current != null && current.next != null) {
+      while (current.next != null) {
         if (current.next.data.equals(nodeValue)) {
           current.next = current.next.next;
           return true;

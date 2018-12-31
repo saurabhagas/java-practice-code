@@ -1,6 +1,6 @@
 package code.collections.custom.test;
 
-import code.collections.custom.impl.CustomLinkedList;
+import code.collections.custom.impl.CustomList;
 import code.collections.custom.impl.SinglyLinkedList;
 import org.junit.Test;
 
@@ -43,7 +43,7 @@ public class SinglyLinkedListTest {
 
   @Test
   public void testFlattenMultiLevelList() {
-    CustomLinkedList<CustomLinkedList<String>> multilevelList = new SinglyLinkedList<>();
+    CustomList<CustomList<String>> multilevelList = new SinglyLinkedList<>();
 
     SinglyLinkedList<String> firstList = new SinglyLinkedList<>();
     firstList.insert("Saurabh");

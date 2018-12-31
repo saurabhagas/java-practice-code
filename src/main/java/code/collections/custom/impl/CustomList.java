@@ -4,12 +4,7 @@ import code.algorithms.SortingAlgorithm;
 
 import java.util.Iterator;
 
-/**
- * LinkedList interface to define the contract for concrete Linked List implementations
- *
- * @see java.util.LinkedList
- */
-public interface CustomLinkedList<T> extends Iterable<T> {
+public interface CustomList<T> extends Iterable<T> {
   /**
    * Inserts the given element at the head
    *
@@ -27,9 +22,9 @@ public interface CustomLinkedList<T> extends Iterable<T> {
   /**
    * Inserts the element from the provided LinkedList
    *
-   * @param collection the {@link CustomLinkedList} containing the elements to be inserted
+   * @param collection the {@link CustomList} containing the elements to be inserted
    */
-  void insertAll(CustomLinkedList<? extends T> collection);
+  void insertAll(CustomList<? extends T> collection);
 
   /**
    * Deleted the given element
