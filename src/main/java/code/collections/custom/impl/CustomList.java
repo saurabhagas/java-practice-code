@@ -35,7 +35,7 @@ public interface CustomList<T> extends Iterable<T> {
   boolean delete(T nodeValue);
 
   /**
-   * Checks if the given element is present in the list
+   * Checks if the given element is present in the list. Returns the first occurence of the nodeValue.
    *
    * @param nodeValue the element to be deleted
    * @return true if the element was found, false otherwise
@@ -63,7 +63,4 @@ public interface CustomList<T> extends Iterable<T> {
    * @return the size of the list
    */
   int size();
-
-  @Override
-  Iterator<T> iterator();
 }
