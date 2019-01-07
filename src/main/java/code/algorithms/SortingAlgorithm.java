@@ -7,6 +7,7 @@ package code.algorithms;
  */
 public enum SortingAlgorithm {
   BUBBLE_SORT,
+  HEAP_SORT,
   INSERTION_SORT,
   MERGE_SORT,
   QUICK_SORT,
