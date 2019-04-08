@@ -1,4 +1,4 @@
-package code.collections;
+package code.collections.custom.impl;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
