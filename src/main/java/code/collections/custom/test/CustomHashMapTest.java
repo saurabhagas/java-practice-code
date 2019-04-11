@@ -1,18 +1,12 @@
 package code.collections.custom.test;
 
 import code.collections.custom.impl.CustomHashMap;
-import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.CoreMatchers.everyItem;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;

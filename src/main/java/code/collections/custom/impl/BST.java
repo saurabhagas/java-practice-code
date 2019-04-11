@@ -2,304 +2,26 @@ package code.collections.custom.impl;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Deque;
 import java.util.List;
 import java.util.Objects;
-import java.util.Scanner;
 
-public class BST {
+import static java.lang.Math.max;
+
+public class BST<T extends Comparable> {
   private Node root;
 
-  public static void main(String[] args) {
-    System.out.println("Enter space-separated node integers to construct BST:");
-    Scanner scanner = new Scanner(System.in);
-    BST bst = new BST();
-    Arrays.stream(scanner.nextLine().split(" ")).map(Integer::valueOf).forEach(bst::insert);
-    System.out.println("Tree construction successful");
-
-    int userInput;
-    while (true) {
-      System.out.println();
-      System.out.println("Choose next action:");
-      System.out.println("  1: Add node");
-      System.out.println("  2: Remove node");
-      System.out.println("  3: Search node");
-      System.out.println("  4: Balance tree");
-      System.out.println("  5: Equals check");
-      System.out.println("  6: Print tree");
-      System.out.println("  7: Exit");
-      userInput = scanner.nextInt();
-      switch (userInput) {
-        case 1:
-          insertAction(scanner, bst);
-          break;
-        case 2:
-          removeAction(scanner, bst);
-          break;
-        case 3:
-          searchAction(scanner, bst);
-          break;
-        case 4:
-          balanceAction(bst);
-          break;
-        case 5:
-          equalsAction(scanner, bst);
-          break;
-        case 6:
-          printAction(scanner, bst);
-          break;
-        case 7:
-          System.exit(0);
-        default:
-          System.out.println("Invalid input.");
-      }
-    }
-  }
-
-  private static void equalsAction(Scanner scanner, BST bst) {
-    while (true) {
-      System.out.println();
-      System.out.println("Choose next action:");
-      System.out.println("  1: Equals check with another BST");
-      System.out.println("  2: Return to previous menu");
-      System.out.println("  3: Exit program");
-
-      int subInput = scanner.nextInt();
-      switch (subInput) {
-        case 1:
-          BST otherBst = new BST();
-          scanner.nextLine();
-          Arrays.stream(scanner.nextLine().split(" ")).map(Integer::valueOf).forEach(otherBst::insert);
-          final boolean areEqual = bst.equals(otherBst);
-          System.out.println("Trees equal? " + areEqual);
-          break;
-        case 2:
-          break;
-        case 3:
-          System.exit(0);
-        default:
-          System.out.println("Invalid input.");
-      }
-
-      if (subInput == 2) {
-        break;
-      }
-    }
-
-  }
-
-  private static void balanceAction(BST bst) {
-    bst.balance();
-  }
-
-  private static void searchAction(Scanner scanner, BST bst) {
-    while (true) {
-      System.out.println();
-      System.out.println("Choose next action:");
-      System.out.println("  1: Search node");
-      System.out.println("  2: Return to previous menu");
-      System.out.println("  3: Exit program");
-
-      int subInput = scanner.nextInt();
-      switch (subInput) {
-        case 1:
-          Node foundLocation = bst.find(scanner.nextInt());
-          System.out.println("Node found? " + (foundLocation != null));
-          break;
-        case 2:
-          break;
-        case 3:
-          System.exit(0);
-        default:
-          System.out.println("Invalid input.");
-      }
-
-      if (subInput == 2) {
-        break;
-      }
-    }
-  }
-
-  private static void removeAction(Scanner scanner, BST bst) {
-    while (true) {
-      System.out.println();
-      System.out.println("Choose next action:");
-      System.out.println("  1: Remove node");
-      System.out.println("  2: Return to previous menu");
-      System.out.println("  3: Exit program");
-      int subInput = scanner.nextInt();
-      switch (subInput) {
-        case 1:
-          boolean removed = bst.remove(scanner.nextInt());
-          System.out.println("Node removed? " + removed);
-          break;
-        case 2:
-          break;
-        case 3:
-          System.exit(0);
-        default:
-          System.out.println("Invalid input.");
-      }
-
-      if (subInput == 2) {
-        break;
-      }
-    }
-  }
-
-  private static void insertAction(Scanner scanner, BST bst) {
-    while (true) {
-      System.out.println();
-      System.out.println("Choose next action:");
-      System.out.println("  1: Enter node data");
-      System.out.println("  2: Return to previous menu");
-      System.out.println("  3: Exit program");
-      int subInput = scanner.nextInt();
-      switch (subInput) {
-        case 1:
-          boolean added = bst.insert(scanner.nextInt());
-          System.out.println("Node added? " + added);
-          break;
-        case 2:
-          break;
-        case 3:
-          System.exit(0);
-        default:
-          System.out.println("Invalid input.");
-      }
-
-      if (subInput == 2) {
-        break;
-      }
-    }
-  }
-
-  private static void printAction(Scanner scanner, BST bst) {
-    while (true) {
-      System.out.println();
-      System.out.println("Pick print mode:");
-      System.out.println("    1. Level order traversal (Breadth-first search)");
-      System.out.println("    2. Preorder traversal (Depth-first search)");
-      System.out.println("    3. Inorder traversal (Depth-first search)");
-      System.out.println("    4. Postorder traversal (Depth-first search)");
-      System.out.println("    5. toString() (Depth-first search, equivalent to preorder)");
-      System.out.println("    6. Return to previous menu");
-      System.out.println("    7. Exit program");
-      int subInput = scanner.nextInt();
-      switch (subInput) {
-        case 1:
-          bst.levelOrder();
-          break;
-        case 2:
-          bst.preOrder(bst.root);
-          break;
-        case 3:
-          bst.inOrder(bst.root);
-          break;
-        case 4:
-          bst.postOrder(bst.root);
-          break;
-        case 5:
-          System.out.println(bst.toString());
-          break;
-        case 6:
-          break;
-        case 7:
-          System.exit(0);
-        default:
-          System.out.println("Invalid input.");
-      }
-
-      if (subInput == 6) {
-        break;
-      }
-    }
-  }
-
-  public boolean remove(int data) {
-    Node current = root;
-    Node foundLocationParent = null;
-    Node foundLocation = null;
-    while (current != null) {
-      if ((current.leftChild != null && current.leftChild.data == data) || (current.rightChild != null && current.rightChild.data == data)) {
-        foundLocationParent = current;
-      }
-      if (data < current.data) {
-        current = current.leftChild;
-      } else if (data > current.data) {
-        current = current.rightChild;
-      } else {
-        foundLocation = current;
-        break;
-      }
-    }
-    if (foundLocation == null) {
-      return false; // Node to be deleted not present
-    } else {
-      if (foundLocation.leftChild == null && foundLocation.rightChild == null) {
-        if (foundLocationParent.leftChild == foundLocation) {
-          foundLocationParent.leftChild = null;
-        } else {
-          foundLocationParent.rightChild = null;
-        }
-      } else if (foundLocation.leftChild == null && foundLocation.rightChild != null) {
-        foundLocation.data = foundLocation.rightChild.data;
-        foundLocation.rightChild = null;
-      } else if (foundLocation.leftChild != null && foundLocation.rightChild == null) {
-        foundLocation.data = foundLocation.leftChild.data;
-        foundLocation.leftChild = null;
-      } else {
-        // Both children present, swap node with inorder successor
-        current = foundLocation.rightChild; // start from the right subtree
-        Node inorderSuccessorParent = null;
-        Node inorderSuccessor;
-        while (current != null && current.leftChild != null) {
-          if (current.leftChild.leftChild == null) {
-            inorderSuccessorParent = current;
-          }
-          current = current.leftChild;
-        }
-        inorderSuccessor = current;
-
-        if (inorderSuccessor.rightChild == null) {
-          foundLocation.data = inorderSuccessor.data;
-          inorderSuccessorParent.leftChild = null;
-        } else {
-          foundLocation.data = inorderSuccessor.data;
-          inorderSuccessor.data = inorderSuccessor.rightChild.data;
-          inorderSuccessor.rightChild = null;
-        }
-      }
-      return true;
-    }
-  }
-
-  public Node find(int data) {
-    Node current = root;
-    while (current != null) {
-      if (data < current.data) {
-        current = current.leftChild;
-      } else if (data > current.data) {
-        current = current.rightChild;
-      } else {
-        return current;
-      }
-    }
-    return null;
-  }
-
-  public boolean insert(int data) {
+  public boolean insert(T data) {
     Node temp = new Node(data, null, null);
     Node current = root;
     while (current != null) {
-      if (data < current.data) {
+      if (data.compareTo(current.data) < 0) {
         if (current.leftChild == null) {
           current.leftChild = temp;
           break;
         }
         current = current.leftChild;
-      } else if (data > current.data) {
+      } else if (data.compareTo(current.data) > 0) {
         if (current.rightChild == null) {
           current.rightChild = temp;
           break;
@@ -316,6 +38,127 @@ public class BST {
     return true;
   }
 
+  public void clear() {
+    root = null;
+  }
+
+  public boolean remove(T data) {
+    Node current = root;
+    Node foundLocationParent = null;
+    Node foundLocation = null;
+    while (current != null) {
+      if ((current.leftChild != null && current.leftChild.data == data) || (current.rightChild != null && current.rightChild.data == data)) {
+        foundLocationParent = current;
+      }
+      if (data.compareTo(current.data) < 0) {
+        current = current.leftChild;
+      } else if (data.compareTo(current.data) > 0) {
+        current = current.rightChild;
+      } else {
+        foundLocation = current;
+        break;
+      }
+    }
+
+    if (foundLocation == null) {
+      return false; // Node to be deleted not present
+    } else if (foundLocation == root) {
+      if (foundLocation.leftChild == null && foundLocation.rightChild == null) {
+        root = null;
+      } else if (foundLocation.leftChild == null && foundLocation.rightChild != null) {
+        root = root.rightChild;
+      } else if (foundLocation.leftChild != null && foundLocation.rightChild == null) {
+        root = root.leftChild;
+      } else {
+        // Both children present, swap node with inorder successor
+        current = foundLocation.rightChild; // start from the right subtree
+        Node inorderSuccessorParent = null;
+        Node inorderSuccessor;
+        while (current != null && current.leftChild != null) {
+          if (current.leftChild.leftChild == null) {
+            inorderSuccessorParent = current;
+          }
+          current = current.leftChild;
+        }
+        inorderSuccessor = current;
+
+        if (inorderSuccessor.rightChild == null) {
+          foundLocation.data = inorderSuccessor.data;
+          if (inorderSuccessorParent == null) {
+            foundLocation.rightChild = null;
+          } else {
+            inorderSuccessorParent.leftChild = null;
+          }
+        } else {
+          foundLocation.data = inorderSuccessor.data;
+          inorderSuccessor.data = inorderSuccessor.rightChild.data;
+          inorderSuccessor.rightChild = null;
+        }
+      }
+      return true;
+    } else {
+      if (foundLocation.leftChild == null && foundLocation.rightChild == null) {
+        if (foundLocationParent.leftChild == foundLocation) {
+          foundLocationParent.leftChild = null;
+        } else {
+          foundLocationParent.rightChild = null;
+        }
+      } else if (foundLocation.leftChild == null && foundLocation.rightChild != null) {
+        if (foundLocationParent.leftChild == foundLocation) {
+          foundLocationParent.leftChild = foundLocation.rightChild;
+        } else {
+          foundLocationParent.rightChild = foundLocation.rightChild;
+        }
+      } else if (foundLocation.leftChild != null && foundLocation.rightChild == null) {
+        if (foundLocationParent.leftChild == foundLocation) {
+          foundLocationParent.leftChild = foundLocation.leftChild;
+        } else {
+          foundLocationParent.rightChild = foundLocation.leftChild;
+        }
+      } else {
+        // Both children present, swap node with inorder successor
+        current = foundLocation.rightChild; // start from the right subtree
+        Node inorderSuccessorParent = null;
+        Node inorderSuccessor;
+        while (current != null && current.leftChild != null) {
+          if (current.leftChild.leftChild == null) {
+            inorderSuccessorParent = current;
+          }
+          current = current.leftChild;
+        }
+        inorderSuccessor = current;
+
+        if (inorderSuccessor.rightChild == null) {
+          foundLocation.data = inorderSuccessor.data;
+          if (inorderSuccessorParent == null) {
+            foundLocation.rightChild = null;
+          } else {
+            inorderSuccessorParent.leftChild = null;
+          }
+        } else {
+          foundLocation.data = inorderSuccessor.data;
+          inorderSuccessor.data = inorderSuccessor.rightChild.data;
+          inorderSuccessor.rightChild = null;
+        }
+      }
+      return true;
+    }
+  }
+
+  public Node search(T data) {
+    Node current = root;
+    while (current != null) {
+      if (data.compareTo(current.data) < 0) {
+        current = current.leftChild;
+      } else if (data.compareTo(current.data) > 0) {
+        current = current.rightChild;
+      } else {
+        return current;
+      }
+    }
+    return null;
+  }
+
   public void levelOrder() {
     Deque<Node> deque = new ArrayDeque<>();
     offerNonNull(deque, root);
@@ -328,48 +171,30 @@ public class BST {
     }
   }
 
-  private void offerNonNull(Deque<Node> deque, Node node) {
-    if (node != null) {
-      deque.offer(node);
-    }
+  public List<T> preOrder() {
+    ArrayList<T> items = new ArrayList<>();
+    preOrderInternal(root, items);
+    return items;
   }
 
-  private void pushNonNull(Deque<Node> deque, Node node) {
-    if (node != null) {
-      deque.push(node);
-    }
+  public List<T> inOrder() {
+    ArrayList<T> items = new ArrayList<>();
+    inOrderInternal(root, items);
+    return items;
   }
 
-  public void preOrder(Node root) {
-    if (root != null) {
-      System.out.println(root.data);
-      preOrder(root.leftChild);
-      preOrder(root.rightChild);
-    }
+  public List<T> postOrder() {
+    ArrayList<T> items = new ArrayList<>();
+    postOrderInternal(root, items);
+    return items;
   }
 
-  public void inOrder(Node root) {
-    if (root != null) {
-      inOrder(root.leftChild);
-      System.out.println(root.data);
-      inOrder(root.rightChild);
-    }
+  public int size() {
+    return inOrder().size();
   }
 
-  public void inOrder(Node root, List<Integer> inorderTraversal) {
-    if (root != null) {
-      inOrder(root.leftChild, inorderTraversal);
-      inorderTraversal.add(root.data);
-      inOrder(root.rightChild, inorderTraversal);
-    }
-  }
-
-  public void postOrder(Node root) {
-    if (root != null) {
-      postOrder(root.leftChild);
-      postOrder(root.rightChild);
-      System.out.println(root.data);
-    }
+  public int height() {
+    return heightInternal(root);
   }
 
   /**
@@ -377,20 +202,11 @@ public class BST {
    * and constructs a new tree recursively from this sorted list. Works on O(n) time and O(n) space.
    */
   public void balance() {
-    final ArrayList<Integer> list = new ArrayList<>();
-    inOrder(root, list);
+    final ArrayList<T> list = new ArrayList<>();
+    inOrderInternal(root, list);
     root = null; // Nullify root, making the entire tree eligible for GC
     insertRecurse(list, 0, list.size());
     System.out.println("Tree balancing done");
-  }
-
-  private void insertRecurse(List<Integer> list, int low, int high) {
-    if (low < high) {
-      int mid = (low + high) / 2;
-      insert(list.get(mid));
-      insertRecurse(list, low, mid);
-      insertRecurse(list, mid + 1, high);
-    }
   }
 
   @Override
@@ -462,12 +278,64 @@ public class BST {
     return nodesAsString.toString().trim();
   }
 
+  private void offerNonNull(Deque<Node> deque, Node node) {
+    if (node != null) {
+      deque.offer(node);
+    }
+  }
+
+  private void pushNonNull(Deque<Node> deque, Node node) {
+    if (node != null) {
+      deque.push(node);
+    }
+  }
+
+  private void preOrderInternal(Node root, List<T> items) {
+    if (root != null) {
+      items.add(root.data);
+      preOrderInternal(root.leftChild, items);
+      preOrderInternal(root.rightChild, items);
+    }
+  }
+
+  private void inOrderInternal(Node root, List<T> items) {
+    if (root != null) {
+      inOrderInternal(root.leftChild, items);
+      items.add(root.data);
+      inOrderInternal(root.rightChild, items);
+    }
+  }
+
+  private void postOrderInternal(Node root, List<T> items) {
+    if (root != null) {
+      postOrderInternal(root.leftChild, items);
+      postOrderInternal(root.rightChild, items);
+      items.add(root.data);
+    }
+  }
+
+  private void insertRecurse(List<T> list, int low, int high) {
+    if (low < high) {
+      int mid = (low + high) / 2;
+      insert(list.get(mid));
+      insertRecurse(list, low, mid);
+      insertRecurse(list, mid + 1, high);
+    }
+  }
+
+  private int heightInternal(Node root) {
+    if (root != null) {
+      return max(heightInternal(root.leftChild), heightInternal(root.rightChild)) + 1;
+    }
+    return 0;
+  }
+
   private class Node {
-    private int data;
+    private T data;
     private Node leftChild;
     private Node rightChild;
 
-    Node(int data, Node leftChild, Node rightChild) {
+    Node(T data, Node leftChild, Node rightChild) {
       this.data = data;
       this.leftChild = leftChild;
       this.rightChild = rightChild;

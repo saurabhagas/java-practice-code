@@ -1,78 +1,22 @@
 package code.collections.custom.impl;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * Trie implementation for the English alphabet
+ * Case-insensitive Trie implementation for the English alphabet
  */
 public class Trie {
+  private static final int ALPHABET_SIZE = 26;
   private TrieNode root = new TrieNode();
 
-  public static void main(String[] args) {
-    String[] keys = {"the", "a", "there", "answer", "any", "any", "by", "bye", "the", "their", "abc"};
-    Trie trie = new Trie();
-
-    System.out.println("####Inserting keys####");
-    for (String key : keys) {
-      System.out.println("Inserting key: '" + key + "'. Insert successful? " + trie.insert(key));
-    }
-
-    System.out.println(System.lineSeparator() + "####Searching the inserted keys####");
-    for (String key : keys) {
-      System.out.println("Searching key: '" + key + "'. Search successful? " + trie.search(key));
-    }
-    System.out.println(System.lineSeparator() + "####Searching non-existent keys####");
-    String[] nonExistentKeys = {"foo", "bar", "therefore", "answered", "an", "ab"};
-    for (String key : nonExistentKeys) {
-      System.out.println("Searching non-existent key: '" + key + "'. Search successful? " + trie.search(key));
-    }
-
-    System.out.println(System.lineSeparator() + "####Deleting existing keys####");
-    String[] toDelete = {"the", "a", "by"};
-    for (String key : toDelete) {
-      System.out.println("Deleting key: '" + key + "'. Delete successful? " + trie.remove(key));
-    }
-    System.out.println(System.lineSeparator() + "####Deleting non-existent keys####");
-    for (String key : nonExistentKeys) {
-      System.out.println("Deleting non-existent key: '" + key + "'. Delete successful? " + trie.remove(key));
-    }
-
-    System.out.println(System.lineSeparator() + "####Verifiying state####");
-    List<String> survived = new ArrayList<>(Arrays.asList(keys));
-    survived.removeAll(Arrays.asList(toDelete));
-    trie.searchAndThrow(toDelete, false);
-    trie.searchAndThrow(survived.toArray(new String[0]), true);
-    System.out.println("####Verification successful####");
-
-    System.out.println(System.lineSeparator() + "####Deleting rest of the keys now####");
-    toDelete = new String[]{"there", "answer", "any", "bye", "their", "abc"};
-    for (String key : toDelete) {
-      System.out.println("Deleting key: '" + key + "'. Delete successful? " + trie.remove(key));
-    }
-
-    System.out.println(System.lineSeparator() + "####Verifiying state####");
-    survived.removeAll(Arrays.asList(toDelete));
-    trie.searchAndThrow(toDelete, false);
-    assert survived.size() == 0;
-    System.out.println("####Verification successful####");
-  }
-
-  private void searchAndThrow(String[] toDelete, boolean expectToFind) {
-    for (String s : toDelete) {
-      if (search(s) != expectToFind) {
-        throw new AssertionError("Expected to find key '" + s + "': " + expectToFind + ", but search resulted in: " + search(s));
-      }
-    }
-  }
-
   public boolean insert(String key) {
+    Objects.requireNonNull(key);
     int allocations = 0;
-    if (key == null) {
-      throw new NullPointerException("Keys can't be null");
-    }
 
     char[] keyChars = key.toLowerCase().toCharArray();
     TrieNode current = root;
@@ -90,10 +34,14 @@ public class Trie {
     return allocations != 0;
   }
 
-  public boolean remove(String key) {
-    if (key == null) {
-      throw new NullPointerException("Keys can't be null");
+  public void clear() {
+    for (int i = 0; i < ALPHABET_SIZE; i++) {
+      root.children[i] = null;
     }
+  }
+
+  public boolean remove(String key) {
+    Objects.requireNonNull(key);
 
     char[] keyChars = key.toLowerCase().toCharArray();
     TrieNode current = root;
@@ -126,9 +74,7 @@ public class Trie {
   }
 
   public boolean search(String key) {
-    if (key == null) {
-      throw new NullPointerException("Keys can't be null");
-    }
+    Objects.requireNonNull(key);
 
     char[] keyChars = key.toLowerCase().toCharArray();
     TrieNode current = root;
@@ -144,13 +90,94 @@ public class Trie {
     return current.endOfWord;
   }
 
+  public String longestCommonPrefix() {
+    long parallelBranches = Arrays.stream(root.children).filter(Objects::nonNull).count();
+    if (parallelBranches != 1) {
+      return "";
+    }
+
+    StringBuilder stringBuilder = new StringBuilder();
+    TrieNode current = root;
+    while (current != null && !current.endOfWord) {
+      int index = -1;
+      int count = 0;
+
+      TrieNode[] children = current.children;
+      for (int i = 0; i < children.length; i++) {
+        TrieNode child = children[i];
+        if (child != null) {
+          count++;
+          if (index == -1) {
+            index = i;
+          } else {
+            break;
+          }
+        }
+      }
+
+      if (count == 1) {
+        stringBuilder.append(getChar(index));
+        current = current.children[index];
+      } else {
+        break;
+      }
+    }
+    return stringBuilder.toString();
+  }
+
+  public int getWordCount() {
+    Deque<TrieNode> stack = new ArrayDeque<>();
+    stack.push(root);
+    int wordCount = 0;
+    while (!stack.isEmpty()) {
+      Trie.TrieNode poppedItem = stack.pop();
+      if (poppedItem.endOfWord) {
+        wordCount++;
+      }
+
+      for (Trie.TrieNode child : poppedItem.children) {
+        if (child != null) {
+          stack.push(child);
+        }
+      }
+    }
+    return wordCount;
+  }
+
+  public List<String> getWords() {
+    List<String> list = new ArrayList<>();
+    getWordsInternal(root, list, new char[20], 0);
+    return list;
+  }
+
+  private void getWordsInternal(TrieNode root, List<String> wordList, char[] word, int level) {
+    if (root == null) {
+      return;
+    }
+
+    if (root.endOfWord) {
+      wordList.add(new String(word).substring(0, level));
+    }
+
+    for (int i = 0; i < ALPHABET_SIZE; i++) {
+      if (root.children[i] != null) {
+        word[level] = getChar(i);
+        getWordsInternal(root.children[i], wordList, word, level + 1);
+      }
+    }
+  }
+
+  private char getChar(int index) {
+    return (char) (index + 'a');
+  }
+
   private int getIndex(char keyChar) {
     return keyChar - 'a';
   }
 
   private class TrieNode {
     private boolean endOfWord;
-    private TrieNode[] children = new TrieNode[26];
+    private TrieNode[] children = new TrieNode[ALPHABET_SIZE];
 
     private boolean hasChildren() {
       return Arrays.stream(children).anyMatch(Objects::nonNull);
