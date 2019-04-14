@@ -3,21 +3,30 @@ package code.collections.custom.impl;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Deque;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Case-insensitive Trie implementation for the English alphabet
  */
 public class Trie {
   private static final int ALPHABET_SIZE = 26;
+  private static final int MAX_WORD_LENGTH = 20;
   private TrieNode root = new TrieNode();
 
   public boolean insert(String key) {
     Objects.requireNonNull(key);
-    int allocations = 0;
+    if (key.length() > MAX_WORD_LENGTH) {
+      throw new IllegalArgumentException("Maximum permissible word length is: " + MAX_WORD_LENGTH);
+    }
 
+    int allocations = 0;
     char[] keyChars = key.toLowerCase().toCharArray();
     TrieNode current = root;
     for (char keyChar : keyChars) {
@@ -75,21 +84,16 @@ public class Trie {
 
   public boolean search(String key) {
     Objects.requireNonNull(key);
-
-    char[] keyChars = key.toLowerCase().toCharArray();
-    TrieNode current = root;
-    for (char keyChar : keyChars) {
-      int index = getIndex(keyChar);
-      TrieNode rightfulPosition = current.children[index];
-      if (rightfulPosition == null) {
-        return false;
-      }
-      current = rightfulPosition;
-    }
-
-    return current.endOfWord;
+    LinkedHashMap<TrieNode, Integer> foundNodeMap = searchInternal(key);
+    return foundNodeMap.size() == key.length() &&
+        foundNodeMap.keySet().stream().skip(foundNodeMap.keySet().size() - 1).anyMatch(trieNode -> trieNode.endOfWord); // The last entry should have endOfWord set
   }
 
+  /**
+   * Finds the longest common prefix for elements present in the Trie
+   *
+   * @return the longest common prefix
+   */
   public String longestCommonPrefix() {
     long parallelBranches = Arrays.stream(root.children).filter(Objects::nonNull).count();
     if (parallelBranches != 1) {
@@ -125,6 +129,23 @@ public class Trie {
     return stringBuilder.toString();
   }
 
+  /**
+   * Gets prefixes (sorted in increasing order of length) common between the key and the Trie.
+   *
+   * @param key
+   * @return all common prefixes
+   */
+  public List<String> allCommonPrefixes(String key) {
+    Map<TrieNode, Integer> foundNodeMap = searchInternal(key);
+    List<String> prefixes = new ArrayList<>();
+    foundNodeMap.values().stream().map(this::getChar).forEach(character -> prefixes.add(character.toString()));
+    for (int i = 1; i < prefixes.size(); i++) {
+      String previous = prefixes.get(i - 1);
+      prefixes.set(i, previous + prefixes.get(i));
+    }
+    return prefixes;
+  }
+
   public int getWordCount() {
     Deque<TrieNode> stack = new ArrayDeque<>();
     stack.push(root);
@@ -144,10 +165,36 @@ public class Trie {
     return wordCount;
   }
 
-  public List<String> getWords() {
+  /**
+   * Gets the words in the Trie, in alphabetically sorted order.
+   *
+   * @return alphabetically sorted words from the Trie
+   */
+  public Collection<String> getWords() {
     List<String> list = new ArrayList<>();
-    getWordsInternal(root, list, new char[20], 0);
+    getWordsInternal(root, list, new char[MAX_WORD_LENGTH], 0);
     return list;
+  }
+
+  public Collection<String> getAutoCompleteSuggestions(String base) {
+    Map<TrieNode, Integer> foundNodeMap = searchInternal(base);
+
+    if (foundNodeMap.isEmpty()) {
+      return Collections.emptyList();
+    } else {
+      List<String> list = new ArrayList<>();
+      char[] word = getBaseWordArray(base);
+      Optional<TrieNode> nodeForBaseWord = foundNodeMap.keySet().stream().skip(foundNodeMap.size() - 1).findFirst();
+      getWordsInternal(nodeForBaseWord.orElseThrow(IllegalStateException::new), list, word, base.length());
+      return list;
+    }
+  }
+
+  private char[] getBaseWordArray(String base) {
+    char[] word = new char[MAX_WORD_LENGTH];
+    char[] charArray = base.toCharArray();
+    System.arraycopy(charArray, 0, word, 0, charArray.length);
+    return word;
   }
 
   private void getWordsInternal(TrieNode root, List<String> wordList, char[] word, int level) {
@@ -165,6 +212,24 @@ public class Trie {
         getWordsInternal(root.children[i], wordList, word, level + 1);
       }
     }
+  }
+
+  private LinkedHashMap<TrieNode, Integer> searchInternal(String key) {
+    LinkedHashMap<TrieNode, Integer> allFoundItems = new LinkedHashMap<>();
+    char[] keyChars = key.toLowerCase().toCharArray();
+    TrieNode current = root;
+
+    for (char keyChar : keyChars) {
+      int index = getIndex(keyChar);
+      TrieNode rightfulPosition = current.children[index];
+      if (rightfulPosition == null) {
+        break;
+      }
+      current = rightfulPosition;
+      allFoundItems.put(current, index);
+    }
+
+    return allFoundItems;
   }
 
   private char getChar(int index) {
