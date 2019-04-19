@@ -8,7 +8,7 @@ import java.util.Objects;
 
 import static java.lang.Math.max;
 
-public class BST<T extends Comparable> {
+public class BinarySearchTree<T extends Comparable> {
   private Node root;
 
   public boolean insert(T data) {
@@ -159,6 +159,30 @@ public class BST<T extends Comparable> {
     return null;
   }
 
+  public List<T> getAncestors(T data) {
+    Node current = root;
+    boolean found = false;
+    ArrayList<T> items = new ArrayList<>();
+    while (current != null) {
+      items.add(current.data);
+      if (data.compareTo(current.data) < 0) {
+        current = current.leftChild;
+      } else if (data.compareTo(current.data) > 0) {
+        current = current.rightChild;
+      } else {
+        found = true;
+        break;
+      }
+    }
+
+    if (found) {
+      items.remove(items.size() -1);
+      return items;
+    } else {
+      throw new RuntimeException("Node not present in tree");
+    }
+  }
+
   public void levelOrder() {
     Deque<Node> deque = new ArrayDeque<>();
     offerNonNull(deque, root);
@@ -214,7 +238,7 @@ public class BST<T extends Comparable> {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    BST other = (BST) o;
+    BinarySearchTree other = (BinarySearchTree) o;
 
     Deque<Node> thisDeque = new ArrayDeque<>();
     Deque<Node> otherDeque = new ArrayDeque<>();
@@ -278,6 +302,13 @@ public class BST<T extends Comparable> {
     return nodesAsString.toString().trim();
   }
 
+  int heightInternal(Node root) {
+    if (root != null) {
+      return max(heightInternal(root.leftChild), heightInternal(root.rightChild)) + 1;
+    }
+    return 0;
+  }
+
   private void offerNonNull(Deque<Node> deque, Node node) {
     if (node != null) {
       deque.offer(node);
@@ -321,13 +352,6 @@ public class BST<T extends Comparable> {
       insertRecurse(list, low, mid);
       insertRecurse(list, mid + 1, high);
     }
-  }
-
-  private int heightInternal(Node root) {
-    if (root != null) {
-      return max(heightInternal(root.leftChild), heightInternal(root.rightChild)) + 1;
-    }
-    return 0;
   }
 
   private class Node {

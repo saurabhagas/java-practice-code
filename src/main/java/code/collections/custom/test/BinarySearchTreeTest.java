@@ -1,6 +1,6 @@
 package code.collections.custom.test;
 
-import code.collections.custom.impl.BST;
+import code.collections.custom.impl.BinarySearchTree;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
@@ -17,13 +19,13 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 
-public class BstTest {
+public class BinarySearchTreeTest {
   private static final List<String> uniqueKeys = Arrays.asList("the", "a", "there", "answer", "any", "by", "bye", "their", "abc");
   private static final List<String> duplicateKeys = Arrays.asList("the", "a", "any", "by");
   private static final List<String> nonExistentKeys = Arrays.asList("foo", "bar", "therefore", "answered", "an", "ab");
   private static final List<String> toDelete = Arrays.asList("the", "a", "by");
   private static final List<String> toDelete2 = Arrays.asList("there", "answer", "any", "bye", "their", "abc");
-  private final BST<String> bst = new BST<>();
+  private final BinarySearchTree<String> bst = new BinarySearchTree<>();
 
   @Before
   public void setUp() {
@@ -72,6 +74,35 @@ public class BstTest {
 
     uniqueKeys.forEach(uniqueKey -> assertTrue(bst.insert(uniqueKey)));
     assertThat(bst.size(), is(uniqueKeys.size()));
+  }
+
+  @Test(expected = RuntimeException.class)
+  public void testAncestors_nonExistentNode() {
+    bst.getAncestors("blah");
+  }
+
+  @Test
+  public void testAncestors_existingNodes() {
+    //Root node
+    assertThat(bst.getAncestors("the").size(), is(0));
+
+    // Level 1 nodes
+    assertThat(bst.getAncestors("a"), hasItem("the"));
+    assertThat(bst.getAncestors("there"), hasItem("the"));
+
+    // Level 2 nodes
+    assertThat(bst.getAncestors("answer"), hasItems("a", "the"));
+    assertThat(bst.getAncestors("their"), hasItems("the", "there"));
+
+    // Level 3 nodes
+    assertThat(bst.getAncestors("abc"), hasItems("a", "the", "answer"));
+    assertThat(bst.getAncestors("any"), hasItems("a", "the", "answer"));
+
+    // Level 4 node
+    assertThat(bst.getAncestors("by"), hasItems("the", "a", "answer", "any"));
+
+    // Level 5 node
+    assertThat(bst.getAncestors("bye"), hasItems("the", "a", "answer", "any", "by"));
   }
 
   @Test
