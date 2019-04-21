@@ -77,21 +77,22 @@ public class MinMaxHeap<T extends Comparable> implements Heap<T> {
   }
 
   private void heapify(List<T> heapArray, int index) {
-    int largest = index;
+    int largestOrSmallest = index;
     int heapSize = heapArray.size();
-    while (largest < heapSize / 2) {    // check parent nodes only
+    while (largestOrSmallest < heapSize / 2) {    // check parent nodes only
       int left = leftIndex(index);
       int right = rightIndex(index);
 
       if (leftIndex(index) < heapSize && comparator.compare(heapArray.get(left), heapArray.get(index)) > 0) {
-        largest = left;
+        largestOrSmallest = left;
       }
-      if (rightIndex(index) < heapSize && comparator.compare(heapArray.get(right), heapArray.get(largest)) > 0) {
-        largest = right;
+      if (rightIndex(index) < heapSize && comparator.compare(heapArray.get(right), heapArray.get(largestOrSmallest)) > 0) {
+        largestOrSmallest = right;
       }
-      if (largest != index) { // swap parent with largest child
-        Collections.swap(heapArray, index, largest);
-        index = largest;
+
+      if (largestOrSmallest != index) { // swap parent with largestOrSmallest child
+        Collections.swap(heapArray, index, largestOrSmallest);
+        index = largestOrSmallest;
       } else {
         break; // if heap property is satisfied
       }
