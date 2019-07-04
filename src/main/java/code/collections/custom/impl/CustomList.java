@@ -1,10 +1,8 @@
 package code.collections.custom.impl;
 
-import code.algorithms.SortingAlgorithm;
+import code.algorithms.sorting.Sorter;
 
-import java.util.Iterator;
-
-public interface CustomList<T> extends Iterable<T> {
+public interface CustomList<T extends Comparable> extends Iterable<T> {
   /**
    * Inserts the given element at the head
    *
@@ -48,9 +46,9 @@ public interface CustomList<T> extends Iterable<T> {
   void print();
 
   /**
-   * Sorts the list using one {@link SortingAlgorithm}
+   * Sorts the list using one {@link Sorter}
    */
-  void sort(SortingAlgorithm algorithm);
+  void sort(Sorter<T> sorter);
 
   /**
    * Reverses the list
@@ -63,4 +61,11 @@ public interface CustomList<T> extends Iterable<T> {
    * @return the size of the list
    */
   int size();
+
+  /**
+   * Returns to array representation of the list
+   *
+   * @return items as an array
+   */
+  Object[] toArray();
 }
