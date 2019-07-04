@@ -1,13 +1,14 @@
 package code.collections.custom.impl;
 
-import code.algorithms.SortingAlgorithm;
+import code.algorithms.sorting.Sorter;
 
+import java.util.Comparator;
 import java.util.Iterator;
 
 /**
  * Single Linked List implementation of CustomLinkedList
  */
-public class SinglyLinkedList<T> implements CustomList<T> {
+public class SinglyLinkedList<T extends Comparable> implements CustomList<T> {
   private Node head;
 
   @Override
@@ -83,8 +84,12 @@ public class SinglyLinkedList<T> implements CustomList<T> {
   }
 
   @Override
-  public void sort(SortingAlgorithm algorithm) {
-    throw new UnsupportedOperationException("TODO Implement me!");
+  public void sort(Sorter<T> sorter) {
+    Object[] sortedItems = sorter.sort(toArray(), Comparator.naturalOrder());
+    head = null;
+    for (Object sortedItem : sortedItems) {
+      insert((T) sortedItem);
+    }
   }
 
   @Override
@@ -131,7 +136,7 @@ public class SinglyLinkedList<T> implements CustomList<T> {
     boolean first = false;
     while (current != null) {
       if (!first) {
-       builder.append("[ ");
+        builder.append("[ ");
         first = true;
       }
 
@@ -144,6 +149,18 @@ public class SinglyLinkedList<T> implements CustomList<T> {
       current = current.next;
     }
     return builder.toString();
+  }
+
+  @Override
+  public Object[] toArray() {
+    Object[] items = new Object[size()];
+    Node current = head;
+    int i = 0;
+    while (current != null) {
+      items[i++] = current.data;
+      current = current.next;
+    }
+    return items;
   }
 
   private void reverseRecursively(Node current, Node previous) {
@@ -174,6 +191,7 @@ public class SinglyLinkedList<T> implements CustomList<T> {
 
   private class SinglyLinkedListIterator implements Iterator<T> {
     Node current = head;
+
     @Override
     public boolean hasNext() {
       return current != null;

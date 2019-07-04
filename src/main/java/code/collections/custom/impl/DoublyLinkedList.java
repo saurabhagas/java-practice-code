@@ -1,10 +1,11 @@
 package code.collections.custom.impl;
 
-import code.algorithms.SortingAlgorithm;
+import code.algorithms.sorting.Sorter;
 
+import java.util.Comparator;
 import java.util.Iterator;
 
-public class DoublyLinkedList<T> implements CustomList<T> {
+public class DoublyLinkedList<T extends Comparable> implements CustomList<T> {
   private Node head = null;
   private Node tail = null;
   private int size = 0;
@@ -93,8 +94,12 @@ public class DoublyLinkedList<T> implements CustomList<T> {
   }
 
   @Override
-  public void sort(SortingAlgorithm algorithm) {
-    throw new UnsupportedOperationException("TODO Implement me!");
+  public void sort(Sorter<T> sorter) {
+    Object[] sortedItems = sorter.sort(toArray(), Comparator.naturalOrder());
+    head = null;
+    for (Object sortedItem : sortedItems) {
+      insert((T) sortedItem);
+    }
   }
 
   @Override
@@ -141,6 +146,18 @@ public class DoublyLinkedList<T> implements CustomList<T> {
       stringBuilder.append(iterator.next()).append("<-->");
     }
     return stringBuilder.append("null").append("]").toString();
+  }
+
+  @Override
+  public Object[] toArray() {
+    final Object[] items = new Object[size()];
+    Node current = head;
+    int i = 0;
+    while (current != null) {
+      items[i++] = current.data;
+      current = current.next;
+    }
+    return items;
   }
 
   private class ForwardIterator implements Iterator<T> {

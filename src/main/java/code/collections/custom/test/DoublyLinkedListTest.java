@@ -1,5 +1,7 @@
 package code.collections.custom.test;
 
+import code.algorithms.sorting.BubbleSorter;
+import code.algorithms.sorting.InsertionSorter;
 import code.collections.custom.impl.CustomList;
 import code.collections.custom.impl.DoublyLinkedList;
 import code.collections.custom.impl.SinglyLinkedList;
@@ -49,11 +51,11 @@ public class DoublyLinkedListTest {
 
   @Test
   public void insertAll() {
-    final CustomList<Object> singlyLinkedList = new SinglyLinkedList<>();
+    final CustomList<? super Comparable> singlyLinkedList = new SinglyLinkedList<>();
     singlyLinkedList.insert("Hello");
     singlyLinkedList.insert(123);
 
-    final CustomList<Object> doublyLinkedList = new DoublyLinkedList<>();
+    final CustomList<? super Comparable> doublyLinkedList = new DoublyLinkedList<>();
     assertThat(doublyLinkedList.size(), is(0));
 
     doublyLinkedList.insertAll(singlyLinkedList);
@@ -126,7 +128,7 @@ public class DoublyLinkedListTest {
 
   @Test
   public void delete_all_elements() {
-    final CustomList<Object> list = new DoublyLinkedList<>();
+    final CustomList<? super Comparable> list = new DoublyLinkedList<>();
 
     list.insert("Saurabh");
     list.insert("Agarwal");
@@ -141,7 +143,7 @@ public class DoublyLinkedListTest {
 
   @Test
   public void contains() {
-    final CustomList<Object> list = new DoublyLinkedList<>();
+    final CustomList<? super Comparable> list = new DoublyLinkedList<>();
     list.insert("Saurabh");
 
     assertThat(list.contains("blah"), is(false));
@@ -150,7 +152,7 @@ public class DoublyLinkedListTest {
 
   @Test
   public void reverse_empty_list() {
-    final CustomList<Object> list = new DoublyLinkedList<>();
+    final CustomList<? super Comparable> list = new DoublyLinkedList<>();
     list.reverse();
 
     assertThat(list.toString(), is("[null]"));
@@ -158,7 +160,7 @@ public class DoublyLinkedListTest {
 
   @Test
   public void reverse_one_element() {
-    final CustomList<Object> list = new DoublyLinkedList<>();
+    final CustomList<? super Comparable> list = new DoublyLinkedList<>();
     list.insert("Saurabh");
     list.reverse();
 
@@ -216,5 +218,19 @@ public class DoublyLinkedListTest {
     list.reverse();
     assertThat(list.size(), is(2));
     assertThat(list.toString(), is("[Agarwal<-->Saurabh<-->null]"));
+  }
+
+
+  @Test
+  public void testSort() {
+    CustomList<Integer> linkedList = new DoublyLinkedList<>();
+    linkedList.insert(5);
+    linkedList.insert(5000);
+    linkedList.insert(50);
+    linkedList.insert(500);
+    linkedList.print();
+
+    linkedList.sort(new InsertionSorter<>());
+    linkedList.print();
   }
 }
