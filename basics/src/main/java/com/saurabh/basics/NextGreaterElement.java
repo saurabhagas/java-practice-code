@@ -5,30 +5,36 @@ import java.util.Arrays;
 import java.util.Deque;
 import java.util.stream.IntStream;
 
+/**
+ * Problem description at: https://www.geeksforgeeks.org/next-greater-element/
+ */
 public class NextGreaterElement {
   public static int[] nextGreaterElement(int[] arr) {
-    int[] resultArray = IntStream.generate(() -> -1).limit(arr.length).toArray();
+    // Initialize with -1's as -1 denotes NGE not being present
+    int[] ngeArray = IntStream.generate(() -> -1).limit(arr.length).toArray();
     int resultArrayIndex = -1;
-    Deque<Integer> smallerElements = new ArrayDeque<>();
 
-    smallerElements.push(arr[0]);
+    // Maintain a stack of all elements. To be used to track smaller elements
+    Deque<Integer> stack = new ArrayDeque<>();
+    stack.push(arr[0]);
+
     for (int i = 1; i < arr.length; i++) {
       int currentArrayElement = arr[i];
-      if (!smallerElements.isEmpty()) {
-        int poppedElement = smallerElements.peek();
-        while (poppedElement < currentArrayElement) {
-          smallerElements.pop();
+      if (!stack.isEmpty()) {
+        int topElement = stack.peek();
+        while (topElement < currentArrayElement) {
+          stack.pop();
           // currentArrayElement is the NGE, save it in results array
-          resultArray[++resultArrayIndex] = currentArrayElement;
-          if (smallerElements.isEmpty()) {
+          ngeArray[++resultArrayIndex] = currentArrayElement;
+          if (stack.isEmpty()) {
             break;
           }
-          poppedElement = smallerElements.peek();
+          topElement = stack.peek();
         }
       }
-      smallerElements.push(currentArrayElement);
+      stack.push(currentArrayElement);
     }
-    return resultArray;
+    return ngeArray;
   }
 
   public static void main(String[] args) {
