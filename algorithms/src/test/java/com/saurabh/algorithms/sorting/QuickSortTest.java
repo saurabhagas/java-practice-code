@@ -13,16 +13,21 @@ public class QuickSortTest {
     Integer[] array = new Integer[]{9, 5, 10, 0, 6, 11, -1, 1, 2};
     Integer[] sortedArray = (Integer[]) new QuickSorter<>().sort(array);
     assertThat(sortedArray.length).isEqualTo(9);
-    assertThat(sortedArray).containsOnly(-1, 0, 1, 2, 5, 6, 9, 10, 11);
+    assertThat(sortedArray).containsSequence(-1, 0, 1, 2, 5, 6, 9, 10, 11);
+  }
+
+  @Test
+  public void sortTest2() {
+    Integer[] array = new Integer[]{10, 9, 4, 7, 3, 8, 12, 5};
+    Integer[] sortedArray = (Integer[]) new QuickSorter<>().sort(array);
+    assertThat(sortedArray.length).isEqualTo(8);
+    assertThat(sortedArray).containsSequence(3, 4, 5, 7, 8, 9, 10, 12);
   }
 
   @Test
   public void sortNullArrayTest() {
     QuickSorter<Integer> qSort = new QuickSorter<>();
-    assertThatNullPointerException()
-        .isThrownBy(() ->
-            qSort.sort(null)
-        ).withNoCause();
+    assertThatNullPointerException().isThrownBy(() -> qSort.sort(null));
   }
 
   @Test
@@ -34,30 +39,18 @@ public class QuickSortTest {
     array[3] = new CustomInt(5);
     array[4] = new CustomInt(2);
 
-    CustomInt[] answerArray = new CustomInt[5];
-    answerArray[0] = new CustomInt(1);
-    answerArray[1] = new CustomInt(2);
-    answerArray[2] = new CustomInt(3);
-    answerArray[3] = new CustomInt(4);
-    answerArray[4] = new CustomInt(5);
-
     QuickSorter<CustomInt> bSort = new QuickSorter<>();
     CustomInt[] sortedArray = bSort.sort(array);
     assertThat(sortedArray.length).isEqualTo(5);
-    assertThat(sortedArray).extracting("element").containsOnly(1, 2, 3, 4, 5);
+    assertThat(sortedArray).extracting("element").containsSequence(1, 2, 3, 4, 5);
   }
 
   @Test
   public void sortTestString() {
     String[] array = new String[]{"b", "l", "a", "k", "c"};
-    String[] sortedArray = (String[]) new QuickSorter<>().sort(array, new Comparator() {
-      @Override
-      public int compare(Object o1, Object o2) {
-        return ((String) o1).compareTo((String) o2);
-      }
-    });
+    String[] sortedArray = (String[]) new QuickSorter<>().sort(array, Comparator.comparing(o -> ((String) o)));
     assertThat(sortedArray.length).isEqualTo(5);
-    assertThat(sortedArray).containsOnly("a", "b", "c", "k", "l");
+    assertThat(sortedArray).containsSequence("a", "b", "c", "k", "l");
   }
 
   @Test
@@ -66,25 +59,25 @@ public class QuickSortTest {
     QuickSorter<Integer> bSort = new QuickSorter<>();
     Integer[] sortedArray = bSort.sort(array);
     assertThat(sortedArray.length).isEqualTo(1);
-    assertThat(sortedArray).containsOnly(1);
+    assertThat(sortedArray).containsSequence(1);
   }
 
   @Test
   public void twoElementTest() {
-    Integer[] array = new Integer[]{0, 0};
+    Integer[] array = new Integer[]{1, 0};
     QuickSorter<Integer> bSort = new QuickSorter<>();
     Integer[] sortedArray = bSort.sort(array);
     assertThat(sortedArray.length).isEqualTo(2);
-    assertThat(sortedArray).containsOnly(0, 0);
+    assertThat(sortedArray).containsSequence(0, 1);
   }
 
   @Test
   public void threeElementTest() {
-    Integer[] array = new Integer[]{0, -1, 0};
+    Integer[] array = new Integer[]{0, -1, 9};
     QuickSorter<Integer> bSort = new QuickSorter<>();
     Integer[] sortedArray = bSort.sort(array);
     assertThat(sortedArray.length).isEqualTo(3);
-    assertThat(sortedArray).containsOnly(-1, 0, 0);
+    assertThat(sortedArray).containsSequence(-1, 0, 9);
   }
 
   @Test
@@ -93,7 +86,7 @@ public class QuickSortTest {
     QuickSorter<Integer> bSort = new QuickSorter<>();
     Integer[] sortedArray = bSort.sort(array);
     assertThat(sortedArray.length).isEqualTo(4);
-    assertThat(sortedArray).containsOnly(1, 1, 1, 1);
+    assertThat(sortedArray).containsSequence(1, 1, 1, 1);
   }
 
   @Test
@@ -102,7 +95,7 @@ public class QuickSortTest {
     QuickSorter<Integer> bSort = new QuickSorter<>();
     Integer[] sortedArray = bSort.sort(array);
     assertThat(sortedArray.length).isEqualTo(0);
-    assertThat(sortedArray).containsOnly();
+    assertThat(sortedArray).containsSequence();
   }
 
   @Test
@@ -111,6 +104,6 @@ public class QuickSortTest {
     QuickSorter<Integer> bSort = new QuickSorter<>();
     Integer[] sortedArray = bSort.sort(array);
     assertThat(sortedArray.length).isEqualTo(4);
-    assertThat(sortedArray).containsOnly(1, 2, 3, 4);
+    assertThat(sortedArray).containsSequence(1, 2, 3, 4);
   }
 }
