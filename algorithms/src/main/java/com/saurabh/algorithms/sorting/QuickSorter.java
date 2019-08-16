@@ -12,6 +12,7 @@ public class QuickSorter<T extends Comparable> implements Sorter<T> {
     return items;
   }
 
+  //Lomuto's Partition method is used
   private int partition(T[] array, int low, int high, Comparator comparator) {
     int piv = high;
     int i = low;
