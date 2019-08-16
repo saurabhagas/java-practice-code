@@ -48,7 +48,7 @@ public class InsertionSorter<T extends Comparable> implements Sorter<T> {
       for (j = i - 1; j >= 0; j--) {
         // Compare the end element with sorted sub-items iterating from the largest element of sub-items(end index of sub-items) to smaller ones
         // And then stop iterating after the end element is larger than the selected element of the sub-items
-        if (comparator.compare(temp, items[j]) <= 0) {
+        if (temp != null && comparator.compare(temp, items[j]) <= 0) {
           //Shift the larger elements of sub-items to next position (last position is the 'temp' variable position or index 'i')
           items[j + 1] = items[j];
         } else {

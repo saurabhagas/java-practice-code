@@ -22,10 +22,12 @@ public class SelectionSorter<T extends Comparable> implements Sorter<T> {
       int maxIndex = 0;
       for (int j = 0; j < items.length - 1 - i; j++) {
         if (items[maxIndex].compareTo(items[j + 1]) < 0) {
+          //Update index of max element
           maxIndex = j + 1;
         }
       }
 
+      //Swap max element with last(last but 'i'th index)
       T temp = items[items.length - 1 - i];
       items[items.length - 1 - i] = items[maxIndex];
       items[maxIndex] = temp;
