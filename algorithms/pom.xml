@@ -11,5 +11,13 @@
 
   <artifactId>algorithms</artifactId>
 
+  <dependencies>
+    <dependency>
+      <groupId>com.saurabh</groupId>
+      <artifactId>common</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
 
 </project>

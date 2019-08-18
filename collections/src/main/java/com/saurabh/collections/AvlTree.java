@@ -1,14 +1,18 @@
 package com.saurabh.collections;
 
-import java.util.ArrayDeque;
+import com.saurabh.common.Node;
+
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 
+import static com.saurabh.algorithms.traversal.Traversals.inorder;
+import static com.saurabh.algorithms.traversal.Traversals.breadthFirst;
+import static com.saurabh.algorithms.traversal.Traversals.postorder;
+import static com.saurabh.algorithms.traversal.Traversals.preorder;
 import static java.lang.Math.max;
 
-public class AvlTree<T extends Comparable> {
-  private Node root;
+public class AvlTree<T extends Comparable<T>> {
+  private HeightedNode<T> root;
 
   public boolean insert(T data) {
     if (search(data)) {
@@ -19,37 +23,37 @@ public class AvlTree<T extends Comparable> {
     return root != null;
   }
 
-  private Node insertInternal(Node current, T data) {
+  private HeightedNode<T> insertInternal(HeightedNode<T> current, T data) {
     if (current == null) {
-      return new Node(data, null, null);
+      return new HeightedNode<>(data, null, null);
     }
 
-    if (data.compareTo(current.data) > 0) {
+    if (data.compareTo(current.getData()) > 0) {
       current.rightChild = insertInternal(current.rightChild, data);
-    } else if (data.compareTo(current.data) < 0) {
-      current.leftChild = insertInternal(current.leftChild, data);
+    } else if (data.compareTo(current.getData()) < 0) {
+      current.leftChild = insertInternal(current.getLeftChild(), data);
     }
 
     current.height = maxHeight(current);
     return balance(current, data);
   }
 
-  private Node balance(Node root, T data) {
+  private HeightedNode<T> balance(HeightedNode<T> root, T data) {
     int balance = getBalance(root);
     if (balance > 1) {
-      if (data.compareTo(root.leftChild.data) < 0) {
+      if (data.compareTo(root.getLeftChild().getData()) < 0) {
         //Left-left case
         return rightRotate(root);
-      } else if (data.compareTo(root.leftChild.data) > 0) {
+      } else if (data.compareTo(root.getLeftChild().getData()) > 0) {
         //Left-right case
-        root.leftChild = leftRotate(root.leftChild);
+        root.leftChild = leftRotate(root.getLeftChild());
         return rightRotate(root);
       }
     } else if (balance < -1) {
-      if (data.compareTo(root.rightChild.data) > 0) {
+      if (data.compareTo(root.rightChild.getData()) > 0) {
         //Right-right case
         return leftRotate(root);
-      } else if (data.compareTo(root.rightChild.data) > 0) {
+      } else if (data.compareTo(root.rightChild.getData()) < 0) {
         //Right-left case
         root.rightChild = rightRotate(root.rightChild);
         return leftRotate(root);
@@ -70,48 +74,48 @@ public class AvlTree<T extends Comparable> {
     return true;
   }
 
-  private Node removeInternal(Node node, T data) {
+  private HeightedNode<T> removeInternal(HeightedNode<T> node, T data) {
     if (node == null) {
-      return node;
+      return null;
     }
 
-    if (data.compareTo(node.data) < 0) {
-      node.leftChild = removeInternal(node.leftChild, data);
-    } else if (data.compareTo(node.data) > 0) {
+    if (data.compareTo(node.getData()) < 0) {
+      node.leftChild = removeInternal(node.getLeftChild(), data);
+    } else if (data.compareTo(node.getData()) > 0) {
       node.rightChild = removeInternal(node.rightChild, data);
     } else {
       if (node.leftChild == null || node.rightChild == null) {
-        node = node.leftChild == null ? node.rightChild : node.leftChild; // simply advance the pointer and return the node later
+        node = node.getLeftChild() == null ? node.rightChild : node.getLeftChild(); // simply advance the pointer and return the node later
       } else {
-        Node temp = getInorderSuccessor(node.rightChild);
-        node.data = temp.data;
-        node.rightChild = removeInternal(node.rightChild, temp.data);
+        HeightedNode<T> temp = getInorderSuccessor(node.rightChild);
+        node.setData(temp.getData());
+        node.rightChild = removeInternal(node.rightChild, temp.getData());
       }
     }
 
     // If the tree now has only one node, return
     if (node == null) {
-      return node;
+      return null;
     }
 
     node.height = maxHeight(node);
     return balance(node, data);
   }
 
-  private Node getInorderSuccessor(Node node) {
-    while(node != null && node.leftChild != null) {
-      node = node.leftChild;
+  private HeightedNode<T> getInorderSuccessor(HeightedNode<T> node) {
+    while (node != null && node.getLeftChild() != null) {
+      node = node.getLeftChild();
     }
 
     return node;
   }
 
   public boolean search(T data) {
-    Node current = root;
+    HeightedNode<T> current = root;
     while (current != null) {
-      if (data.compareTo(current.data) < 0) {
-        current = current.leftChild;
-      } else if (data.compareTo(current.data) > 0) {
+      if (data.compareTo(current.getData()) < 0) {
+        current = current.getLeftChild();
+      } else if (data.compareTo(current.getData()) > 0) {
         current = current.rightChild;
       } else {
         return true;
@@ -121,32 +125,24 @@ public class AvlTree<T extends Comparable> {
   }
 
   public void levelOrder() {
-    Deque<Node> deque = new ArrayDeque<>();
-    offerNonNull(deque, root);
-
-    while (!deque.isEmpty()) {
-      final Node current = deque.poll();
-      System.out.println(current.data);
-      offerNonNull(deque, current.leftChild);
-      offerNonNull(deque, current.rightChild);
-    }
+    breadthFirst(root);
   }
 
   public List<T> preOrder() {
     ArrayList<T> items = new ArrayList<>();
-    preOrderInternal(root, items);
+    preorder(root, items);
     return items;
   }
 
   public List<T> inOrder() {
     ArrayList<T> items = new ArrayList<>();
-    inOrderInternal(root, items);
+    inorder(root, items);
     return items;
   }
 
   public List<T> postOrder() {
     ArrayList<T> items = new ArrayList<>();
-    postOrderInternal(root, items);
+    postorder(root, items);
     return items;
   }
 
@@ -158,23 +154,23 @@ public class AvlTree<T extends Comparable> {
     return height(root);
   }
 
-  private int maxHeight(Node root) {
+  private int maxHeight(HeightedNode<T> root) {
     if (root != null) {
-      return max(height(root.leftChild), height(root.rightChild)) + 1;
+      return max(height(root.getLeftChild()), height(root.rightChild)) + 1;
     }
     return 0;
   }
 
-  private int height(Node node) {
+  private int height(HeightedNode<T> node) {
     if (node == null) {
       return 0;
     }
     return node.height;
   }
 
-  private Node rightRotate(Node pivot) {
-    final Node temp = pivot.leftChild;
-    pivot.leftChild = pivot.leftChild.rightChild;
+  private HeightedNode<T> rightRotate(HeightedNode<T> pivot) {
+    final HeightedNode<T> temp = pivot.getLeftChild();
+    pivot.leftChild = pivot.getLeftChild().rightChild;
     temp.rightChild = pivot;
 
     pivot.height = maxHeight(pivot);
@@ -182,9 +178,9 @@ public class AvlTree<T extends Comparable> {
     return temp;
   }
 
-  private Node leftRotate(Node pivot) {
-    final Node temp = pivot.rightChild;
-    pivot.rightChild = temp.leftChild;
+  private HeightedNode<T> leftRotate(HeightedNode<T> pivot) {
+    final HeightedNode<T> temp = pivot.rightChild;
+    pivot.rightChild = temp.getLeftChild();
     temp.leftChild = pivot;
 
     pivot.height = maxHeight(pivot);
@@ -192,53 +188,30 @@ public class AvlTree<T extends Comparable> {
     return temp;
   }
 
-  private int getBalance(Node node) {
+  private int getBalance(HeightedNode<T> node) {
     if (node == null)
       return 0;
-    return height(node.leftChild) - height(node.rightChild);
+    return height(node.getLeftChild()) - height(node.rightChild);
   }
 
-  private void offerNonNull(Deque<Node> deque, Node node) {
-    if (node != null) {
-      deque.offer(node);
-    }
-  }
-
-  private void preOrderInternal(Node root, List<T> items) {
-    if (root != null) {
-      items.add(root.data);
-      preOrderInternal(root.leftChild, items);
-      preOrderInternal(root.rightChild, items);
-    }
-  }
-
-  private void inOrderInternal(Node root, List<T> items) {
-    if (root != null) {
-      inOrderInternal(root.leftChild, items);
-      items.add(root.data);
-      inOrderInternal(root.rightChild, items);
-    }
-  }
-
-  private void postOrderInternal(Node root, List<T> items) {
-    if (root != null) {
-      postOrderInternal(root.leftChild, items);
-      postOrderInternal(root.rightChild, items);
-      items.add(root.data);
-    }
-  }
-
-  private class Node {
-    private T data;
+  private class HeightedNode<U> extends Node<U> {
     private int height;
-    private Node leftChild;
-    private Node rightChild;
+    private HeightedNode<U> leftChild;
+    private HeightedNode<U> rightChild;
 
-    Node(T data, Node leftChild, Node rightChild) {
-      this.data = data;
+    HeightedNode(U data, HeightedNode<U> leftChild, HeightedNode<U> rightChild) {
+      super(data, leftChild, rightChild);
       this.height = 1;
-      this.leftChild = leftChild;
-      this.rightChild = rightChild;
+    }
+
+    @Override
+    public HeightedNode<U> getLeftChild() {
+      return leftChild;
+    }
+
+    @Override
+    public HeightedNode<U> getRightChild() {
+      return rightChild;
     }
   }
 }
