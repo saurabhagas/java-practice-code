@@ -1,32 +1,38 @@
 package com.saurabh.collections;
 
+import com.saurabh.common.Node;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 import java.util.Objects;
 
+import static com.saurabh.algorithms.traversal.Traversals.inorder;
+import static com.saurabh.algorithms.traversal.Traversals.breadthFirst;
+import static com.saurabh.algorithms.traversal.Traversals.postorder;
+import static com.saurabh.algorithms.traversal.Traversals.preorder;
 import static java.lang.Math.max;
 
-public class BinarySearchTree<T extends Comparable> {
-  private Node root;
+public class BinarySearchTree<T extends Comparable<T>> {
+  private Node<T> root;
 
   public boolean insert(T data) {
-    Node temp = new Node(data, null, null);
-    Node current = root;
+    Node<T> temp = new Node<>(data, null, null);
+    Node<T> current = root;
     while (current != null) {
-      if (data.compareTo(current.data) < 0) {
-        if (current.leftChild == null) {
-          current.leftChild = temp;
+      if (data.compareTo(current.getData()) < 0) {
+        if (current.getLeftChild() == null) {
+          current.setLeftChild(temp);
           break;
         }
-        current = current.leftChild;
-      } else if (data.compareTo(current.data) > 0) {
-        if (current.rightChild == null) {
-          current.rightChild = temp;
+        current = current.getLeftChild();
+      } else if (data.compareTo(current.getData()) > 0) {
+        if (current.getRightChild() == null) {
+          current.setRightChild(temp);
           break;
         }
-        current = current.rightChild;
+        current = current.getRightChild();
       } else {
         return false;
       }
@@ -43,17 +49,17 @@ public class BinarySearchTree<T extends Comparable> {
   }
 
   public boolean remove(T data) {
-    Node current = root;
-    Node foundLocationParent = null;
-    Node foundLocation = null;
+    Node<T> current = root;
+    Node<T> foundLocationParent = null;
+    Node<T> foundLocation = null;
     while (current != null) {
-      if ((current.leftChild != null && current.leftChild.data == data) || (current.rightChild != null && current.rightChild.data == data)) {
+      if ((current.getLeftChild() != null && current.getLeftChild().getData() == data) || (current.getRightChild() != null && current.getRightChild().getData() == data)) {
         foundLocationParent = current;
       }
-      if (data.compareTo(current.data) < 0) {
-        current = current.leftChild;
-      } else if (data.compareTo(current.data) > 0) {
-        current = current.rightChild;
+      if (data.compareTo(current.getData()) < 0) {
+        current = current.getLeftChild();
+      } else if (data.compareTo(current.getData()) > 0) {
+        current = current.getRightChild();
       } else {
         foundLocation = current;
         break;
@@ -61,97 +67,97 @@ public class BinarySearchTree<T extends Comparable> {
     }
 
     if (foundLocation == null) {
-      return false; // Node to be deleted not present
+      return false; // Node<T> to be deleted not present
     } else if (foundLocation == root) {
-      if (foundLocation.leftChild == null && foundLocation.rightChild == null) {
+      if (foundLocation.getLeftChild() == null && foundLocation.getRightChild() == null) {
         root = null;
-      } else if (foundLocation.leftChild == null && foundLocation.rightChild != null) {
-        root = root.rightChild;
-      } else if (foundLocation.leftChild != null && foundLocation.rightChild == null) {
-        root = root.leftChild;
+      } else if (foundLocation.getLeftChild() == null && foundLocation.getRightChild() != null) {
+        root = root.getRightChild();
+      } else if (foundLocation.getLeftChild() != null && foundLocation.getRightChild() == null) {
+        root = root.getLeftChild();
       } else {
         // Both children present, swap node with inorder successor
-        current = foundLocation.rightChild; // start from the right subtree
-        Node inorderSuccessorParent = null;
-        Node inorderSuccessor;
-        while (current != null && current.leftChild != null) {
-          if (current.leftChild.leftChild == null) {
+        current = foundLocation.getRightChild(); // start from the right subtree
+        Node<T> inorderSuccessorParent = null;
+        Node<T> inorderSuccessor;
+        while (current != null && current.getLeftChild() != null) {
+          if (current.getLeftChild().getLeftChild() == null) {
             inorderSuccessorParent = current;
           }
-          current = current.leftChild;
+          current = current.getLeftChild();
         }
         inorderSuccessor = current;
 
-        if (inorderSuccessor.rightChild == null) {
-          foundLocation.data = inorderSuccessor.data;
+        if (inorderSuccessor.getRightChild() == null) {
+          foundLocation.setData(inorderSuccessor.getData());
           if (inorderSuccessorParent == null) {
-            foundLocation.rightChild = null;
+            foundLocation.setRightChild(null);
           } else {
-            inorderSuccessorParent.leftChild = null;
+            inorderSuccessorParent.setLeftChild(null);
           }
         } else {
-          foundLocation.data = inorderSuccessor.data;
-          inorderSuccessor.data = inorderSuccessor.rightChild.data;
-          inorderSuccessor.rightChild = null;
+          foundLocation.setData(inorderSuccessor.getData());
+          inorderSuccessor.setData(inorderSuccessor.getRightChild().getData());
+          inorderSuccessor.setRightChild(null);
         }
       }
       return true;
     } else {
-      if (foundLocation.leftChild == null && foundLocation.rightChild == null) {
-        if (foundLocationParent.leftChild == foundLocation) {
-          foundLocationParent.leftChild = null;
+      if (foundLocation.getLeftChild() == null && foundLocation.getRightChild() == null) {
+        if (foundLocationParent.getLeftChild() == foundLocation) {
+          foundLocationParent.setLeftChild(null);
         } else {
-          foundLocationParent.rightChild = null;
+          foundLocationParent.setRightChild(null);
         }
-      } else if (foundLocation.leftChild == null && foundLocation.rightChild != null) {
-        if (foundLocationParent.leftChild == foundLocation) {
-          foundLocationParent.leftChild = foundLocation.rightChild;
+      } else if (foundLocation.getLeftChild() == null && foundLocation.getRightChild() != null) {
+        if (foundLocationParent.getLeftChild() == foundLocation) {
+          foundLocationParent.setLeftChild(foundLocation.getRightChild());
         } else {
-          foundLocationParent.rightChild = foundLocation.rightChild;
+          foundLocationParent.setRightChild(foundLocation.getRightChild());
         }
-      } else if (foundLocation.leftChild != null && foundLocation.rightChild == null) {
-        if (foundLocationParent.leftChild == foundLocation) {
-          foundLocationParent.leftChild = foundLocation.leftChild;
+      } else if (foundLocation.getLeftChild() != null && foundLocation.getRightChild() == null) {
+        if (foundLocationParent.getLeftChild() == foundLocation) {
+          foundLocationParent.setLeftChild(foundLocation.getLeftChild());
         } else {
-          foundLocationParent.rightChild = foundLocation.leftChild;
+          foundLocationParent.setRightChild(foundLocation.getLeftChild());
         }
       } else {
         // Both children present, swap node with inorder successor
-        current = foundLocation.rightChild; // start from the right subtree
-        Node inorderSuccessorParent = null;
-        Node inorderSuccessor;
-        while (current != null && current.leftChild != null) {
-          if (current.leftChild.leftChild == null) {
+        current = foundLocation.getRightChild(); // start from the right subtree
+        Node<T> inorderSuccessorParent = null;
+        Node<T> inorderSuccessor;
+        while (current != null && current.getLeftChild() != null) {
+          if (current.getLeftChild().getLeftChild() == null) {
             inorderSuccessorParent = current;
           }
-          current = current.leftChild;
+          current = current.getLeftChild();
         }
         inorderSuccessor = current;
 
-        if (inorderSuccessor.rightChild == null) {
-          foundLocation.data = inorderSuccessor.data;
+        if (inorderSuccessor.getRightChild() == null) {
+          foundLocation.setData(inorderSuccessor.getData());
           if (inorderSuccessorParent == null) {
-            foundLocation.rightChild = null;
+            foundLocation.setRightChild(null);
           } else {
-            inorderSuccessorParent.leftChild = null;
+            inorderSuccessorParent.setLeftChild(null);
           }
         } else {
-          foundLocation.data = inorderSuccessor.data;
-          inorderSuccessor.data = inorderSuccessor.rightChild.data;
-          inorderSuccessor.rightChild = null;
+          foundLocation.setData(inorderSuccessor.getData());
+          inorderSuccessor.setData(inorderSuccessor.getRightChild().getData());
+          inorderSuccessor.setRightChild(null);
         }
       }
       return true;
     }
   }
 
-  public Node search(T data) {
-    Node current = root;
+  public Node<T> search(T data) {
+    Node<T> current = root;
     while (current != null) {
-      if (data.compareTo(current.data) < 0) {
-        current = current.leftChild;
-      } else if (data.compareTo(current.data) > 0) {
-        current = current.rightChild;
+      if (data.compareTo(current.getData()) < 0) {
+        current = current.getLeftChild();
+      } else if (data.compareTo(current.getData()) > 0) {
+        current = current.getRightChild();
       } else {
         return current;
       }
@@ -160,15 +166,15 @@ public class BinarySearchTree<T extends Comparable> {
   }
 
   public List<T> getAncestors(T data) {
-    Node current = root;
+    Node<T> current = root;
     boolean found = false;
     ArrayList<T> items = new ArrayList<>();
     while (current != null) {
-      items.add(current.data);
-      if (data.compareTo(current.data) < 0) {
-        current = current.leftChild;
-      } else if (data.compareTo(current.data) > 0) {
-        current = current.rightChild;
+      items.add(current.getData());
+      if (data.compareTo(current.getData()) < 0) {
+        current = current.getLeftChild();
+      } else if (data.compareTo(current.getData()) > 0) {
+        current = current.getRightChild();
       } else {
         found = true;
         break;
@@ -176,40 +182,32 @@ public class BinarySearchTree<T extends Comparable> {
     }
 
     if (found) {
-      items.remove(items.size() -1);
+      items.remove(items.size() - 1);
       return items;
     } else {
-      throw new RuntimeException("Node not present in tree");
+      throw new RuntimeException("Node<T> not present in tree");
     }
   }
 
   public void levelOrder() {
-    Deque<Node> deque = new ArrayDeque<>();
-    offerNonNull(deque, root);
-
-    while (!deque.isEmpty()) {
-      final Node current = deque.poll();
-      System.out.println(current.data);
-      offerNonNull(deque, current.leftChild);
-      offerNonNull(deque, current.rightChild);
-    }
+    breadthFirst(root);
   }
 
   public List<T> preOrder() {
     ArrayList<T> items = new ArrayList<>();
-    preOrderInternal(root, items);
+    preorder(root, items);
     return items;
   }
 
   public List<T> inOrder() {
     ArrayList<T> items = new ArrayList<>();
-    inOrderInternal(root, items);
+    inorder(root, items);
     return items;
   }
 
   public List<T> postOrder() {
     ArrayList<T> items = new ArrayList<>();
-    postOrderInternal(root, items);
+    postorder(root, items);
     return items;
   }
 
@@ -221,13 +219,17 @@ public class BinarySearchTree<T extends Comparable> {
     return heightInternal(root);
   }
 
+  Node<T> getRoot() {
+    return root;
+  }
+
   /**
    * One time balancing of the BST. Saves the inorder (i.e. sorted data) traversal of the original tree, nullifies the tree,
    * and constructs a new tree recursively from this sorted list. Works on O(n) time and O(n) space.
    */
   public void balance() {
     final ArrayList<T> list = new ArrayList<>();
-    inOrderInternal(root, list);
+    inorder(root, list);
     root = null; // Nullify root, making the entire tree eligible for GC
     insertRecurse(list, 0, list.size());
     System.out.println("Tree balancing done");
@@ -240,42 +242,39 @@ public class BinarySearchTree<T extends Comparable> {
 
     BinarySearchTree other = (BinarySearchTree) o;
 
-    Deque<Node> thisDeque = new ArrayDeque<>();
-    Deque<Node> otherDeque = new ArrayDeque<>();
+    Deque<Node<T>> thisDeque = new ArrayDeque<>();
+    Deque<Node<T>> otherDeque = new ArrayDeque<>();
     offerNonNull(thisDeque, this.root);
     offerNonNull(otherDeque, other.root);
 
     while (!thisDeque.isEmpty() && !otherDeque.isEmpty()) {
-      final Node thisCurrent = thisDeque.poll();
-      final Node otherCurrent = otherDeque.poll();
-      if (thisCurrent.data != otherCurrent.data) {
+      Node<T> thisCurrent = thisDeque.poll();
+      Node<T> otherCurrent = otherDeque.poll();
+      if (thisCurrent.getData() != otherCurrent.getData()) {
         return false;
       }
 
-      offerNonNull(thisDeque, thisCurrent.leftChild);
-      offerNonNull(thisDeque, thisCurrent.rightChild);
-      offerNonNull(otherDeque, otherCurrent.leftChild);
-      offerNonNull(otherDeque, otherCurrent.rightChild);
+      offerNonNull(thisDeque, thisCurrent.getLeftChild());
+      offerNonNull(thisDeque, thisCurrent.getRightChild());
+      offerNonNull(otherDeque, otherCurrent.getLeftChild());
+      offerNonNull(otherDeque, otherCurrent.getRightChild());
     }
 
-    if ((!thisDeque.isEmpty() && otherDeque.isEmpty()) || (thisDeque.isEmpty() && !otherDeque.isEmpty())) {
-      return false;
-    }
-    return true;
+    return thisDeque.isEmpty() && otherDeque.isEmpty();
   }
 
   @Override
   public int hashCode() {
-    List<Node> allElements = new ArrayList<>();
-    Deque<Node> deque = new ArrayDeque<>();
+    List<Node<T>> allElements = new ArrayList<>();
+    Deque<Node<T>> deque = new ArrayDeque<>();
     offerNonNull(deque, root);
 
     while (!deque.isEmpty()) {
-      final Node current = deque.poll();
+      Node<T> current = deque.poll();
       allElements.add(current);
-      System.out.println(current.data);
-      offerNonNull(deque, current.leftChild);
-      offerNonNull(deque, current.rightChild);
+      System.out.println(current.getData());
+      offerNonNull(deque, current.getLeftChild());
+      offerNonNull(deque, current.getRightChild());
     }
 
     return Objects.hash(allElements.toArray());
@@ -288,60 +287,36 @@ public class BinarySearchTree<T extends Comparable> {
    */
   @Override
   public String toString() {
-    final StringBuilder nodesAsString = new StringBuilder();
-    Deque<Node> deque = new ArrayDeque<>();
+    StringBuilder nodesAsString = new StringBuilder();
+    Deque<Node<T>> deque = new ArrayDeque<>();
     pushNonNull(deque, root);
 
     while (!deque.isEmpty()) {
-      final Node current = deque.pop();
-      nodesAsString.append(current.data).append(" ");
-      pushNonNull(deque, current.rightChild);
-      pushNonNull(deque, current.leftChild);
+      final Node<T> current = deque.pop();
+      nodesAsString.append(current.getData()).append(" ");
+      pushNonNull(deque, current.getRightChild());
+      pushNonNull(deque, current.getLeftChild());
     }
 
     return nodesAsString.toString().trim();
   }
 
-  int heightInternal(Node root) {
+  private int heightInternal(Node<T> root) {
     if (root != null) {
-      return max(heightInternal(root.leftChild), heightInternal(root.rightChild)) + 1;
+      return max(heightInternal(root.getLeftChild()), heightInternal(root.getRightChild())) + 1;
     }
     return 0;
   }
 
-  private void offerNonNull(Deque<Node> deque, Node node) {
+  private void offerNonNull(Deque<Node<T>> deque, Node<T> node) {
     if (node != null) {
       deque.offer(node);
     }
   }
 
-  private void pushNonNull(Deque<Node> deque, Node node) {
+  private void pushNonNull(Deque<Node<T>> deque, Node<T> node) {
     if (node != null) {
       deque.push(node);
-    }
-  }
-
-  private void preOrderInternal(Node root, List<T> items) {
-    if (root != null) {
-      items.add(root.data);
-      preOrderInternal(root.leftChild, items);
-      preOrderInternal(root.rightChild, items);
-    }
-  }
-
-  private void inOrderInternal(Node root, List<T> items) {
-    if (root != null) {
-      inOrderInternal(root.leftChild, items);
-      items.add(root.data);
-      inOrderInternal(root.rightChild, items);
-    }
-  }
-
-  private void postOrderInternal(Node root, List<T> items) {
-    if (root != null) {
-      postOrderInternal(root.leftChild, items);
-      postOrderInternal(root.rightChild, items);
-      items.add(root.data);
     }
   }
 
@@ -351,18 +326,6 @@ public class BinarySearchTree<T extends Comparable> {
       insert(list.get(mid));
       insertRecurse(list, low, mid);
       insertRecurse(list, mid + 1, high);
-    }
-  }
-
-  private class Node {
-    private T data;
-    private Node leftChild;
-    private Node rightChild;
-
-    Node(T data, Node leftChild, Node rightChild) {
-      this.data = data;
-      this.leftChild = leftChild;
-      this.rightChild = rightChild;
     }
   }
 }
