@@ -23,6 +23,7 @@
     <module>concurrent</module>
     <module>design-patterns</module>
     <module>dynamic_programming</module>
+    <module>divide_and_conquer</module>
     <module>functional</module>
     <module>generics</module>
     <module>oop</module>
