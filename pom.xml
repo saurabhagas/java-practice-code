@@ -22,10 +22,11 @@
     <module>common</module>
     <module>concurrent</module>
     <module>design-patterns</module>
+    <module>dynamic_programming</module>
     <module>functional</module>
     <module>generics</module>
-    <module>recursion</module>
     <module>oop</module>
+    <module>recursion</module>
   </modules>
 
   <build>

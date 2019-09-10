@@ -1,9 +1,9 @@
-package com.saurabh.recursion.dynamic_prog;
+package com.saurabh.dynamic_programming;
 
 /**
  * https://www.geeksforgeeks.org/min-cost-path-dp-6/
  */
-public class MinimumCostPath {
+public class MinimumCostPathInMatrix {
   public static void main(String[] args) {
     int[][] costMatrix = {
         {1, 2, 3, 4},

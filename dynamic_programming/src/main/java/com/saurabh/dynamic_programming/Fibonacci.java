@@ -1,4 +1,4 @@
-package com.saurabh.recursion.dynamic_prog;
+package com.saurabh.dynamic_programming;
 
 /**
  * Dynamic Programming implementations for Fibonacci
