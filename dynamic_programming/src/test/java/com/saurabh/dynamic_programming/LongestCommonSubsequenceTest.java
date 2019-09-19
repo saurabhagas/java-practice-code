@@ -11,17 +11,21 @@ public class LongestCommonSubsequenceTest {
   public void testWithInput1() {
     String first = "ABCBDAB";
     String second = "BDCABA";
-    // LCS(first, second) = {"BCBA", "BDAB", "BCAB"}
     int optimalProfit = lcs.calculate(first, second);
     assertThat(optimalProfit).isEqualTo(4);
+
+    String optionalSubsequence = lcs.calculateAndPrint(first, second);
+    assertThat(optionalSubsequence).isIn("BCBA", "BDAB", "BCAB");
   }
 
   @Test
   public void testWithInput2() {
     String first = "ABCDGH";
     String second = "AEDFHR";
-    // LCS(first, second) = {"ADH"}
     int optimalProfit = lcs.calculate(first, second);
     assertThat(optimalProfit).isEqualTo(3);
+
+    String optionalSubsequence = lcs.calculateAndPrint(first, second);
+    assertThat(optionalSubsequence).isIn("ADH");
   }
 }
