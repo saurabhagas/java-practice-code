@@ -11,5 +11,11 @@
 
   <artifactId>dynamic_programming</artifactId>
 
+  <dependencies>
+    <dependency>
+      <groupId>com.saurabh</groupId>
+      <artifactId>common</artifactId>
+    </dependency>
+  </dependencies>
 
 </project>
