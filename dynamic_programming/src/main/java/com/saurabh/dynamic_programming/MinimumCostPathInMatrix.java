@@ -1,5 +1,7 @@
 package com.saurabh.dynamic_programming;
 
+import static com.saurabh.common.MathUtils.min;
+
 /**
  * https://www.geeksforgeeks.org/min-cost-path-dp-6/
  */
@@ -70,9 +72,5 @@ public class MinimumCostPathInMatrix {
       }
 
     return minCostMatrix[x][y];
-  }
-
-  private static int min(int a, int b, int c) {
-    return a < b ? Math.min(a, c) : Math.min(b, c);
   }
 }
