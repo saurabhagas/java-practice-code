@@ -31,7 +31,7 @@ public class AvlTree<T extends Comparable<T>> {
     if (data.compareTo(current.getData()) > 0) {
       current.rightChild = insertInternal(current.rightChild, data);
     } else if (data.compareTo(current.getData()) < 0) {
-      current.leftChild = insertInternal(current.getLeftChild(), data);
+      current.leftChild = insertInternal(current.leftChild, data);
     }
 
     current.height = maxHeight(current);
@@ -41,12 +41,12 @@ public class AvlTree<T extends Comparable<T>> {
   private HeightedNode<T> balance(HeightedNode<T> root, T data) {
     int balance = getBalance(root);
     if (balance > 1) {
-      if (data.compareTo(root.getLeftChild().getData()) < 0) {
+      if (data.compareTo(root.leftChild.getData()) < 0) {
         //Left-left case
         return rightRotate(root);
-      } else if (data.compareTo(root.getLeftChild().getData()) > 0) {
+      } else if (data.compareTo(root.leftChild.getData()) > 0) {
         //Left-right case
-        root.leftChild = leftRotate(root.getLeftChild());
+        root.leftChild = leftRotate(root.leftChild);
         return rightRotate(root);
       }
     } else if (balance < -1) {
@@ -54,6 +54,30 @@ public class AvlTree<T extends Comparable<T>> {
         //Right-right case
         return leftRotate(root);
       } else if (data.compareTo(root.rightChild.getData()) < 0) {
+        //Right-left case
+        root.rightChild = rightRotate(root.rightChild);
+        return leftRotate(root);
+      }
+    }
+    return root; // No balancing was done
+  }
+
+  private HeightedNode<T> balance(HeightedNode<T> root) {
+    int balance = getBalance(root);
+    if (balance > 1) {
+      if (getBalance(root.leftChild) >= 0) {
+        //Left-left case
+        return rightRotate(root);
+      } else if (getBalance(root.leftChild) < 0) {
+        //Left-right case
+        root.leftChild = leftRotate(root.leftChild);
+        return rightRotate(root);
+      }
+    } else if (balance < -1) {
+      if (getBalance(root.rightChild) <= 0) {
+        //Right-right case
+        return leftRotate(root);
+      } else if (getBalance(root.rightChild) > 0) {
         //Right-left case
         root.rightChild = rightRotate(root.rightChild);
         return leftRotate(root);
@@ -80,12 +104,12 @@ public class AvlTree<T extends Comparable<T>> {
     }
 
     if (data.compareTo(node.getData()) < 0) {
-      node.leftChild = removeInternal(node.getLeftChild(), data);
+      node.leftChild = removeInternal(node.leftChild, data);
     } else if (data.compareTo(node.getData()) > 0) {
       node.rightChild = removeInternal(node.rightChild, data);
     } else {
       if (node.leftChild == null || node.rightChild == null) {
-        node = node.getLeftChild() == null ? node.rightChild : node.getLeftChild(); // simply advance the pointer and return the node later
+        node = node.getLeftChild() == null ? node.rightChild : node.leftChild; // simply advance the pointer and return the node later
       } else {
         HeightedNode<T> temp = getInorderSuccessor(node.rightChild);
         node.setData(temp.getData());
@@ -99,12 +123,12 @@ public class AvlTree<T extends Comparable<T>> {
     }
 
     node.height = maxHeight(node);
-    return balance(node, data);
+    return balance(node);
   }
 
   private HeightedNode<T> getInorderSuccessor(HeightedNode<T> node) {
-    while (node != null && node.getLeftChild() != null) {
-      node = node.getLeftChild();
+    while (node != null && node.leftChild != null) {
+      node = node.leftChild;
     }
 
     return node;
@@ -114,7 +138,7 @@ public class AvlTree<T extends Comparable<T>> {
     HeightedNode<T> current = root;
     while (current != null) {
       if (data.compareTo(current.getData()) < 0) {
-        current = current.getLeftChild();
+        current = current.leftChild;
       } else if (data.compareTo(current.getData()) > 0) {
         current = current.rightChild;
       } else {
@@ -154,9 +178,14 @@ public class AvlTree<T extends Comparable<T>> {
     return height(root);
   }
 
+  @Override
+  public String toString() {
+    return inOrder().toString();
+  }
+
   private int maxHeight(HeightedNode<T> root) {
     if (root != null) {
-      return max(height(root.getLeftChild()), height(root.rightChild)) + 1;
+      return max(height(root.leftChild), height(root.rightChild)) + 1;
     }
     return 0;
   }
@@ -169,8 +198,8 @@ public class AvlTree<T extends Comparable<T>> {
   }
 
   private HeightedNode<T> rightRotate(HeightedNode<T> pivot) {
-    final HeightedNode<T> temp = pivot.getLeftChild();
-    pivot.leftChild = pivot.getLeftChild().rightChild;
+    HeightedNode<T> temp = pivot.leftChild;
+    pivot.leftChild = temp.rightChild;
     temp.rightChild = pivot;
 
     pivot.height = maxHeight(pivot);
@@ -179,8 +208,8 @@ public class AvlTree<T extends Comparable<T>> {
   }
 
   private HeightedNode<T> leftRotate(HeightedNode<T> pivot) {
-    final HeightedNode<T> temp = pivot.rightChild;
-    pivot.rightChild = temp.getLeftChild();
+    HeightedNode<T> temp = pivot.rightChild;
+    pivot.rightChild = temp.leftChild;
     temp.leftChild = pivot;
 
     pivot.height = maxHeight(pivot);
@@ -191,10 +220,10 @@ public class AvlTree<T extends Comparable<T>> {
   private int getBalance(HeightedNode<T> node) {
     if (node == null)
       return 0;
-    return height(node.getLeftChild()) - height(node.rightChild);
+    return height(node.leftChild) - height(node.rightChild);
   }
 
-  private class HeightedNode<U> extends Node<U> {
+  private static class HeightedNode<U> extends Node<U> {
     private int height;
     private HeightedNode<U> leftChild;
     private HeightedNode<U> rightChild;
@@ -212,6 +241,11 @@ public class AvlTree<T extends Comparable<T>> {
     @Override
     public HeightedNode<U> getRightChild() {
       return rightChild;
+    }
+
+    @Override
+    public String toString() {
+      return super.getData().toString();
     }
   }
 }

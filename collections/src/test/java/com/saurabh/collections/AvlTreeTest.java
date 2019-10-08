@@ -50,11 +50,17 @@ public class AvlTreeTest {
 
   @Test
   public void testDelete() {
+    System.out.println("Tree: " + avlTree);
+    System.out.println("Deleting: " + toDelete);
     toDelete.forEach(toDeleteKey -> assertThat(avlTree.remove(toDeleteKey)).isTrue());
     assertThat(avlTree.size()).isEqualTo(uniqueKeys.size() - toDelete.size());
     assertThat(avlTree.height()).isEqualTo(3);
 
-    toDelete2.forEach(toDeleteKey -> assertThat(avlTree.remove(toDeleteKey)).isTrue());
+    System.out.println("Deleting: " + toDelete2);
+    toDelete2.forEach(toDeleteKey -> {
+      System.out.println(toDeleteKey);
+      assertThat(avlTree.remove(toDeleteKey)).isTrue();
+    });
     assertThat(avlTree.size()).isZero();
     assertThat(avlTree.height()).isZero();
 
