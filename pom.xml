@@ -36,6 +36,7 @@
     <module>generics</module>
     <module>oop</module>
     <module>recursion</module>
+    <module>101-quest-coding-interview</module>
   </modules>
 
   <build>
