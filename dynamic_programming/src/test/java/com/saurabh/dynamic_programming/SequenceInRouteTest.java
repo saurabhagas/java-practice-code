@@ -7,20 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 public class SequenceInRouteTest {
-
-  private List<City> initNodeList(int[] distances) {
-    List<City> cityDistances = new LinkedList<>();
-    int count = 0;
-    for (int distance : distances) {
-      cityDistances.add(new City(distance, "City" + count));
-      count++;
-    }
-    return cityDistances;
-  }
-
   @Test
   public void testSequenceInRoute1() {
     int[] a = new int[]{0, 50, 150, 300, 450, 500};
@@ -48,17 +36,13 @@ public class SequenceInRouteTest {
     assertThat(route).containsSequence(cityList.get(0), cityList.get(5), cityList.get(10));
   }
 
-  @Test
-  public void testEmptySequenceInRoute() {
-    int[] a = new int[]{};
-    SequenceInRoute sequenceInRoute = new SequenceInRoute();
-    List<City> route = sequenceInRoute.getRoute(initNodeList(a));
-    assertThat(route).isEmpty();
-  }
-
-  @Test
-  public void testNullSequenceInRoute() {
-    SequenceInRoute sequenceInRoute = new SequenceInRoute();
-    assertThatNullPointerException().isThrownBy(() -> sequenceInRoute.getRoute(null));
+  private List<City> initNodeList(int[] distances) {
+    List<City> cityDistances = new LinkedList<>();
+    int count = 0;
+    for (int distance : distances) {
+      cityDistances.add(new City(distance, "City" + count));
+      count++;
+    }
+    return cityDistances;
   }
 }

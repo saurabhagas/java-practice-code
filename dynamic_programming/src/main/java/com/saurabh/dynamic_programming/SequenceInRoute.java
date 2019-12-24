@@ -19,52 +19,44 @@ import java.util.List;
  */
 
 public class SequenceInRoute {
-
-  private final int MAX_VALUE = 400000000;
-
   public List<City> getRoute(List<City> cityNodesList) {
-
-    if(cityNodesList == null) {
-      throw new NullPointerException("No nodes in the list of cities");
+    if (cityNodesList == null || cityNodesList.isEmpty()) {
+      throw new IllegalArgumentException("cityNodesList can't be null or empty");
     }
+
     int[] distanceArray = new int[cityNodesList.size()];
     List<City> routeSequence = new LinkedList<City>();
     int count = 0;
-    for(City node : cityNodesList) {
+    for (City node : cityNodesList) {
       distanceArray[count] = node.getDistance();
       count++;
     }
 
-    if(distanceArray.length > 0) {
-      int[] penaltyArray = new int[distanceArray.length];
-      int[] route = new int[distanceArray.length];
-      penaltyArray[0] = 0;
-      route[0] = 0;
-      for (int i = 1; i < distanceArray.length; i++) {
-        int min = MAX_VALUE;
-        int prev = 0;
-        for (int j = 0; j < i; j++) {
-          int currentPenalty = penaltyArray[j] + (int) Math.pow((200 - (distanceArray[i] - distanceArray[j])), 2);
-          if (currentPenalty < min) {
-            min = currentPenalty;
-            prev = j;
-          }
+    int[] penaltyArray = new int[distanceArray.length];
+    int[] route = new int[distanceArray.length];
+    penaltyArray[0] = 0;
+    route[0] = 0;
+    for (int i = 1; i < distanceArray.length; i++) {
+      int min = Integer.MAX_VALUE;
+      int prev = 0;
+      for (int j = 0; j < i; j++) {
+        int currentPenalty = penaltyArray[j] + (int) Math.pow((200 - (distanceArray[i] - distanceArray[j])), 2);
+        if (currentPenalty < min) {
+          min = currentPenalty;
+          prev = j;
         }
-        penaltyArray[i] = min;
-        route[i] = prev;
       }
-
-
-      int prev = distanceArray.length - 1;
-      while (prev != 0) {
-        routeSequence.add(0, cityNodesList.get(prev));
-        prev = route[prev];
-      }
-      routeSequence.add(0, cityNodesList.get(prev));
-
+      penaltyArray[i] = min;
+      route[i] = prev;
     }
+
+    int prev = distanceArray.length - 1;
+    while (prev != 0) {
+      routeSequence.add(0, cityNodesList.get(prev));
+      prev = route[prev];
+    }
+    routeSequence.add(0, cityNodesList.get(prev));
+
     return routeSequence;
   }
-
-
 }

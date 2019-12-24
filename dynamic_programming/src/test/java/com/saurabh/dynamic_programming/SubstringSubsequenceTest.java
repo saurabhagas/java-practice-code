@@ -5,14 +5,13 @@ import org.junit.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SubstringSubsequenceTest {
-
   @Test
   public void testSimpleSubstringSubsequence() {
     String x = "abdbabfgd";
     String y = "betfdbfafr";
     SubstringSubsequence contiguousSubstrSubseq = new SubstringSubsequence();
-    char[] S = contiguousSubstrSubseq.getContiguousSubstringSubsequence(x, y);
-    assertThat(S).containsExactly(new char[]{'b', 'd', 'b', 'a'});
+    char[] S = contiguousSubstrSubseq.calculate(x, y);
+    assertThat(S).containsExactly('b', 'd', 'b', 'a');
   }
 
   @Test
@@ -20,8 +19,8 @@ public class SubstringSubsequenceTest {
     String x = "";
     String y = "";
     SubstringSubsequence contiguousSubstrSubseq = new SubstringSubsequence();
-    char[] S = contiguousSubstrSubseq.getContiguousSubstringSubsequence(x, y);
-    assertThat(S).containsExactly(new char[]{});
+    char[] S = contiguousSubstrSubseq.calculate(x, y);
+    assertThat(S).hasSize(0);
   }
 
   @Test
@@ -29,8 +28,8 @@ public class SubstringSubsequenceTest {
     String x = "abdbabfgd";
     String y = "";
     SubstringSubsequence contiguousSubstrSubseq = new SubstringSubsequence();
-    char[] S = contiguousSubstrSubseq.getContiguousSubstringSubsequence(x, y);
-    assertThat(S).containsExactly(new char[]{});
+    char[] S = contiguousSubstrSubseq.calculate(x, y);
+    assertThat(S).hasSize(0);
   }
 
   @Test
@@ -38,17 +37,8 @@ public class SubstringSubsequenceTest {
     String x = "";
     String y = "betfdbfafr";
     SubstringSubsequence contiguousSubstrSubseq = new SubstringSubsequence();
-    char[] S = contiguousSubstrSubseq.getContiguousSubstringSubsequence(x, y);
-    assertThat(S).containsExactly(new char[]{});
-  }
-
-  @Test
-  public void testNullSubstringSubsequence() {
-    String x = null;
-    String y = null;
-    SubstringSubsequence contiguousSubstrSubseq = new SubstringSubsequence();
-    char[] S = contiguousSubstrSubseq.getContiguousSubstringSubsequence(x, y);
-    assertThat(S).containsExactly(new char[]{});
+    char[] S = contiguousSubstrSubseq.calculate(x, y);
+    assertThat(S).hasSize(0);
   }
 
   @Test
@@ -56,8 +46,8 @@ public class SubstringSubsequenceTest {
     String x = "aaaabbbb";
     String y = "rtyeiaduaoa";
     SubstringSubsequence contiguousSubstrSubseq = new SubstringSubsequence();
-    char[] S = contiguousSubstrSubseq.getContiguousSubstringSubsequence(x, y);
-    assertThat(S).containsExactly(new char[]{'a', 'a', 'a'});
+    char[] S = contiguousSubstrSubseq.calculate(x, y);
+    assertThat(S).containsExactly('a', 'a', 'a');
   }
 
   @Test
@@ -65,8 +55,8 @@ public class SubstringSubsequenceTest {
     String x = "aaaabbbbaaab";
     String y = "rtybeiaduaoab";
     SubstringSubsequence contiguousSubstrSubseq = new SubstringSubsequence();
-    char[] S = contiguousSubstrSubseq.getContiguousSubstringSubsequence(x, y);
-    assertThat(S).containsExactly(new char[]{'b', 'a', 'a', 'a', 'b'});
+    char[] S = contiguousSubstrSubseq.calculate(x, y);
+    assertThat(S).containsExactly('b', 'a', 'a', 'a', 'b');
   }
 
   @Test
@@ -74,8 +64,8 @@ public class SubstringSubsequenceTest {
     String x = "aaaabbbbaaab";
     String y = "rtyweiuducov";
     SubstringSubsequence contiguousSubstrSubseq = new SubstringSubsequence();
-    char[] S = contiguousSubstrSubseq.getContiguousSubstringSubsequence(x, y);
-    assertThat(S).containsExactly(new char[]{});
+    char[] S = contiguousSubstrSubseq.calculate(x, y);
+    assertThat(S).hasSize(0);
   }
 
   @Test
@@ -83,8 +73,8 @@ public class SubstringSubsequenceTest {
     String x = "aaaaa";
     String y = "aaaaa";
     SubstringSubsequence contiguousSubstrSubseq = new SubstringSubsequence();
-    char[] S = contiguousSubstrSubseq.getContiguousSubstringSubsequence(x, y);
-    assertThat(S).containsExactly(new char[]{'a', 'a', 'a', 'a', 'a'});
+    char[] S = contiguousSubstrSubseq.calculate(x, y);
+    assertThat(S).containsExactly('a', 'a', 'a', 'a', 'a');
   }
 
   @Test
@@ -92,8 +82,7 @@ public class SubstringSubsequenceTest {
     String x = "aabbbbbtrewuqdv";
     String y = "aaxxxbbbbbyyyytrewioijnuqjkjbkjvuiguyfuyd";
     SubstringSubsequence contiguousSubstrSubseq = new SubstringSubsequence();
-    char[] S = contiguousSubstrSubseq.getContiguousSubstringSubsequence(x, y);
-    assertThat(S).containsExactly(new char[]{'a', 'a', 'b', 'b', 'b', 'b', 'b', 't', 'r', 'e', 'w', 'u', 'q', 'd'});
+    char[] S = contiguousSubstrSubseq.calculate(x, y);
+    assertThat(S).containsExactly('a', 'a', 'b', 'b', 'b', 'b', 'b', 't', 'r', 'e', 'w', 'u', 'q', 'd');
   }
-
 }

@@ -17,11 +17,13 @@ import java.util.Arrays;
  */
 
 public class SubstringSubsequence {
+  public char[] calculate(String x, String y) {
+    if (x == null || y == null) {
+      throw new NullPointerException();
+    }
 
-  public char[] getContiguousSubstringSubsequence(String x, String y) {
-
-    if(x == null || y ==null || x.isEmpty() || y.isEmpty()) {
-      return new char[] {};
+    if (x.isEmpty() || y.isEmpty()) {
+      return new char[]{};
     }
 
     // rows represent the string with substring
@@ -33,8 +35,7 @@ public class SubstringSubsequence {
       T[i][0] = 0;
     }
 
-    int max = 0, maxI = 0, maxJ = 0;
-
+    int max = 0, maxI = 0;
     for (int i = 1; i <= x.length(); i++) {       // iterate through rows
       for (int j = 1; j <= y.length(); j++) {     // iterate through columns
         char c1 = x.charAt(i - 1);
@@ -49,7 +50,6 @@ public class SubstringSubsequence {
         if (T[i][j] > max) {
           max = T[i][j];
           maxI = i;
-          maxJ = j;
         }
       }
     }
