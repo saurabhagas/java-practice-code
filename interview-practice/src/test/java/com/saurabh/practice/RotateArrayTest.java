@@ -1,4 +1,4 @@
-package com.saurabh.interview.arrays;
+package com.saurabh.practice;
 
 import org.junit.Test;
 

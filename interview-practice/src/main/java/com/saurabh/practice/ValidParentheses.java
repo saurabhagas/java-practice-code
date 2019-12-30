@@ -1,4 +1,4 @@
-package com.saurabh.interview;
+package com.saurabh.practice;
 
 import java.util.ArrayDeque;
 import java.util.NoSuchElementException;

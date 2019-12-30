@@ -10,6 +10,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>geeksforgeeks-question-set</artifactId>
+  <url>https://www.geeksforgeeks.org/must-do-coding-questions-for-companies-like-amazon-microsoft-adobe</url>
+
   <dependencies>
     <dependency>
       <groupId>com.saurabh</groupId>

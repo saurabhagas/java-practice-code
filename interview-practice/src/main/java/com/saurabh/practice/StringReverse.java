@@ -1,4 +1,4 @@
-package com.saurabh.interview.strings;
+package com.saurabh.practice;
 
 /*
  Problem - Reverse a string.

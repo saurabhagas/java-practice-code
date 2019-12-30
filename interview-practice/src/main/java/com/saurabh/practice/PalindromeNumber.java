@@ -1,4 +1,4 @@
-package com.saurabh.interview.strings;
+package com.saurabh.practice;
 
 /*
  Problem - check if a number is a palindrome. Problem at: https://leetcode.com/problems/palindrome-number/
