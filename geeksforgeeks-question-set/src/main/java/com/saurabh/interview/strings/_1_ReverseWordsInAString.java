@@ -3,14 +3,14 @@ package com.saurabh.interview.strings;
 /**
  * Problem - Given a String of length S, reverse the whole string without reversing the individual words in it. Words are separated by dots.
  * Approach - O(n) time where n is numbers of words in the string.
- *  Split the string into substrings with separator as "." and run a reverse loop on the array of split strings
+ * Split the string into substrings with separator as "." and run a reverse loop on the array of split strings
  */
 public class _1_ReverseWordsInAString {
   public String reverseWords(String originalString) {
     String[] strings = originalString.split("\\.");
     StringBuffer reversedString = new StringBuffer();
     for (int i = strings.length - 1; i >= 0; i--) {
-      if(!strings[i].isEmpty()) {
+      if (!strings[i].isEmpty()) {
         reversedString.append(strings[i] + ".");
       }
     }

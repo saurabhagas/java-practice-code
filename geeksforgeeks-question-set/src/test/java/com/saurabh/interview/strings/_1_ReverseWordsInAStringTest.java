@@ -20,6 +20,7 @@ public class _1_ReverseWordsInAStringTest {
     String reversedString = reverseWords.reverseWords(originalString);
     assertEquals(reversedString, "h.g.f.e.d.c.b.a");
   }
+
   @Test
   public void testOneWordString() {
     _1_ReverseWordsInAString reverseWords = new _1_ReverseWordsInAString();
@@ -27,6 +28,7 @@ public class _1_ReverseWordsInAStringTest {
     String reversedString = reverseWords.reverseWords(originalString);
     assertEquals(reversedString, "Hello");
   }
+
   @Test
   public void testOneWordEndingWithPeriod() {
     _1_ReverseWordsInAString reverseWords = new _1_ReverseWordsInAString();
