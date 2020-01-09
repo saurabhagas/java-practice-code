@@ -31,20 +31,20 @@ public class _1_SubarrayWithGivenSumTest {
   public void foundInRangeStartingAtFirstIndex() {
     _1_SubarrayWithGivenSum obj = new _1_SubarrayWithGivenSum();
     int[] subarray = obj.find(33, 20, 3, 10, 5, 1, 4);
-    assertArrayEquals(new int[] {20, 3, 10}, subarray);
+    assertArrayEquals(new int[]{20, 3, 10}, subarray);
   }
 
   @Test
   public void foundInRangeInTheMiddle() {
     _1_SubarrayWithGivenSum obj = new _1_SubarrayWithGivenSum();
     int[] subarray = obj.find(33, 1, 4, 20, 3, 10, 5);
-    assertArrayEquals(new int[] {20, 3, 10}, subarray);
+    assertArrayEquals(new int[]{20, 3, 10}, subarray);
   }
 
   @Test
   public void foundInRangeAtEnd() {
     _1_SubarrayWithGivenSum obj = new _1_SubarrayWithGivenSum();
     int[] subarray = obj.find(33, 50, 1, 4, 20, 3, 10);
-    assertArrayEquals(new int[] {20, 3, 10}, subarray);
+    assertArrayEquals(new int[]{20, 3, 10}, subarray);
   }
 }

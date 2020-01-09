@@ -1,4 +1,5 @@
 package com.saurabh.interview.strings;
+
 /**
  * Problem - Given two strings a and b. The task is to find if a string 'a' can be obtained by rotating another string 'b' by 2 places.
  *
