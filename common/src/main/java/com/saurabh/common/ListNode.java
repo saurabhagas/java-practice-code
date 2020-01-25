@@ -22,7 +22,7 @@ public class ListNode<T> {
         this.data = data;
     }
 
-    public void setNext(ListNode<T> leftChild) {
+    public void setNext(ListNode<T> next) {
         this.next = next;
     }
 
@@ -38,5 +38,14 @@ public class ListNode<T> {
         }
         temp.next = second;
         second.next = null;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof ListNode)) {
+            return false;
+        }
+        ListNode node = (ListNode) obj;
+        return this.data == node.data;
     }
 }
