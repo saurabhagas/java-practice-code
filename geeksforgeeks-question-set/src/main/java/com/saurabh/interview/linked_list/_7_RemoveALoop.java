@@ -14,9 +14,9 @@ import com.saurabh.common.ListNode;
  *
  **/
 public class _7_RemoveALoop {
-    public static void removeTheLoop(ListNode head) {
+    public ListNode removeTheLoop(ListNode head) {
         if (head == null) {
-            return;
+            return head;
         }
         ListNode singlePtr = head;
         ListNode doublePtr = head;
@@ -36,9 +36,11 @@ public class _7_RemoveALoop {
                 singlePtr = singlePtr.next();
                 doublePtr = doublePtr.next();
             }
+            ListNode nextHead = doublePtr.next();
             doublePtr.setNext(null);
+            return nextHead;
         } else {
-            return;
+            return head;
         }
 
     }
