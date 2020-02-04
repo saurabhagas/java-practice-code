@@ -8,7 +8,7 @@ import com.saurabh.common.ListNode;
  * Approach - O(n) time complexity
  *  Find the length of both linked lists, subtract greater from smaller. Traverse the greater one by the difference then traverse both simultaneously until both nodes are equal.
  **/
-public class _5_IntersectionPointInLinkedList {
+public class _5_IntersectionPointInYShapedLinkedList {
     public ListNode getIntersectionPoint(ListNode headA, ListNode headB) {
         int l1 = 1;
         int l2 = 1;
