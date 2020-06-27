@@ -37,7 +37,7 @@
     <module>oop</module>
     <module>recursion</module>
     <module>geeksforgeeks-question-set</module>
-    <module>interview-practice</module>
+    <module>amazon-interview-practice</module>
   </modules>
 
   <build>
