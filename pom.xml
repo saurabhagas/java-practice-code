@@ -38,7 +38,6 @@
     <module>recursion</module>
     <module>geeksforgeeks-question-set</module>
     <module>interview-practice</module>
-    <module>leetcode-easy-set</module>
   </modules>
 
   <build>
