@@ -14,22 +14,22 @@ public class QuickSorter<T extends Comparable> implements Sorter<T> {
 
   //Lomuto's Partition method is used
   private int partition(T[] array, int low, int high, Comparator comparator) {
-    int piv = high;
     int i = low;
     for (int j = low; j < high; j++) {
-      if (compareFunction(array[j], array[piv], comparator) <= 0) {
-        T temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
+      if (compareFunction(array[j], array[high], comparator) <= 0) {
+        swap(array, i, j);
         i++;
       }
     }
 
-    T temp = array[i];
-    array[i] = array[piv];
-    array[piv] = temp;
-
+    swap(array, i, high);
     return i;
+  }
+
+  private void swap(T[] array, int i, int j) {
+    T temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
   }
 
   private int compareFunction(T element1, T element2, Comparator customComparator) {
