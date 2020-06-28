@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 
-public class TopKFrequentElements {
+// Problem at: https://leetcode.com/problems/top-k-frequent-words/
+public class _1TopKFrequentElements {
   public static void main(String[] args) {
-    TopKFrequentElements obj = new TopKFrequentElements();
+    _1TopKFrequentElements obj = new _1TopKFrequentElements();
     System.out.println(obj.topKFrequentUsingBubbleSort(new String[]{"the", "day", "is", "sunny", "the", "the", "the", "sunny", "is", "is"}, 4));
   }
 
