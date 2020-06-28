@@ -2,7 +2,7 @@
 
 1. Default sort behavior in Java is ascending. Use `Comparator.reverseOrder` to get descending order.
  
-1. `PriorityQueue` uses a min heap as well. Use a custom `Comparator` in the constructor to override this behavior.
+1. `PriorityQueue` uses a min heap by default. Use a custom `Comparator` in the constructor to override this behavior.
 
 1. Arrays and `List`s can be sorted used built-in APIs.
 `Arrays.sort` is the one for arrays, and accepts a comparator for generic arrays (and no `Comparator` for primitive arrays).
@@ -48,4 +48,60 @@
       }
     }
     ```
+
+1. Swapping without extra variable using XOR:
+    ```
+    array[j] = array[j] ^ array[j + 1];
+    array[j + 1] = array[j] ^ array[j + 1];
+    array[j] = array[j] ^ array[j + 1];
+    ```
+
+1. DFS in a graph:
+   ```
+   public List<String> depthFirstSearch(List<String> array) {	
+     Deque<Node> stack = new ArrayDeque<>();
+     stack.push(this);
+
+     while (!stack.isEmpty()) {
+       Node element = stack.pop();
+       array.add(element.name);
+
+       for (int i = element.children.size() - 1; i >= 0; i--) {
+         stack.push(element.children.get(i));
+       }
+     }
+     return array;
+   }
+   ```
+   
+1. BFS in a graph:
+   ```
+   public List<String> depthFirstSearch(List<String> array) {	
+     Deque<Node> queue = new ArrayDeque<>();
+     stack.offer(this);
+
+     while (!queue.isEmpty()) {
+       Node element = stack.poll();
+       array.add(element.name);
+
+       for (int i = element.children.size() - 1; i >= 0; i--) {
+         stack.offer(element.children.get(i));
+       }
+     }
+     return array;
+   }
+   ```
+   
+1. Binary search:
+   ```
+   public int binarySearch(int[] array, int start, int end, int target) {
+      if (start > end) return -1;
+      int mid = (start + end) / 2;
+      int midElement = array[mid];
+      if (midElement == target) return mid;
+      else if (midElement > target) return binarySearch(array, start, mid - 1, target);
+      else return binarySearch(array, mid + 1, end, target);
+   }
+   ```
+   
 1. 
