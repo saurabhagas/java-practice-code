@@ -4,18 +4,15 @@
  
 1. `PriorityQueue` uses a min heap by default. Use a custom `Comparator` in the constructor to override this behavior.
 
-1. Arrays and `List`s can be sorted used built-in APIs.
+1. Arrays and `List`s can be sorted using built-in APIs.
 `Arrays.sort` is the one for arrays, and accepts a comparator for generic arrays (and no `Comparator` for primitive arrays).
 `List::sort` mandates you to pass a `Comparator`.
 
-1. Comparator using Comparator APIs on a map storing keys to their frequency of occurrence:
+1. `Comparator` chaining:
     ```
-    return wordCounts.entrySet().stream()
-            .sorted(Comparator.comparing(Map.Entry<String, Integer>::getValue).reversed()
-                .thenComparing(Map.Entry<String, Integer>::getKey))
-            .limit(k)
-            .map(Map.Entry::getKey)
-            .collect(Collectors.toList());
+    Comparator.comparing(Map.Entry<String, Integer>::getValue)
+        .reversed()
+        .thenComparing(Map.Entry<String, Integer>::getKey))
     ```
 
 1. Making classes Comparable:
@@ -31,7 +28,7 @@
     ```
 
 1. Useful `Collections` APIs:
-    - `Collections.min` and `Collections.max`
+    - `Collections.min` and `Collections.max` (work on all colections)
     - `Collections.swap`
     - `Collections.sort`
     - `Collections.reverse`
@@ -73,10 +70,10 @@
      return array;
    }
    ```
-   
+
 1. BFS in a graph:
    ```
-   public List<String> depthFirstSearch(List<String> array) {	
+   public List<String> breadthFirstSearch(List<String> array) {	
      Deque<Node> queue = new ArrayDeque<>();
      stack.offer(this);
 
@@ -99,9 +96,7 @@
       int mid = (start + end) / 2;
       int midElement = array[mid];
       if (midElement == target) return mid;
-      else if (midElement > target) return binarySearch(array, start, mid - 1, target);
+      else if (target < midElement) return binarySearch(array, start, mid - 1, target);
       else return binarySearch(array, mid + 1, end, target);
    }
    ```
-   
-1. 
