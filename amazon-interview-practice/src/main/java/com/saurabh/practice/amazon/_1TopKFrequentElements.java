@@ -1,11 +1,7 @@
 package com.saurabh.practice.amazon;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.util.*;
+import java.util.stream.Collectors;
 
 // Problem at: https://leetcode.com/problems/top-k-frequent-words/
 public class _1TopKFrequentElements {
@@ -26,6 +22,21 @@ public class _1TopKFrequentElements {
       return freqDiff != 0 ? freqDiff : o1.compareTo(o2);
     });
     return sortedElements.subList(0, k);
+  }
+
+  public List<String> topKFrequentUsingHashMapStream(String[] words, int k) {
+    Map<String, Integer> wordCounts = new HashMap<>();
+    for (String word : words) {
+      wordCounts.put(word, wordCounts.getOrDefault(word, 0) + 1);
+    }
+    return wordCounts.entrySet().stream()
+        .sorted((o1, o2) -> {
+          int freqDiff = o2.getValue() - o1.getValue();
+          return freqDiff != 0 ? freqDiff : o1.getKey().compareTo(o2.getKey());
+        })
+        .limit(k)
+        .map(Map.Entry::getKey)
+        .collect(Collectors.toList());
   }
 
   public List<String> topKFrequentUsingHeap(String[] words, int k) {
@@ -61,9 +72,10 @@ public class _1TopKFrequentElements {
     ArrayList<Map.Entry<String, Integer>> entries = new ArrayList<>(wordCounts.entrySet());
     System.out.println(entries);
     for (int i = 0; i < entries.size(); i++) {
-      for (int j = 0; j < entries.size() - i - 1; j++) {
+      for (int j = 0; j < entries.size() - i - 1 && i < k; j++) {
         if (entries.get(j).getValue() < entries.get(j + 1).getValue() ||
-            (entries.get(j).getValue().equals(entries.get(j + 1).getValue()) && entries.get(j).getKey().compareTo(entries.get(j + 1).getKey()) < 0)) {
+            (entries.get(j).getValue().equals(entries.get(j + 1).getValue()) &&
+                entries.get(j).getKey().compareTo(entries.get(j + 1).getKey()) > 0)) {
           Collections.swap(entries, j + 1, j);
         }
       }
