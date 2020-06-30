@@ -56,7 +56,7 @@ class Trie {
     for (char ch : prefix.toCharArray()) {
       TrieNode child = current.children.get(ch);
       if (child == null) {
-        break;
+        return matches;
       } else {
         matchSoFar.append(ch);
         if (current.isEndOfWord) {
