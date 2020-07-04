@@ -41,6 +41,7 @@
     <module>practice/dynamic_programming</module>
     <module>practice/famous_algorithms</module>
     <module>practice/graph</module>
+    <module>practice/hashing</module>
     <module>practice/heap</module>
     <module>practice/linked_list</module>
     <module>practice/queue</module>
