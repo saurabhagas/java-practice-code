@@ -24,20 +24,28 @@
   </properties>
 
   <modules>
-    <module>algorithms</module>
-    <module>basics</module>
-    <module>collections</module>
-    <module>common</module>
-    <module>concurrent</module>
-    <module>design-patterns</module>
-    <module>dynamic_programming</module>
-    <module>divide_and_conquer</module>
-    <module>functional</module>
-    <module>generics</module>
-    <module>oop</module>
-    <module>recursion</module>
-    <module>geeksforgeeks-question-set</module>
-    <module>amazon-interview-practice</module>
+    <module>conceptual/design-patterns</module>
+    <module>conceptual/functional</module>
+    <module>conceptual/generics</module>
+    <module>conceptual/oop</module>
+
+    <module>source/algorithms</module>
+    <module>source/common</module>
+    <module>source/data_structures</module>
+
+    <module>practice/array</module>
+    <module>practice/backtracking</module>
+    <module>practice/concurrency</module>
+    <module>practice/dynamic_programming</module>
+    <module>practice/divide_and_conquer</module>
+    <module>practice/graph</module>
+    <module>practice/heap</module>
+    <module>practice/queue</module>
+    <module>practice/linked_list</module>
+    <module>practice/recursion</module>
+    <module>practice/string</module>
+    <module>practice/stack</module>
+    <module>practice/trie</module>
   </modules>
 
   <build>
