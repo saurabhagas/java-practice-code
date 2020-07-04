@@ -36,12 +36,13 @@
     <module>practice/array</module>
     <module>practice/backtracking</module>
     <module>practice/concurrency</module>
-    <module>practice/dynamic_programming</module>
     <module>practice/divide_and_conquer</module>
+    <module>practice/dynamic_programming</module>
+    <module>practice/famous_algorithms</module>
     <module>practice/graph</module>
     <module>practice/heap</module>
-    <module>practice/queue</module>
     <module>practice/linked_list</module>
+    <module>practice/queue</module>
     <module>practice/recursion</module>
     <module>practice/string</module>
     <module>practice/stack</module>

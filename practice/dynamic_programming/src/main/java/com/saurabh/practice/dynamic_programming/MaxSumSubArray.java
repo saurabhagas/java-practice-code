@@ -1,15 +1,15 @@
-package com.saurabh.practice.array;
+package com.saurabh.practice.dynamic_programming;
 
 import static com.saurabh.source.common.MathUtils.max;
 
 /*
- Problem - Largest sum contiguous subarray. Problem at: https://www.geeksforgeeks.org/largest-sum-contiguous-subarray/
- Approach (O(n) time, O(1) space) using DP:
-    1. Let maxUptoI[i] be the max sum subarray upto index i, including index i
-    2. Calculate maxUptoI for i's upto length of array
-    3. Return the max value in mapUptoI
+Problem - Largest sum contiguous subarray. Problem at: https://www.geeksforgeeks.org/largest-sum-contiguous-subarray/
+ Approach (O(n) time, O(n) space) using DP:
+  1. Let maxUptoI[i] be the max sum subarray upto index i, including index i
+  2. Calculate maxUptoI for i's upto length of array
+  3. Return the max value in mapUptoI
 */
-public class ContiguousSubArrayWithMaxSum {
+public class MaxSumSubArray {
   public int calculate(int... nums) {
     if (nums == null || nums.length == 0) {
       throw new IllegalArgumentException("Array must not be null or empty");
