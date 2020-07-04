@@ -106,3 +106,4 @@
    list.stream().mapToInt(value -> value).toArray() 
    ``` 
    
+1. Use `Arrays.toString()` and `Arrays.deepToString()` to print one and multi-dimensional arrays respectively.
