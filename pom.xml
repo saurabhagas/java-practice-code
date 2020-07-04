@@ -35,6 +35,7 @@
 
     <module>practice/array</module>
     <module>practice/backtracking</module>
+    <module>practice/bit_magic</module>
     <module>practice/concurrency</module>
     <module>practice/divide_and_conquer</module>
     <module>practice/dynamic_programming</module>

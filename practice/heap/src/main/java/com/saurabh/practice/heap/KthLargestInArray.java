@@ -1,4 +1,4 @@
-package com.saurabh.practice.array;
+package com.saurabh.practice.heap;
 
 /*
  Problem - find kth largest number in an unsorted array. Problem at: https://leetcode.com/problems/kth-largest-element-in-an-array/

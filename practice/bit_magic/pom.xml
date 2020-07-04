@@ -10,13 +10,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>heap</artifactId>
-  <dependencies>
-    <dependency>
-      <groupId>com.saurabh</groupId>
-      <artifactId>data_structures</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-  </dependencies>
+  <artifactId>bit_magic</artifactId>
+
 
 </project>

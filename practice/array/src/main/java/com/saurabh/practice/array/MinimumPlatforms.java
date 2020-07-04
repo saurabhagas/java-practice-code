@@ -13,26 +13,26 @@ import java.util.Arrays;
  * For more explanation: https://www.geeksforgeeks.org/minimum-number-platforms-required-railwaybus-station/
  */
 public class MinimumPlatforms {
-    public int getMinimumPlatforms(int[] arrival, int[] departure) {
-        int platforms = 1, result = 1;
-        Arrays.sort(arrival);
-        Arrays.sort(departure);
-        int i = 1, j = 0;
-        while (i < arrival.length && j < departure.length) {
-            //If the train is scheduled to arrive next then we increase the platform count
-            if (arrival[i] <= departure[j]) {
-                platforms++;
-                i++;
-                if (platforms > result) {
-                    result = platforms;
-                }
-
-            } else {
-                //If the train is scheduled to depart next then we decrease the platform count
-                platforms--;
-                j++;
-            }
+  public int getMinimumPlatforms(int[] arrival, int[] departure) {
+    int platforms = 1, result = 1;
+    Arrays.sort(arrival);
+    Arrays.sort(departure);
+    int i = 1, j = 0;
+    while (i < arrival.length && j < departure.length) {
+      //If the train is scheduled to arrive next then we increase the platform count
+      if (arrival[i] <= departure[j]) {
+        platforms++;
+        i++;
+        if (platforms > result) {
+          result = platforms;
         }
-        return result;
+
+      } else {
+        //If the train is scheduled to depart next then we decrease the platform count
+        platforms--;
+        j++;
+      }
     }
+    return result;
+  }
 }

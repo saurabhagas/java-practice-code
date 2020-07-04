@@ -11,15 +11,15 @@ import java.util.Arrays;
  * Start from the right side of the array and maintain the max number and if the input number is greater than the max number then add to the array of leaders
  */
 public class LeadersInAnArray {
-    public int[] getLeadersInAnArray(int[] inputArray) {
-        int max = Integer.MIN_VALUE, count = inputArray.length - 1;
-        int[] leaders = new int[inputArray.length];
-        for (int i = inputArray.length - 1; i >= 0; i--) {
-            if (max <= inputArray[i]) {
-                leaders[count--] = inputArray[i];
-                max = inputArray[i];
-            }
-        }
-        return Arrays.copyOfRange(leaders, count + 1, inputArray.length);
+  public int[] getLeadersInAnArray(int[] inputArray) {
+    int max = Integer.MIN_VALUE, count = inputArray.length - 1;
+    int[] leaders = new int[inputArray.length];
+    for (int i = inputArray.length - 1; i >= 0; i--) {
+      if (max <= inputArray[i]) {
+        leaders[count--] = inputArray[i];
+        max = inputArray[i];
+      }
     }
+    return Arrays.copyOfRange(leaders, count + 1, inputArray.length);
+  }
 }

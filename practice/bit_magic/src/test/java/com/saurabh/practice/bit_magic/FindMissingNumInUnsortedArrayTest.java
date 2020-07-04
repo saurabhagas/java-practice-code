@@ -1,4 +1,4 @@
-package com.saurabh.practice.array;
+package com.saurabh.practice.bit_magic;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.saurabh.practice.array;
+package com.saurabh.practice.bit_magic;
 
 /*
  Problem - Find missing number in an array containing n distinct numbers in {0, 1, 2, ..., n}
