@@ -100,3 +100,9 @@
       else return binarySearch(array, mid + 1, end, target);
    }
    ```
+
+1. To convert a `List` of `Integer`s to a list of `int`s:
+   ```
+   list.stream().mapToInt(value -> value).toArray() 
+   ``` 
+   
