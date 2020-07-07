@@ -1,4 +1,4 @@
-package com.saurabh.practice.backtracking;
+package com.saurabh.practice.recursion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,17 +12,17 @@ public class GenerateParentheses {
 
   public List<String> generateParenthesis(int n) {
     List<String> ans = new ArrayList<>();
-    backtrack(ans, "", 0, 0, n);
+    generate(ans, "", 0, 0, n);
     return ans;
   }
 
-  private void backtrack(List<String> ans, String cur, int open, int close, int max) {
+  private void generate(List<String> ans, String cur, int open, int close, int max) {
     if (cur.length() == max * 2) {
       ans.add(cur);
       return;
     }
 
-    if (open < max) backtrack(ans, cur + "(", open + 1, close, max);
-    if (close < open) backtrack(ans, cur + ")", open, close + 1, max);
+    if (open < max) generate(ans, cur + "(", open + 1, close, max);
+    if (close < open) generate(ans, cur + ")", open, close + 1, max);
   }
 }
