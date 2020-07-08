@@ -107,3 +107,13 @@
    ``` 
    
 1. Use `Arrays.toString()` and `Arrays.deepToString()` to print one and multi-dimensional arrays respectively.
+
+1. Java Operators
+- `|` (OR), `&` (AND), `^` (XOR), `~` (NOT).
+- Bitwise operators have pretty low priority. Use `()` appropriately.
+
+1. Java bit manipulation:
+- A number `n` needs `logn` bits. Any operation which is linear in the number of bits will take `logn` time.
+- `~` performs `NOT` operation. Thus, `~num` will be `-num - 1`.
+- `>>` is signed right-shift operator. `>>>` is the unsigned variant.
+- `<<` is signed left-shift operator. There's no `<<<` variant, as there's no need for it.
