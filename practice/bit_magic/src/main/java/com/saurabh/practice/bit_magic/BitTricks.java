@@ -14,6 +14,7 @@ public class BitTricks {
     isPowerOf2(0);
     isPowerOf2(10);
 
+    isPowerOf2(1);
     isPowerOf2(16);
     isPowerOf2(-16);
 
@@ -60,7 +61,7 @@ public class BitTricks {
 
   // Checks if number is even by performing AND operation with LSB
   public static void isPowerOf2(int num) {
-    System.out.println(num + " is power of 2 -> " + ((num & num - 1) == 0));
+    System.out.println(num + " is power of 2 -> " + (num != 0 && (num & num - 1) == 0));
   }
 
   // Checks if input number has nth bit set by performing AND operation with LSB
