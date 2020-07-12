@@ -1,12 +1,14 @@
 package com.saurabh.source.common;
 
+import static java.util.Objects.requireNonNull;
+
 public class Node<T> {
   private T data;
   private Node<T> leftChild;
   private Node<T> rightChild;
 
   public Node(T data, Node<T> leftChild, Node<T> rightChild) {
-    this.data = data;
+    this.data = requireNonNull(data);
     this.leftChild = leftChild;
     this.rightChild = rightChild;
   }
@@ -24,7 +26,7 @@ public class Node<T> {
   }
 
   public void setData(T data) {
-    this.data = data;
+    this.data = requireNonNull(data);
   }
 
   public void setLeftChild(Node<T> leftChild) {

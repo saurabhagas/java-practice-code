@@ -48,6 +48,7 @@
     <module>practice/recursion</module>
     <module>practice/string</module>
     <module>practice/stack</module>
+    <module>practice/tree</module>
     <module>practice/trie</module>
   </modules>
 

@@ -219,7 +219,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
     return heightInternal(root);
   }
 
-  Node<T> getRoot() {
+  public Node<T> getRoot() {
     return root;
   }
 
