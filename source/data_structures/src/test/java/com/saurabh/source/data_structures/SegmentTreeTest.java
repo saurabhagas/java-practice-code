@@ -63,6 +63,22 @@ public class SegmentTreeTest {
   }
 
   @Test
+  public void testSumUpdate() {
+    SegmentTree segmentTree = new SegmentTree(array, of(Integer::sum, 0));
+    int result = segmentTree.rangeQuery(1, 4);
+    int expected = sum(1, 4);
+    assertThat(result).isEqualTo(expected);
+
+    boolean updated = segmentTree.update(7, 10);
+    assertThat(updated).isTrue();
+    array[3] = 10;
+
+    result = segmentTree.rangeQuery(1, 4);
+    expected = sum(1, 4);
+    assertThat(result).isEqualTo(expected);
+  }
+
+  @Test
   public void testMinStartToEnd() {
     SegmentTree segmentTree = new SegmentTree(array, of(Integer::min, MAX_VALUE));
     int result = segmentTree.rangeQuery(0, 5);
@@ -112,6 +128,27 @@ public class SegmentTreeTest {
     SegmentTree segmentTree = new SegmentTree(array, of(Integer::min, MAX_VALUE));
     int result = segmentTree.rangeQuery(1, 4);
     int expected = min(1, 4);
+    assertThat(result).isEqualTo(expected);
+  }
+
+  @Test
+  public void testMinUpdate() {
+    SegmentTree segmentTree = new SegmentTree(array, of(Integer::min, MAX_VALUE));
+    int result = segmentTree.rangeQuery(3, 5);
+    int expected = min(3, 5);
+    assertThat(result).isEqualTo(expected);
+
+
+    boolean updated = segmentTree.update(7, 10);
+    assertThat(updated).isTrue();
+    array[3] = 10;
+
+    result = segmentTree.rangeQuery(3, 5);
+    expected = min(3, 5);
+    assertThat(result).isEqualTo(expected);
+
+    result = segmentTree.rangeQuery(4, 5);
+    expected = min(4, 5);
     assertThat(result).isEqualTo(expected);
   }
 

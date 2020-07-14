@@ -54,7 +54,29 @@ public class SegmentTree {
   }
 
   public int rangeQuery(int start, int end) {
+    // Search only in the internal nodes, and the leaves either have the original nodes, or dummy data
     return query(start, end, 0, originalSize - 1, 0);
+  }
+
+  // Updates the first occurrence of the specified element, and re-runs the operation on all the parents
+  public boolean update(int before, int after) {
+    int foundAt = find(before);
+    if (foundAt == -1) return false;
+
+    nodes[foundAt]= after;
+    int parent = parent(foundAt);
+    for (int i = parent; i >= 0 ;) {
+      nodes[i] = operation.apply(nodes[lChild(i)], nodes[rChild(i)]);
+      i = parent(i);
+    }
+    return true;
+  }
+
+  private int find(int element) {
+    for (int i = nodes.length >> 1; i < nodes.length; i++) {
+      if (nodes[i] == element) return i;
+    }
+    return -1;
   }
 
   private int query(int start, int end, int treeStart, int treeEnd, int treeCurr) {
