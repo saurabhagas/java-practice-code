@@ -22,22 +22,24 @@ public class DepthFirstSearch {
     List<Integer> result = new ArrayList<>();
     boolean[] visited = new boolean[adjList.size()];
 
-    adjList.forEach((key, value) -> {
+    for (Map.Entry<Integer, List<Integer>> entry : adjList.entrySet()) {
+      Integer key = entry.getKey();
+      List<Integer> neighbours = entry.getValue();
       visited[key] = true;
       result.add(key);
-      getDFS(visited, value, adjList, result);
-    });
+      getDFS(visited, neighbours, adjList, result);
+    }
     return result;
   }
 
-  private void getDFS(boolean[] visited, List<Integer> nodeList, Map<Integer, List<Integer>> adjList, List<Integer> result) {
-    nodeList.forEach(node -> {
+  private void getDFS(boolean[] visited, List<Integer> neighbours, Map<Integer, List<Integer>> adjList, List<Integer> result) {
+    for (Integer node : neighbours) {
       if (!visited[node]) {
         visited[node] = true;
         result.add(node);
         getDFS(visited, adjList.get(node), adjList, result);
       }
-    });
+    }
   }
 
 }
