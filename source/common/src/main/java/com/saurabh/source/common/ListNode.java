@@ -2,7 +2,14 @@ package com.saurabh.source.common;
 
 public class ListNode<T> {
     private T data;
-    private ListNode<T> next;
+    protected ListNode<T> next;
+
+    public ListNode(){}
+
+    public ListNode(ListNode node) {
+        this.data = (T) node.getData();
+        this.next = node.next();
+    }
 
     public ListNode(T data) {
         this.data = data;
