@@ -25,6 +25,7 @@
     <module>conceptual/design-patterns</module>
     <module>conceptual/functional</module>
     <module>conceptual/generics</module>
+    <module>conceptual/oo-design</module>
     <module>conceptual/oop</module>
 
     <module>source/algorithms</module>
