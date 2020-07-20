@@ -12,4 +12,11 @@
 
   <artifactId>oo-design</artifactId>
 
+  <dependencies>
+    <dependency>
+      <groupId>com.saurabh</groupId>
+      <artifactId>common</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
 </project>
