@@ -10,11 +10,11 @@ import java.util.function.BiFunction;
     3. Update O(logn)
   Properties:
     1. Leaf nodes are the original nodes
-    2. Segment tree is a full binary tree (each node has 0 or 2 nodes). Heap is a complete binary tree
+    2. Segment tree is a full binary tree (each node has 0 or 2 nodes). (Heap, on the contrary, is a complete binary tree)
     3. If n is not a power of 2, segment tree will contain dummy nodes.
     4. Children of parent at index i -> 2 * i + 1 and 2 * i + 2
     5. Parent of child at index i -> floor(i - 1 / 2)
-    6. Nodes in segment tree = 2 * n - 1, if n is a power of 2. If not, use the next greater power of 2 which is greater than n.
+    6. Nodes in segment tree = 2 * n - 1, if n is a power of 2. If not, use the next power of 2 which is greater than n.
  */
 public class SegmentTree {
   private final int[] nodes;
@@ -48,13 +48,12 @@ public class SegmentTree {
     int size = (int) (2 * Math.pow(2, height) - 1);
     this.originalSize = array.length;
     this.nodes = new int[size];
-//    Arrays.fill(nodes, Integer.MAX_VALUE);
-    construct(array, 0, array.length - 1, nodes, 0, operation);
     this.operation = operation;
+    construct(array, 0, array.length - 1, nodes, 0, operation);
   }
 
   public int rangeQuery(int start, int end) {
-    // Search only in the internal nodes, and the leaves either have the original nodes, or dummy data
+    // Search only in the internal nodes. Leaves either have the original nodes, or dummy data
     return query(start, end, 0, originalSize - 1, 0);
   }
 
@@ -87,11 +86,12 @@ public class SegmentTree {
     if (treeEnd < start || treeStart > end) return operation.identity();
 
     int treeMid = (treeStart + treeEnd) / 2;
-    return operation.apply(query(start, end, treeStart, treeMid, lChild(treeCurr)), query(start, end, treeMid + 1, treeEnd, rChild(treeCurr)));
+    return operation.apply(
+        query(start, end, treeStart, treeMid, lChild(treeCurr)),
+        query(start, end, treeMid + 1, treeEnd, rChild(treeCurr)));
   }
 
   /**
-   *
    * @param src input array
    * @param srcBegin current begin position in the input
    * @param srcEnd current end position in the input
