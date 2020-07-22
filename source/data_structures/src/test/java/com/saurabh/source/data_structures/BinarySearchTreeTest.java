@@ -11,8 +11,11 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -53,11 +56,15 @@ public class BinarySearchTreeTest {
 
   @Test
   public void testDelete() {
-    toDelete.forEach(toDeleteKey -> assertTrue(bst.remove(toDeleteKey)));
+    toDelete.forEach(toDeleteKey -> {
+      assertTrue("For key " + toDeleteKey, bst.remove(toDeleteKey));
+    });
     assertThat(bst.size(), is(uniqueKeys.size() - toDelete.size()));
     assertThat(bst.height(), is(4));
 
-    toDelete2.forEach(toDeleteKey -> assertTrue(bst.remove(toDeleteKey)));
+    toDelete2.forEach(toDeleteKey -> {
+      assertTrue("For key " + toDeleteKey, bst.remove(toDeleteKey));
+    });
     assertThat(bst.size(), is(0));
     assertThat(bst.height(), is(0));
 
@@ -74,9 +81,9 @@ public class BinarySearchTreeTest {
     assertThat(bst.size(), is(uniqueKeys.size()));
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test
   public void testAncestors_nonExistentNode() {
-    bst.getAncestors("blah");
+    assertThat(bst.getAncestors("blah"), is(nullValue()));
   }
 
   @Test
@@ -108,5 +115,17 @@ public class BinarySearchTreeTest {
     bst.clear();
     assertThat(bst.size(), is(0));
     assertThat(bst.height(), is(0));
+  }
+
+  @Test
+  public void areEqual_true() throws Exception {
+    assertEquals(bst, bst.clone());
+  }
+
+  @Test
+  public void areEqual_false() throws Exception{
+    BinarySearchTree<String> bstClone = bst.clone();
+    bstClone.remove(uniqueKeys.get(uniqueKeys.size() - 1));
+    assertNotEquals(bst, bstClone);
   }
 }
