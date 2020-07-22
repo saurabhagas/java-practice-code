@@ -4,37 +4,37 @@ import static java.util.Objects.requireNonNull;
 
 public class Node<T> {
   private T data;
-  private Node<T> leftChild;
-  private Node<T> rightChild;
+  private Node<T> lChild;
+  private Node<T> rChild;
 
-  public Node(T data, Node<T> leftChild, Node<T> rightChild) {
+  public Node(T data, Node<T> lChild, Node<T> rChild) {
     this.data = requireNonNull(data);
-    this.leftChild = leftChild;
-    this.rightChild = rightChild;
+    this.lChild = lChild;
+    this.rChild = rChild;
   }
 
-  public T getData() {
+  public T data() {
     return data;
   }
 
-  public Node<T> getLeftChild() {
-    return leftChild;
+  public Node<T> lChild() {
+    return lChild;
   }
 
-  public Node<T> getRightChild() {
-    return rightChild;
+  public Node<T> rChild() {
+    return rChild;
   }
 
-  public void setData(T data) {
+  public void data(T data) {
     this.data = requireNonNull(data);
   }
 
-  public void setLeftChild(Node<T> leftChild) {
-    this.leftChild = leftChild;
+  public void lChild(Node<T> lChild) {
+    this.lChild = lChild;
   }
 
-  public void setRightChild(Node<T> rightChild) {
-    this.rightChild = rightChild;
+  public void rChild(Node<T> rChild) {
+    this.rChild = rChild;
   }
 
   @Override

@@ -35,9 +35,9 @@ public class LeftView {
       int size = queue.size();
       for (int i = 0; i < size; i++) {
         Node<Integer> polled = queue.poll();
-        if (i == 0) System.out.println(polled.getData());
-        if (polled.getLeftChild() != null) queue.offer(polled.getLeftChild());
-        if (polled.getRightChild() != null) queue.offer(polled.getRightChild());
+        if (i == 0) System.out.println(polled.data());
+        if (polled.lChild() != null) queue.offer(polled.lChild());
+        if (polled.rChild() != null) queue.offer(polled.rChild());
       }
     }
   }

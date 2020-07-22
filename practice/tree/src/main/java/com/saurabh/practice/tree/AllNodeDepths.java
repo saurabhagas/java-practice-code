@@ -31,22 +31,22 @@ public class AllNodeDepths {
   public int sumOfAllDepths(Node<Integer> root) {
     if (root == null) return 0;
     HashMap<Node<Integer>, Integer> nodeToDepth = new HashMap<>();
-    return getCurrentSum(root, nodeToDepth) + sumOfAllDepths(root.getLeftChild()) + sumOfAllDepths(root.getRightChild());
+    return getCurrentSum(root, nodeToDepth) + sumOfAllDepths(root.lChild()) + sumOfAllDepths(root.rChild());
   }
 
   public int getCurrentSum(Node<Integer> root, HashMap<Node<Integer>, Integer> nodeToDepth) {
     if (root == null) return 0;
 
     if (nodeToDepth.get(root) != null) return nodeToDepth.get(root);
-    int allLeftSum = getCurrentSum(root.getLeftChild(), nodeToDepth);
-    int allRightSum = getCurrentSum(root.getRightChild(), nodeToDepth);
-    int allSum = allLeftSum + countNodes(root.getLeftChild()) + allRightSum + countNodes(root.getRightChild());
+    int allLeftSum = getCurrentSum(root.lChild(), nodeToDepth);
+    int allRightSum = getCurrentSum(root.rChild(), nodeToDepth);
+    int allSum = allLeftSum + countNodes(root.lChild()) + allRightSum + countNodes(root.rChild());
     nodeToDepth.put(root, allSum);
     return allSum;
   }
 
   private int countNodes(Node<Integer> root) {
     if (root == null) return 0;
-    return countNodes(root.getLeftChild()) + countNodes(root.getRightChild()) + 1;
+    return countNodes(root.lChild()) + countNodes(root.rChild()) + 1;
   }
 }

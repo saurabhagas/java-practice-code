@@ -21,9 +21,9 @@ public class Traversals {
 
     while (!queue.isEmpty()) {
       Node<T> current = queue.poll();
-      System.out.println(current.getData());
-      offerNonNull(queue, current.getLeftChild());
-      offerNonNull(queue, current.getRightChild());
+      System.out.println(current.data());
+      offerNonNull(queue, current.lChild());
+      offerNonNull(queue, current.rChild());
     }
   }
 
@@ -40,16 +40,16 @@ public class Traversals {
     while (!stack1.isEmpty()) {
       while (!stack1.isEmpty()) {
         Node<T> popped = stack1.pop();
-        System.out.println(popped.getData());
-        pushNonNull(stack2, popped.getRightChild());
-        pushNonNull(stack2, popped.getLeftChild());
+        System.out.println(popped.data());
+        pushNonNull(stack2, popped.rChild());
+        pushNonNull(stack2, popped.lChild());
       }
 
       while (!stack2.isEmpty()) {
         Node<T> popped = stack2.pop();
-        System.out.println(popped.getData());
-        pushNonNull(stack1, popped.getLeftChild());
-        pushNonNull(stack1, popped.getRightChild());
+        System.out.println(popped.data());
+        pushNonNull(stack1, popped.lChild());
+        pushNonNull(stack1, popped.rChild());
       }
     }
   }
@@ -65,33 +65,33 @@ public class Traversals {
 
     while (!stack.isEmpty()) {
       Node<T> current = stack.pop();
-      System.out.println(current.getData());
-      pushNonNull(stack, current.getRightChild());
-      pushNonNull(stack, current.getLeftChild());
+      System.out.println(current.data());
+      pushNonNull(stack, current.rChild());
+      pushNonNull(stack, current.lChild());
     }
   }
 
   public static <T> void preorder(Node<T> root, List<T> items) {
     if (root != null) {
-      items.add(root.getData());
-      preorder(root.getLeftChild(), items);
-      preorder(root.getRightChild(), items);
+      items.add(root.data());
+      preorder(root.lChild(), items);
+      preorder(root.rChild(), items);
     }
   }
 
   public static <T> void inorder(Node<T> root, List<T> items) {
     if (root != null) {
-      inorder(root.getLeftChild(), items);
-      items.add(root.getData());
-      inorder(root.getRightChild(), items);
+      inorder(root.lChild(), items);
+      items.add(root.data());
+      inorder(root.rChild(), items);
     }
   }
 
   public static <T> void postorder(Node<T> root, List<T> items) {
     if (root != null) {
-      postorder(root.getLeftChild(), items);
-      postorder(root.getRightChild(), items);
-      items.add(root.getData());
+      postorder(root.lChild(), items);
+      postorder(root.rChild(), items);
+      items.add(root.data());
     }
   }
 

@@ -38,8 +38,8 @@ public class TreeFromTraversal {
     int data = preOrder[preOrderCurrent.getAndIncrement()];
     Node<Integer> node = new Node<>(data, null, null);
     int foundAt = indices.get(data);
-    node.setLeftChild(treeFromPreorderAndInorder(preOrder, preOrderCurrent, inOrder, left, foundAt - 1));
-    node.setRightChild(treeFromPreorderAndInorder(preOrder, preOrderCurrent, inOrder, foundAt + 1, right));
+    node.lChild(treeFromPreorderAndInorder(preOrder, preOrderCurrent, inOrder, left, foundAt - 1));
+    node.rChild(treeFromPreorderAndInorder(preOrder, preOrderCurrent, inOrder, foundAt + 1, right));
     return node;
   }
 
@@ -51,10 +51,10 @@ public class TreeFromTraversal {
     int foundAt = indices.get(data);
 
     Node<Integer> rightChild = treeFromPostorderAndInorder(postOrder, inOrder, foundAt + 1, right);
-    node.setRightChild(rightChild);
+    node.rChild(rightChild);
 
     Node<Integer> leftChild = treeFromPostorderAndInorder(postOrder, inOrder, left, foundAt - 1);
-    node.setLeftChild(leftChild);
+    node.lChild(leftChild);
     return node;
   }
 }

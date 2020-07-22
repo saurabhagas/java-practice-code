@@ -32,17 +32,17 @@ public class DiameterOfTree {
   }
 
   private int getDiameter(Node<Integer> root) {
-    return MathUtils.max(diameterOfSubtree(root.getLeftChild()), diameterOfSubtree(root.getRightChild()), diameterOfSubtree(root));
+    return MathUtils.max(diameterOfSubtree(root.lChild()), diameterOfSubtree(root.rChild()), diameterOfSubtree(root));
   }
 
   private int diameterOfSubtree(Node<Integer> root) {
     if (root == null) return 0;
-    return height(root.getLeftChild()) + height(root.getRightChild()) + 1;
+    return height(root.lChild()) + height(root.rChild()) + 1;
 
   }
 
   private int height(Node<Integer> root) {
     if (root == null) return 0;
-    return Math.max(height(root.getLeftChild()), height(root.getRightChild())) + 1;
+    return Math.max(height(root.lChild()), height(root.rChild())) + 1;
   }
 }

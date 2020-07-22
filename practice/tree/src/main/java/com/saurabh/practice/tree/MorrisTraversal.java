@@ -39,29 +39,29 @@ public class MorrisTraversal {
   public void traverse(Node<Integer> root, List<Integer> morrisList) {
     Node<Integer> current = root;
     while (current != null) {
-      if (current.getLeftChild() == null) {
-        morrisList.add(current.getData());
-        current = current.getRightChild();
+      if (current.lChild() == null) {
+        morrisList.add(current.data());
+        current = current.rChild();
       } else {
         Node<Integer> rightMostNode = getRightMostNode(current);
-        if (rightMostNode.getRightChild() == null) {
+        if (rightMostNode.rChild() == null) {
           // Make the inorder predecessor point to self so that we can traverse the tree in one loop
-          rightMostNode.setRightChild(current);
-          current = current.getLeftChild();
+          rightMostNode.rChild(current);
+          current = current.lChild();
         } else {
           // Atoning for our sins - revert modifications to the tree
-          rightMostNode.setRightChild(null);
-          morrisList.add(current.getData());
-          current = current.getRightChild();
+          rightMostNode.rChild(null);
+          morrisList.add(current.data());
+          current = current.rChild();
         }
       }
     }
   }
 
   private Node<Integer> getRightMostNode(Node<Integer> root) {
-    Node<Integer> current = root.getLeftChild();
-    while (current != null && current.getRightChild() != null && current.getRightChild() != root) {
-      current = current.getRightChild();
+    Node<Integer> current = root.lChild();
+    while (current != null && current.rChild() != null && current.rChild() != root) {
+      current = current.rChild();
     }
     return current;
   }
@@ -71,6 +71,6 @@ public class MorrisTraversal {
     if (root1 != null && root2 == null) return false;
     if (root1 == null && root2 == null) return true;
 
-    return root1.getData().equals(root2.getData()) && sameBst(root1.getLeftChild(), root2.getLeftChild()) && sameBst(root1.getRightChild(), root2.getRightChild());
+    return root1.data().equals(root2.data()) && sameBst(root1.lChild(), root2.lChild()) && sameBst(root1.rChild(), root2.rChild());
   }
 }

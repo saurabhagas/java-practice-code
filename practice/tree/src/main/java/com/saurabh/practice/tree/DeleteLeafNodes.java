@@ -24,12 +24,12 @@ public class DeleteLeafNodes {
 
   public Node<Integer> deleteLeavesWithValue(Node<Integer> node, int value, Node<Integer> parent) {
     if (node == null) return null;
-    deleteLeavesWithValue(node.getLeftChild(), value, node);
-    deleteLeavesWithValue(node.getRightChild(), value, node);
-    if (node.getLeftChild() == null && node.getRightChild() == null && node.getData() == value) {
+    deleteLeavesWithValue(node.lChild(), value, node);
+    deleteLeavesWithValue(node.rChild(), value, node);
+    if (node.lChild() == null && node.rChild() == null && node.data() == value) {
       if (parent == null) return null;
-      if (parent.getLeftChild() == node) parent.setLeftChild(null);
-      if (parent.getRightChild() == node) parent.setRightChild(null);
+      if (parent.lChild() == node) parent.lChild(null);
+      if (parent.rChild() == node) parent.rChild(null);
     }
 
     return node;

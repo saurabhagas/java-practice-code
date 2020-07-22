@@ -29,8 +29,8 @@ public class BstChecker {
 
   public boolean isBst(Node<Integer> root, int leftMax, int rightMax) {
     if (root == null) return true;
-    if (root.getData() < leftMax || root.getData() > rightMax) return false;
+    if (root.data() < leftMax || root.data() > rightMax) return false;
 
-    return isBst(root.getLeftChild(), leftMax, root.getData()) && isBst(root.getRightChild(), root.getData(), rightMax);
+    return isBst(root.lChild(), leftMax, root.data()) && isBst(root.rChild(), root.data(), rightMax);
   }
 }

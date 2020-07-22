@@ -21,10 +21,10 @@ public class LeafSum {
 
   private int leafSum(Node<Integer> root) {
     if (root == null) return 0;
-    if (root.getLeftChild() == null && root.getRightChild() == null) {
-      return root.getData();
+    if (root.lChild() == null && root.rChild() == null) {
+      return root.data();
     }
-    return leafSum(root.getLeftChild()) + leafSum(root.getRightChild());
+    return leafSum(root.lChild()) + leafSum(root.rChild());
   }
 
   private int deepestLeavesSum(Node<Integer> root) {
@@ -37,9 +37,9 @@ public class LeafSum {
       int levelSum = 0;
       for (int i = 0; i < size; i++) {
         Node<Integer> polled = queue.poll();
-        levelSum += polled.getData();
-        if (polled.getLeftChild() != null) queue.offer(polled.getLeftChild());
-        if (polled.getRightChild() != null) queue.offer(polled.getRightChild());
+        levelSum += polled.data();
+        if (polled.lChild() != null) queue.offer(polled.lChild());
+        if (polled.rChild() != null) queue.offer(polled.rChild());
       }
 
       if (queue.isEmpty()) return levelSum;

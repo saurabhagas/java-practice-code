@@ -21,25 +21,25 @@ public class GoodNodesTree {
     if (root == null) return 0;
 
     int x = 0;
-    if (root.getData() >= maxInPath) {
-      maxInPath = root.getData();
-      System.out.println(root.getData());
+    if (root.data() >= maxInPath) {
+      maxInPath = root.data();
+      System.out.println(root.data());
       x++;
     }
-    return x + printGoodNodes(root.getLeftChild(), maxInPath, total) + printGoodNodes(root.getRightChild(), maxInPath, total);
+    return x + printGoodNodes(root.lChild(), maxInPath, total) + printGoodNodes(root.rChild(), maxInPath, total);
   }
 
   private int countNodes(Node<Integer> root) {
     if (root == null) {
       return 0;
     }
-    return countNodes(root.getLeftChild()) + countNodes(root.getRightChild()) + 1;
+    return countNodes(root.lChild()) + countNodes(root.rChild()) + 1;
   }
 
   private int height(Node<Integer> root) {
     if (root == null) {
       return 0;
     }
-    return Math.max(height(root.getLeftChild()), height(root.getRightChild())) + 1;
+    return Math.max(height(root.lChild()), height(root.rChild())) + 1;
   }
 }

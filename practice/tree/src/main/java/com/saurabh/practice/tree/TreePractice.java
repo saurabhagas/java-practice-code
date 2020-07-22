@@ -36,17 +36,17 @@ public class TreePractice {
         int size = stack2.size();
         for (int i = 0; i < size; i++) {
           Node<Integer> popped = stack2.pop();
-          System.out.print(popped.getData() + "->");
-          if (popped.getLeftChild() != null) stack1.push(popped.getLeftChild());
-          if (popped.getRightChild() != null) stack1.push(popped.getRightChild());
+          System.out.print(popped.data() + "->");
+          if (popped.lChild() != null) stack1.push(popped.lChild());
+          if (popped.rChild() != null) stack1.push(popped.rChild());
         }
       } else {
         int size = stack1.size();
         for (int i = 0; i < size; i++) {
           Node<Integer> popped = stack1.pop();
-          System.out.print(popped.getData() + "->");
-          if (popped.getRightChild() != null) stack2.push(popped.getRightChild());
-          if (popped.getLeftChild() != null) stack2.push(popped.getLeftChild());
+          System.out.print(popped.data() + "->");
+          if (popped.rChild() != null) stack2.push(popped.rChild());
+          if (popped.lChild() != null) stack2.push(popped.lChild());
         }
       }
       leftToRight = !leftToRight;
@@ -64,13 +64,13 @@ public class TreePractice {
       List<Integer> currLevelNodes = new LinkedList<>();
       for (int i = 0; i < size; i++) {
         Node<Integer> polled = queue.poll();
-        if (polled.getLeftChild() != null) queue.offer(polled.getLeftChild());
-        if (polled.getRightChild() != null) queue.offer(polled.getRightChild());
+        if (polled.lChild() != null) queue.offer(polled.lChild());
+        if (polled.rChild() != null) queue.offer(polled.rChild());
 
         if (leftToRight) {
-          currLevelNodes.add(polled.getData());
+          currLevelNodes.add(polled.data());
         } else {
-          currLevelNodes.add(0, polled.getData());
+          currLevelNodes.add(0, polled.data());
         }
       }
       leftToRight = !leftToRight;
@@ -86,13 +86,13 @@ public class TreePractice {
 
     while (!stack.isEmpty()) {
       Node<Integer> popped = stack.pop();
-      System.out.println(popped.getData());
-      Node<Integer> rightChild = popped.getRightChild();
+      System.out.println(popped.data());
+      Node<Integer> rightChild = popped.rChild();
       if (rightChild != null) {
         stack.push(rightChild);
       }
 
-      Node<Integer> leftChild = popped.getLeftChild();
+      Node<Integer> leftChild = popped.lChild();
       if (leftChild != null) {
         stack.push(leftChild);
       }
@@ -109,17 +109,17 @@ public class TreePractice {
       if (!visited.contains(popped)) {
         visited.add(popped);
       } else {
-        System.out.println(popped.getData());
+        System.out.println(popped.data());
         continue;
       }
 
-      Node<Integer> rightChild = popped.getRightChild();
+      Node<Integer> rightChild = popped.rChild();
       if (rightChild != null) {
         stack.push(rightChild);
       }
 
       stack.push(popped);
-      Node<Integer> leftChild = popped.getLeftChild();
+      Node<Integer> leftChild = popped.lChild();
       if (leftChild != null) {
         stack.push(leftChild);
       }
@@ -136,17 +136,17 @@ public class TreePractice {
       if (!visited.contains(popped)) {
         visited.add(popped);
       } else {
-        System.out.println(popped.getData());
+        System.out.println(popped.data());
         continue;
       }
       stack.push(popped);
 
-      Node<Integer> rightChild = popped.getRightChild();
+      Node<Integer> rightChild = popped.rChild();
       if (rightChild != null) {
         stack.push(rightChild);
       }
 
-      Node<Integer> leftChild = popped.getLeftChild();
+      Node<Integer> leftChild = popped.lChild();
       if (leftChild != null) {
         stack.push(leftChild);
       }

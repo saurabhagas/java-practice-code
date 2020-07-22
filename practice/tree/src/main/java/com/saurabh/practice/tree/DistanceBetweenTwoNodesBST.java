@@ -32,23 +32,23 @@ public class DistanceBetweenTwoNodesBST {
     if (root == null) {
       return -1;
     }
-    if ((Integer) root.getData() == n) {
+    if ((Integer) root.data() == n) {
       return 0;
     } else {
-      if ((Integer) root.getData() > n)
-        return findDistance(root.getLeftChild(), n) + 1;
+      if ((Integer) root.data() > n)
+        return findDistance(root.lChild(), n) + 1;
       else
-        return findDistance(root.getRightChild(), n) + 1;
+        return findDistance(root.rChild(), n) + 1;
     }
   }
 
   private Node findCommonAncestor(int n1, int n2, Node root) {
-    if (n1 <= (Integer) root.getData() && n2 >= (Integer) root.getData()) {
+    if (n1 <= (Integer) root.data() && n2 >= (Integer) root.data()) {
       return root;
-    } else if (n1 >= (Integer) root.getData() && n2 >= (Integer) root.getData()) {
-      return findCommonAncestor(n1, n2, root.getRightChild());
+    } else if (n1 >= (Integer) root.data() && n2 >= (Integer) root.data()) {
+      return findCommonAncestor(n1, n2, root.rChild());
     } else {
-      return findCommonAncestor(n1, n2, root.getLeftChild());
+      return findCommonAncestor(n1, n2, root.lChild());
     }
   }
 

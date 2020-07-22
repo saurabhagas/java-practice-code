@@ -29,15 +29,15 @@ public class FlattenTree {
   private Node<Integer> flatten(Node<Integer> node) {
     if (node == null) return null;
 
-    if (node.getLeftChild() == null && node.getRightChild() == null) return node;
+    if (node.lChild() == null && node.rChild() == null) return node;
 
-    Node<Integer> left = flatten(node.getLeftChild());
-    Node<Integer> right = flatten(node.getRightChild());
+    Node<Integer> left = flatten(node.lChild());
+    Node<Integer> right = flatten(node.rChild());
 
     if (left != null) {
-      left.setRightChild(node.getRightChild());
-      node.setRightChild(node.getLeftChild());
-      node.setLeftChild(null);
+      left.rChild(node.rChild());
+      node.rChild(node.lChild());
+      node.lChild(null);
     }
     return right != null ? right : left;
   }
