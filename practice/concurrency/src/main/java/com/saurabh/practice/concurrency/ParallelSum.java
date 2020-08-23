@@ -19,7 +19,7 @@ public class ParallelSum {
     final int numThreads = 10;
     final ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
     AtomicInteger threadId = new AtomicInteger(0);
-    List<Future> tasks = new ArrayList<>();
+    List<Future<Integer>> tasks = new ArrayList<>();
 
     for (int i = 0; i < numThreads; i++) {
       tasks.add(executorService.submit(() -> {
@@ -35,7 +35,7 @@ public class ParallelSum {
 
     int sum = 0;
     for (int i = 0; i < numThreads; i++) {
-      sum += (int) tasks.get(i).get();
+      sum += tasks.get(i).get();
     }
     System.out.println(sum);
   }
@@ -43,5 +43,10 @@ public class ParallelSum {
   private int rangeSum(int lowerBoundary, int upperBoundary) {
     // Showing off here really - the following code can be replaced by a for loop
     return IntStream.iterate(lowerBoundary, operand -> operand + 1).limit(upperBoundary - lowerBoundary + 1).sum();
+  }
+
+  public static void main(String[] args) throws Exception {
+    ParallelSum obj = new ParallelSum();
+    obj.testParallelSumUsingMultipleThreads();
   }
 }
