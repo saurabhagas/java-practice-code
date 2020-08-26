@@ -31,5 +31,6 @@ class NonReentrantLock {
     System.out.println("Trying to acquire second lock..");
     nreLock.lock();
     System.out.println("Acquired second lock");
+    new Thread().stop();
   }
 }

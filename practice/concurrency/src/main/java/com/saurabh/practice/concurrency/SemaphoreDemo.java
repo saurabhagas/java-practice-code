@@ -4,7 +4,7 @@ import java.time.LocalTime;
 import java.util.concurrent.Semaphore;
 
 /**
- * A sample program demonstrating the use of Semaphore. Semaphore don't exhibit the problem of lost signals unlike locks.
+ * A sample program demonstrating the use of Semaphore. Unlike locks, semaphores don't exhibit the problem of lost signals.
  *
  * Java semaphores don't have an upper bound on the resources. Also, users of this API are expected to `acquire` and `release`
  * the semaphore in balanced amounts.
