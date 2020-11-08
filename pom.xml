@@ -19,9 +19,11 @@
     <assertj-core.version>3.16.1</assertj-core.version>
     <junit.version>4.13</junit.version>
     <mockito.version>3.4.4</mockito.version>
+    <jmh.version>1.26</jmh.version>
   </properties>
 
   <modules>
+    <module>conceptual/benchmarking</module>
     <module>conceptual/design-patterns</module>
     <module>conceptual/functional</module>
     <module>conceptual/generics</module>
