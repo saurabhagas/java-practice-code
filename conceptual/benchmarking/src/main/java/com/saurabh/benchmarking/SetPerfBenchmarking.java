@@ -12,7 +12,6 @@ import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
-import org.openjdk.jmh.infra.Blackhole;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
@@ -50,12 +49,12 @@ public class SetPerfBenchmarking {
   }
 
   @Benchmark
-  public void testHashSet(Blackhole blackhole) {
-    blackhole.consume(hashSet.contains(stringToFind));
+  public void testHashSet() {
+    hashSet.contains(stringToFind);
   }
 
   @Benchmark
-  public void testTreeSet(Blackhole blackhole) {
-    blackhole.consume(treeSet.contains(stringToFind));
+  public void testTreeSet() {
+    treeSet.contains(stringToFind);
   }
 }
