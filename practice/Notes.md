@@ -28,7 +28,7 @@
     ```
 
 1. Useful `Collections` APIs:
-    - `Collections.min` and `Collections.max` (work on all colections)
+    - `Collections.min` and `Collections.max` (work on all collections)
     - `Collections.swap`
     - `Collections.sort`
     - `Collections.reverse`
