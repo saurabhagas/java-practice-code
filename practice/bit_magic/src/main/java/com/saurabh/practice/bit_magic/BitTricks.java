@@ -36,6 +36,8 @@ public class BitTricks {
     unsetNthBit(2, 0); // output 2
     unsetNthBit(2, 32); // output 2 (<< uses modulo 32)
     unsetNthBit(2, 1); // output 0
+    unsetNthBit(3, 0); // output 2
+    unsetNthBit(3, 1); // output 1
 
     System.out.println("------------------");
     toggleNthBit(2, 0); // output 3
@@ -59,7 +61,7 @@ public class BitTricks {
     System.out.println(num + " is even -> " + ((num & 1) == 0));
   }
 
-  // Checks if number is even by performing AND operation with LSB
+  // Checks if number is even by performing AND operation with num - 1
   public static void isPowerOf2(int num) {
     System.out.println(num + " is power of 2 -> " + (num != 0 && (num & num - 1) == 0));
   }

@@ -2,41 +2,41 @@ package com.saurabh.practice.dynamic_programming;
 
 // Problem at: https://leetcode.com/problems/longest-palindromic-substring/
 public class LongestPalindromicSubstring {
-  /* Driver program to test above functions */
   public static void main(String[] args) {
-    String seq = "dababad";
-    System.out.println("The length of the lps is: " + lps(new StringBuilder(seq).reverse().toString()));
+    System.out.println("Longest palindromic substring for input 'cbbd': " + lps("cbbd"));
+    System.out.println("Longest palindromic substring for input 'babad': " + lps("babad"));
+    System.out.println("Longest palindromic substring for input 'babad': " + lps("babad"));
+    System.out.println("Longest palindromic substring for input 'abcde': " + lps("abcde"));
   }
 
-  private static int lps(String seq) {
-    // S[i, j] = S[i + 1, j - 1] + 2 if a[i] = a[j], 0 otherwise
-    char[] array = seq.toCharArray();
-    int rows = seq.length();
-    int columns = seq.length();
-    int[][] S = new int[rows][columns];
-    for (int i = 0; i < rows; i++) {
-      for (int j = 0; j < columns; j++) {
-        if (i == j) S[i][j] = 1;
-        else if (i > j) S[i][j] = 0;
-      }
+  public static String lps(String string) {
+    int[][] memo = new int[string.length()][string.length()];
+    for (int i = 0; i < string.length(); i++) {
+      memo[i][i] = 1; // fill the diagonal
     }
-
-    for (int i = rows - 2; i >= 0; i--) {
-      for (int j = columns - 1; j >= columns - i - 2; j--) {
-        if (i == j) continue;
-        if (array[i] == array[j]) S[i][j] = S[i + 1][j - 1] + 2;
-        else S[i][j] = 0;
+    for (int i = string.length() - 1; i >= 0; i--) {
+      for (int j = i + 1; j < string.length(); j++) {
+        if (string.charAt(i) == string.charAt(j)) {
+          if (j == i + 1) {
+            memo[i][j] = 2;
+          } else {
+            memo[i][j] = memo[i + 1][j - 1] == 0 ? 0 : memo[i + 1][j - 1] + 2;
+          }
+        }
       }
     }
 
     int max = Integer.MIN_VALUE;
-    for (int i = 0; i < rows; i++) {
-      for (int j = 0; j < columns; j++) {
-        if (S[i][j] > max) {
-          max = S[i][j];
+    int first = -1, last = -1;
+    for (int i = 0; i < string.length(); i++) {
+      for (int j = i; j < string.length(); j++) {
+        if (max < memo[i][j]) {
+          max = memo[i][j];
+          first = i;
+          last = j;
         }
       }
     }
-    return max;
+    return string.substring(first, last + 1);
   }
 }

@@ -117,3 +117,6 @@
 - `~` performs `NOT` operation. Thus, `~num` will be `-num - 1`.
 - `>>` is signed right-shift operator. `>>>` is the unsigned variant.
 - `<<` is signed left-shift operator. There's no `<<<` variant, as there's no need for it.
+
+1. Use `Math.multiplyExact()`, `Math.addExact()` and `Math.subtractExact()` functions to perform overflow-safe arithmetic.
+When overflow happens, these operations fail with `ArithmeticException`.

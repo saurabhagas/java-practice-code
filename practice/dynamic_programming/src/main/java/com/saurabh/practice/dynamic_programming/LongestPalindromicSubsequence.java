@@ -4,9 +4,9 @@ package com.saurabh.practice.dynamic_programming;
  * LongestPalindromicSubsequence
  */
 public class LongestPalindromicSubsequence {
-  private int length;
+  private final int length;
   private final String string;
-  private int[][] matrix;
+  private final int[][] matrix;
 
   public LongestPalindromicSubsequence(String string) {
     this.length = string.length();

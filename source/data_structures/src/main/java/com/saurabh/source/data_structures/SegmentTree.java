@@ -49,7 +49,7 @@ public class SegmentTree {
     this.originalSize = array.length;
     this.nodes = new int[size];
     this.operation = operation;
-    construct(array, 0, array.length - 1, nodes, 0, operation);
+    construct(array, 0, array.length - 1, 0);
   }
 
   public int rangeQuery(int start, int end) {
@@ -86,31 +86,29 @@ public class SegmentTree {
     if (treeEnd < start || treeStart > end) return operation.identity();
 
     int treeMid = (treeStart + treeEnd) / 2;
-    return operation.apply(
-        query(start, end, treeStart, treeMid, lChild(treeCurr)),
-        query(start, end, treeMid + 1, treeEnd, rChild(treeCurr)));
+    int left = query(start, end, treeStart, treeMid, lChild(treeCurr));
+    int right = query(start, end, treeMid + 1, treeEnd, rChild(treeCurr));
+    return operation.apply(left, right);
   }
 
   /**
    * @param src input array
    * @param srcBegin current begin position in the input
    * @param srcEnd current end position in the input
-   * @param dest the array containing the constructed segment tree
    * @param destCurr the current position in the array being constructed
-   * @param operation the operation (e.g. sum, max, min etc.) to perform on the nodes
    * @return the value stored at {@code destCurr}
    */
-  private static int construct(int[] src, int srcBegin, int srcEnd, int[] dest, int destCurr, Operation operation) {
+  private int construct(int[] src, int srcBegin, int srcEnd, int destCurr) {
     if (srcBegin == srcEnd) {
-      dest[destCurr] = src[srcBegin];
-      return dest[destCurr];
+      nodes[destCurr] = src[srcBegin];
+      return nodes[destCurr];
     }
 
     int mid = (srcBegin + srcEnd) / 2;
-    dest[destCurr] = operation.apply(
-        construct(src, srcBegin, mid, dest, lChild(destCurr), operation),
-        construct(src, mid + 1, srcEnd, dest, rChild(destCurr), operation));
-    return dest[destCurr];
+    int left = construct(src, srcBegin, mid, lChild(destCurr));
+    int right = construct(src, mid + 1, srcEnd, rChild(destCurr));
+    nodes[destCurr] = operation.apply(left, right);
+    return nodes[destCurr];
   }
 
   private static int lChild(int parentIndex) {

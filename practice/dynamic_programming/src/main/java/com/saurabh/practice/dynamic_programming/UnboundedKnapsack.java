@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.List;
 
 /**
- * 0-1 Bounded Knapsack solution.
+ * Unbounded Knapsack solution.
  */
 public class UnboundedKnapsack implements Knapsack {
   private final Map<String, Tuple<Integer, Integer>> itemsToValuesAndWeights;

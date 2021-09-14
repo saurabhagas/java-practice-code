@@ -1,10 +1,9 @@
 package com.saurabh.practice.famous_algorithms.sliding_window;
 
-import com.saurabh.source.data_structures.SegmentTree;
-
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.stream.IntStream;
+
+import com.saurabh.source.data_structures.SegmentTree;
+import com.saurabh.source.data_structures.SegmentTree.Operation;
 
 /*
  Calculate the maximums of sliding windows of size k in an array.
@@ -13,40 +12,48 @@ public class SlidingWindowMax {
   public static void main(String[] args) {
     SlidingWindowMax obj = new SlidingWindowMax();
     int[] array = {6, 5, 4, 3, 2, 13, 5, 7, 8, 6, 5};
-    System.out.println(Arrays.toString(obj.calculate(array, 3)));
-    System.out.println(Arrays.toString(obj.calculateUsingSegmentTree(array, 3)));
+    System.out.println("Using naive approach: " + Arrays.toString(obj.calculate(array, 3)));
+    System.out.println("Using segment tree:   " + Arrays.toString(obj.calculateUsingSegmentTree(array, 3)));
   }
 
   // Solution: Progressively calculates the max in the window as the window slides.
   // Complexity: O(nk) time, O(1) space.
   public int[] calculate(int[] array, int k) {
-    if (array == null || array.length < k) {
-      throw new IllegalArgumentException();
-    }
+    checkArguments(array, k);
 
-    int windowMax = 0;
-    ArrayList<Integer> toReturn = new ArrayList<>();
-    for (int i = 0, j = k; i <= array.length - k; i++, j++) {
-      windowMax = max(array, i, j);
-      toReturn.add(windowMax);
+    int[] toReturn = new int[array.length - k + 1];
+    for (int i = 0, index = 0; i <= array.length - k; i++, index++) {
+      toReturn[index] = max(array, i, i + k - 1);
     }
-
-    return toReturn.stream().mapToInt(value -> value).toArray();
+    return toReturn;
   }
 
   // Uses a segment tree to calculate window max
   // Complexity: O(n) space, O(nlogn) time
+
   public int[] calculateUsingSegmentTree(int[] array, int k) {
-    SegmentTree segmentTree = new SegmentTree(array, SegmentTree.Operation.of(Integer::max, Integer.MIN_VALUE));
-    ArrayList<Integer> toReturn = new ArrayList<>();
-    for (int i = 0; i <= array.length - k; i++) {
-      toReturn.add(segmentTree.rangeQuery(i, i + k - 1));
+    checkArguments(array, k);
+
+    SegmentTree segmentTree = new SegmentTree(array, Operation.of(Integer::max, Integer.MIN_VALUE));
+    int[] toReturn = new int[array.length - k + 1];
+    for (int i = 0, j = 0; i <= array.length - k; i++, j++) {
+      toReturn[j] = segmentTree.rangeQuery(i, i + k - 1);
     }
 
-    return toReturn.stream().mapToInt(value -> value).toArray();
+    return toReturn;
   }
 
   private int max(int[] array, int i, int j) {
-    return IntStream.of(Arrays.copyOfRange(array, i, j)).max().getAsInt();
+    int max = Integer.MIN_VALUE;
+    for (int k = i; k <= j && k < array.length; k++) {
+      max = Math.max(max, array[k]);
+    }
+    return max;
+  }
+
+  private void checkArguments(int[] array, int k) {
+    if (array == null || array.length == 0 || array.length < k || k == 0) {
+      throw new IllegalArgumentException();
+    }
   }
 }
