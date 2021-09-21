@@ -9,10 +9,11 @@ import java.util.List;
 public class FlattenTree {
   public static void main(String[] args) {
     FlattenTree obj = new FlattenTree();
-    Node<Integer> five = new Node<>(5, null, null);
-    Node<Integer> two = new Node<>(2, null, five);
-    Node<Integer> left = new Node<>(3, null, null);
-    Node<Integer> right = new Node<>(4, two, null);
+    Node<Integer> three = new Node<>(3, null, null);
+    Node<Integer> four = new Node<>(4, null, null);
+    Node<Integer> six = new Node<>(6, null, null);
+    Node<Integer> left = new Node<>(2, three, four);
+    Node<Integer> right = new Node<>(5, null, six);
     Node<Integer> root = new Node<>(1, left, right);
 
     List<Integer> listBefore = new ArrayList<>();
