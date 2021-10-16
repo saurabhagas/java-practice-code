@@ -1,4 +1,4 @@
-package com.saurabh.practice.string;
+package com.saurabh.practice.backtracking;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +68,6 @@ public class PermutationsOfString {
     }
     return permutations;
   }
-
 
   private void swap(char[] input, int first, int second) {
     if (first == second) return;

@@ -15,13 +15,11 @@ public class UnionFind {
     return parents;
   }
 
-  int findSet(int vertex) {
+  public int findSet(int vertex) {
     return parents[vertex] == vertex ? vertex : findSet(parents[vertex]);
   }
 
-  void unionSet(int one, int two) {
-    int firstSet = findSet(one);
-    int secondSet = findSet(two);
+  public void unionSet(int firstSet, int secondSet) {
     parents[firstSet] = secondSet;
   }
 }

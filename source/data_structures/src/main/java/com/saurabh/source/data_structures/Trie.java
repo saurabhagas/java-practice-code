@@ -82,6 +82,12 @@ public class Trie {
     }
   }
 
+  public boolean startsWith(String prefix) {
+    Objects.requireNonNull(prefix);
+    LinkedHashMap<TrieNode, Integer> foundNodeMap = searchInternal(prefix);
+    return foundNodeMap.size() == prefix.length();
+  }
+
   public boolean search(String key) {
     Objects.requireNonNull(key);
     LinkedHashMap<TrieNode, Integer> foundNodeMap = searchInternal(key);
@@ -240,9 +246,9 @@ public class Trie {
     return keyChar - 'a';
   }
 
-  private class TrieNode {
+  private static class TrieNode {
     private boolean endOfWord;
-    private TrieNode[] children = new TrieNode[ALPHABET_SIZE];
+    private final TrieNode[] children = new TrieNode[ALPHABET_SIZE];
 
     private boolean hasChildren() {
       return Arrays.stream(children).anyMatch(Objects::nonNull);

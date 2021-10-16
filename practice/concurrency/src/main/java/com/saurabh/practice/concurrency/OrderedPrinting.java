@@ -14,7 +14,8 @@ public class OrderedPrinting {
 
   public static void main(String[] args) {
 //    new BusyWaitImplementation().execute();
-    new TokenBasedImplementation().execute();
+//    new TokenBasedImplementation().execute();
+    new AtomicIntegerImplementation().execute();
   }
 
   private static void await(Condition condition) {
@@ -194,6 +195,51 @@ public class OrderedPrinting {
       new Thread(second).start();
       new Thread(third).start();
       new Thread(first).start();
+    }
+  }
+
+  private static class AtomicIntegerImplementation {
+    private final AtomicInteger counter = new AtomicInteger(1);
+    private final Object lock = new Object();
+    private final Runnable first = new PrinterThread(1, counter, lock);
+    private final Runnable second = new PrinterThread(2, counter, lock);
+    private final Runnable third = new PrinterThread(3, counter, lock);
+
+    public void execute() {
+      // The output should be correct irrespective of the order of start
+      new Thread(third).start();
+      new Thread(second).start();
+      new Thread(first).start();
+    }
+  }
+
+  private static class PrinterThread implements Runnable {
+    private final int id;
+    private final AtomicInteger counter;
+    private final Object lock;
+
+    public PrinterThread(int id, AtomicInteger counter, Object lock) {
+      this.id = id;
+      this.counter = counter;
+      this.lock = lock;
+    }
+
+    @Override
+    public void run() {
+      synchronized (lock) {
+        while (counter.get() != id) {
+          try {
+            lock.wait();
+          } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException(e);
+          }
+        }
+
+        System.out.println("Thread (" + id + ")");
+        counter.incrementAndGet();
+        lock.notifyAll();
+      }
     }
   }
 }

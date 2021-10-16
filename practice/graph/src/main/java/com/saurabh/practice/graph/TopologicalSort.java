@@ -1,6 +1,14 @@
 package com.saurabh.practice.graph;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TopologicalSort {
   public static void main(String[] args) {
@@ -8,30 +16,33 @@ public class TopologicalSort {
     Map<Integer, List<Integer>> adjList = new HashMap<>();
     adjList.put(0, Arrays.asList(6));
     adjList.put(1, Arrays.asList(2, 4, 6));
-    adjList.put(2, Arrays.asList());
     adjList.put(3, Arrays.asList(0, 4));
-    adjList.put(4, Arrays.asList());
     adjList.put(5, Arrays.asList(1));
-    adjList.put(6, Arrays.asList());
     adjList.put(7, Arrays.asList(0, 1));
-    ArrayList<Integer> sortedList = ts.sortTopologically(adjList);
+    List<Integer> sortedList = ts.sortTopologically(adjList);
     System.out.println("sortedList = " + sortedList);
     System.out.println("ts.verifyTopologicalSort(adjList, sortedList) = " + ts.verifyTopologicalSort(adjList, sortedList));
-    System.out.println("ts.verifyTopologicalSort(adjList, sortedList) = " + ts.verifyTopologicalSort(adjList, Arrays.asList(7,5,3,1,4,2,0,6)));
-    System.out.println("ts.verifyTopologicalSort(adjList, sortedList) = " + ts.verifyTopologicalSort(adjList, Arrays.asList(7,5,1,2,3,4,0,6)));
-    System.out.println("ts.verifyTopologicalSort(adjList, sortedList) = " + ts.verifyTopologicalSort(adjList, Arrays.asList(5,7,3,1,0,2,6,4)));
-    System.out.println("ts.verifyTopologicalSort(adjList, sortedList) = " + ts.verifyTopologicalSort(adjList, Arrays.asList(3,5,7,0,1,2,6,4)));
-    System.out.println("ts.verifyTopologicalSort(adjList, sortedList) = " + ts.verifyTopologicalSort(adjList, Arrays.asList(3,5,7,0,1,2,6,4)));
-    System.out.println("ts.verifyTopologicalSort(adjList, sortedList) = " + ts.verifyTopologicalSort(adjList, Arrays.asList(5,7,3,0,1,4,6,2)));
-    System.out.println("ts.verifyTopologicalSort(adjList, sortedList) = " + ts.verifyTopologicalSort(adjList, Arrays.asList(7,5,1,3,4,0,6,2)));
+    System.out.println("ts.verifyTopologicalSort(adjList, sortedList) = " + ts.verifyTopologicalSort(adjList, Arrays.asList(7, 5, 3, 1, 4, 2, 0, 6)));
+    System.out.println("ts.verifyTopologicalSort(adjList, sortedList) = " + ts.verifyTopologicalSort(adjList, Arrays.asList(7, 5, 1, 2, 3, 4, 0, 6)));
+    System.out.println("ts.verifyTopologicalSort(adjList, sortedList) = " + ts.verifyTopologicalSort(adjList, Arrays.asList(5, 7, 3, 1, 0, 2, 6, 4)));
+    System.out.println("ts.verifyTopologicalSort(adjList, sortedList) = " + ts.verifyTopologicalSort(adjList, Arrays.asList(3, 5, 7, 0, 1, 2, 6, 4)));
+    System.out.println("ts.verifyTopologicalSort(adjList, sortedList) = " + ts.verifyTopologicalSort(adjList, Arrays.asList(3, 5, 7, 0, 1, 2, 6, 4)));
+    System.out.println("ts.verifyTopologicalSort(adjList, sortedList) = " + ts.verifyTopologicalSort(adjList, Arrays.asList(5, 7, 3, 0, 1, 4, 6, 2)));
+    System.out.println("ts.verifyTopologicalSort(adjList, sortedList) = " + ts.verifyTopologicalSort(adjList, Arrays.asList(7, 5, 1, 3, 4, 0, 6, 2)));
   }
 
-  private ArrayList<Integer> sortTopologically(Map<Integer, List<Integer>> adjList) {
-    ArrayList<Integer> res = new ArrayList<Integer>();
-    int[] inDeg = new int[adjList.size()];
+  private List<Integer> sortTopologically(Map<Integer, List<Integer>> adjList) {
+    // use adjacency list to calculate in-degrees of each vertex
+    List<Integer> res = new ArrayList<>();
+    int vertices = adjList.entrySet().stream()
+      .flatMap(entry -> Stream.concat(entry.getValue().stream(), Stream.of(entry.getKey())))
+      .collect(Collectors.toSet())
+      .size();
+    int[] inDeg = new int[vertices];
     adjList.values().forEach(list -> list.forEach(e -> inDeg[e]++));
-    Deque<Integer> queue = new ArrayDeque<>();
+    Queue<Integer> queue = new ArrayDeque<>();
 
+    // Add source vertices (i.e. vertices with 0 in-degree) to the queue
     for (int i = 0; i < inDeg.length; i++) {
       if (inDeg[i] == 0) queue.add(i);
     }
@@ -42,28 +53,25 @@ public class TopologicalSort {
       res.add(polled);
       visited++;
       List<Integer> children = adjList.get(polled);
-      for (int i = 0; i < children.size(); i++) {
-        Integer child = children.get(i);
+      if (children == null) continue;
+      for (Integer child : children) {
+        // remove the edge to every child
         inDeg[child]--;
+        // once the child node has no more incoming edges, add it to the queue
         if (inDeg[child] == 0) queue.offer(child);
       }
+    }
 
-    }
-    if (visited == adjList.size()) {
-      return res;
-    } else {
-      return new ArrayList<>();
-    }
+    return visited == vertices ? res : new ArrayList<>();
   }
 
   private Boolean verifyTopologicalSort(Map<Integer, List<Integer>> adjList, List<Integer> sortedList) {
     for (Map.Entry<Integer, List<Integer>> entry : adjList.entrySet()) {
-      Integer nodeU = entry.getKey();
-      int nodeUIndex = sortedList.indexOf(nodeU);
-      List<Integer> nodeList = entry.getValue();
-      for (Integer nodeV : nodeList) {
-        int nodeVIndex = sortedList.indexOf(nodeV);
-        if (nodeUIndex > nodeVIndex) {
+      int parentIndex = sortedList.indexOf(entry.getKey());
+      for (Integer childIndex : entry.getValue()) {
+        int nodeVIndex = sortedList.indexOf(childIndex);
+        if (parentIndex > nodeVIndex) {
+          // parent should be placed before the child in the topological order
           return false;
         }
       }

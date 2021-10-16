@@ -2,7 +2,8 @@ package com.saurabh.practice.concurrency;
 
 class PrintFooBar {
   private final int max = 50;
-  private volatile boolean turn = true;
+  private final Object lock = new Object();
+  private boolean firstsTurn = true;
 
   public static void main(String[] args) {
     PrintFooBar obj = new PrintFooBar();
@@ -11,19 +12,37 @@ class PrintFooBar {
   }
 
   public void printFoo() {
-    for (int i = 1; i <= max; i++) {
-      while (!turn) ;
-      System.out.println();
-      System.out.print("Foo");
-      turn = false;
+    synchronized (lock) {
+      for (int i = 1; i <= max; i++) {
+        while (!firstsTurn) {
+          wait(lock);
+        }
+        System.out.println("Foo");
+        firstsTurn = false;
+        lock.notifyAll();
+      }
     }
   }
 
   public void printBar() {
-    for (int i = 1; i <= max; i++) {
-      while (turn) ;
-      System.out.print("Bar");
-      turn = true;
+    synchronized (lock) {
+      for (int i = 1; i <= max; i++) {
+        while (firstsTurn) {
+          wait(lock);
+        }
+        System.out.println("Bar");
+        firstsTurn = true;
+        lock.notifyAll();
+      }
+    }
+  }
+
+  private void wait(Object lock) {
+    try {
+      lock.wait();
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new RuntimeException(e);
     }
   }
 }

@@ -23,7 +23,7 @@ public class CountSetBits {
     System.out.println(countUsingPrecomputedArray(-63));
   }
 
-  // Runtime O(n) since there are logn bits in an integer of value n.
+  // Runtime O(logn) since there are logn bits in an integer of value n.
   public static int countUsingNShifts(int num) {
     int count = 0;
     int mask = 1;
@@ -49,7 +49,7 @@ public class CountSetBits {
     return count;
   }
 
-  // Runtime O(n) since there are logn bits in an integer of value n.
+  // Runtime O(logn) since there are logn bits in an integer of value n.
   public static int countUsingLeastSignificantBitMask(int num) {
     int count = 0;
     while (num != 0) {
@@ -61,7 +61,7 @@ public class CountSetBits {
   }
 
   // Pre-computes the number of set bits in a nibble (4 bits). Uses a mask of size 4 bits, and uses this lookup table.
-  // Runs in O(1) time and O(1) space as the runtime and storage depend on the nibble size only, not the input.
+  // Runs in O(logn) time and O(1) space as the runtime and storage depend on the nibble size only, not the input.
   public static int countUsingPrecomputedArray(int num) {
     if (num == 0) return 0;
     //0000 contains 0 set bits, 0001 contains 1, 0010 contains 1 and so on..

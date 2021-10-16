@@ -7,28 +7,28 @@ import java.util.Random;
  */
 public class CustomCountingSemaphore {
   private final int limit;
-  private int currentIndex;
+  private int current;
 
   public CustomCountingSemaphore(int limit) {
     this.limit = limit;
   }
 
   public synchronized void acquire() throws InterruptedException {
-    while (currentIndex == limit) {
+    while (current == 0) {
       wait();
     }
 
-    currentIndex++;
-    notify();
+    current++;
+    notifyAll();
   }
 
   public synchronized void release() throws InterruptedException {
-    while (currentIndex == 0) {
+    while (current == limit) {
       wait();
     }
 
-    currentIndex--;
-    notify();
+    current--;
+    notifyAll();
   }
 
   public static void main(String[] args) throws Exception {

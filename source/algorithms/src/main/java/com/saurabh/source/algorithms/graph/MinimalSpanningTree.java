@@ -55,7 +55,6 @@ public class MinimalSpanningTree {
       UnionFind unionFind = new UnionFind(vertices);
       List<Edge> mst = new ArrayList<>();
       while (mst.size() < vertices - 1) {
-        // Get an edge from min heap
         Edge polled = heap.poll();
 
         // check which sets the starting and ending vertices of this edge lie in

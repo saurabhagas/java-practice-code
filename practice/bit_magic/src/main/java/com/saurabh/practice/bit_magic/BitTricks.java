@@ -13,13 +13,9 @@ public class BitTricks {
     System.out.println("------------------");
     isPowerOf2(0);
     isPowerOf2(10);
-
     isPowerOf2(1);
     isPowerOf2(16);
-    isPowerOf2(-16);
-
     isPowerOf2(15);
-    isPowerOf2(-15);
 
     System.out.println("------------------");
     hasNthBitSet(2, 0);
@@ -61,7 +57,7 @@ public class BitTricks {
     System.out.println(num + " is even -> " + ((num & 1) == 0));
   }
 
-  // Checks if number is even by performing AND operation with num - 1
+  // Checks if number is even by performing AND operation with num - 1. Works for positive numbers only
   public static void isPowerOf2(int num) {
     System.out.println(num + " is power of 2 -> " + (num != 0 && (num & num - 1) == 0));
   }
