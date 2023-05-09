@@ -45,6 +45,7 @@
     <module>practice/hashing</module>
     <module>practice/heap</module>
     <module>practice/linked_list</module>
+    <module>practice/math</module>
     <module>practice/queue</module>
     <module>practice/recursion</module>
     <module>practice/string</module>
